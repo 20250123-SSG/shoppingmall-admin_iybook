@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+  <!-- db연결정보 - DataSource 객체 빈 등록 -->
+  <bean class="com.zaxxer.hikari.HikariDataSource" id="dataSource">
+    <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/menudb"/>
+    <property name="username" value="iybook"/>
+    <property name="password" value="iybook"/>
+  </bean>
+
+  <!-- 기존의 SqlSessionFactory 객체를 대신할 SqlSessionFactoryBean 객체 빈 등록 -->
+  <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+    <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+  </bean>
+
+  <!-- 기존의 SqlSession 객체를 대신할 SqlSessionTemplate 객체 빈 등록 -->
+  <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+    <constructor-arg ref="sqlSessionFactory"/>
+  </bean>
+
+  <!--트랜잭션 처리를 위한 DataSourceTransactionManager 빈 등록-->
+  <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="txManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <!--1) 선언적 트랜잭션-->
+  <!--
+  <tx:annotation-driven transaction-manager="txManager"/>
+  <aop:aspectj-autoproxy />
+  -->
+
+  <!--2) AOP Advice 등록-->
+  <tx:advice transaction-manager="txManager" id="txAdvice">
+    <tx:attributes>
+      <!--pointcut의 모든 메소드에서 실행(삽입,수정,삭제,목록조회,상세조회)-->
+      <tx:method name="*" rollback-for="Exception"/>
+      <!--단, 조회용 메소드는 실행x-->
+      <tx:method name="select*" read-only="true"/>
+      <tx:method name="get*" read-only="true"/>
+      <tx:method name="find*" read-only="true"/>
+    </tx:attributes>
+  </tx:advice>
+  <aop:config>
+    <aop:pointcut expression="execution(* com.iybook.example.service.*Impl.*(..))" id="txPointcut"/>
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+  </aop:config>
+
+</beans>

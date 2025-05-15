@@ -16,19 +16,19 @@
 %>
 
 <div class="sidebar">
-  <div class="sidebar-item ${activeMenu eq 'notice' ? 'active' : ''}" onclick="location.href='${contextPath}/notice'">
+  <div class="sidebar-item ${activeMenu eq 'notice' ? 'active' : ''}" onclick="location.href='${contextPath}/notice/home.page'">
     <i class="fas fa-bullhorn"></i>
     <span>공지사항 관리</span>
   </div>
-  <div class="sidebar-item ${activeMenu eq 'product' ? 'active' : ''}" onclick="location.href='${contextPath}/product'">
+  <div class="sidebar-item ${activeMenu eq 'product' ? 'active' : ''}" onclick="location.href='${contextPath}/product/list.page'">
     <i class="fas fa-box"></i>
     <span>상품 관리</span>
   </div>
-  <div class="sidebar-item ${activeMenu eq 'settlement' ? 'active' : ''}" onclick="location.href='${contextPath}/settlement'">
+  <div class="sidebar-item ${activeMenu eq 'settlement' ? 'active' : ''}" onclick="location.href='${contextPath}/settlement/settleHome.page'">
     <i class="fas fa-calculator"></i>
     <span>정산 관리</span>
   </div>
-  <div class="sidebar-item ${activeMenu eq 'statistics' ? 'active' : ''}" onclick="location.href='${contextPath}/statistics'">
+  <div class="sidebar-item ${activeMenu eq 'statistics' ? 'active' : ''}" onclick="location.href='${contextPath}/statistics/stats.page'">
     <i class="fas fa-chart-line"></i>
     <span>통계</span>
   </div>

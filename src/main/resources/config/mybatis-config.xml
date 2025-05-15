@@ -5,7 +5,6 @@
 <configuration>
 
   <typeAliases>
-    <typeAlias type="com.iybook.login.dto.MenuDto" alias="MenuDto"/>
   </typeAliases>
 
 </configuration>

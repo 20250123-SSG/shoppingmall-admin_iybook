@@ -1,0 +1,158 @@
+/* 컬러 변수 정의 */
+:root {
+  --color-bg: #f9fafb;                 /* 배경 */
+  --color-surface: #ffffff;            /* 카드, 헤더, 콘텐츠 등 */
+  --color-text: #1f2937;               /* 기본 텍스트 */
+  --color-muted: #6b7280;              /* 보조 텍스트 */
+  --color-primary: #4F5869;            /* 주요 색상 (버튼, 사이드바 등) */
+  --color-primary-hover: #5a657a;      /* hover 시 */
+  --color-danger: #A5193F;             /* 경고, 삭제 버튼 등 */
+  --color-danger-hover: #c7224c;
+  --color-table-bg: #edf1f1;
+  --color-table-th: #fffafa;
+}
+
+/* 다크모드 지원 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1f2937;
+    --color-surface: #2d3748;
+    --color-text: #f9fafb;
+    --color-muted: #9ca3af;
+    --color-primary: #4F5869;
+    --color-primary-hover: #6b7280;
+    --color-danger: #ef4444;
+    --color-danger-hover: #f87171;
+    --color-table-bg: #3d3944;
+    --color-table-th: #5d4151;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--color-text);
+  margin: 0;
+}
+
+table {
+  width: 100%;
+  background: var(--color-table-bg);
+}
+table>thead {
+  background-color: var(--color-bg);
+}
+
+/* 헤더 */
+.header {
+  background-color: var(--color-surface);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  width: 100%;
+  z-index: 50;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* 사이드바 */
+.sidebar {
+  width: 250px;
+  background-color: var(--color-primary);
+  color: white;
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  padding-top: 1rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+}
+
+.sidebar-item:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.sidebar-item.active {
+  background-color: var(--color-danger);
+}
+
+.sidebar-item span {
+  flex: 1;
+}
+
+.sidebar-item i {
+  ont-size: 18px; /* 아이콘 크기 통일 */
+  width: 20px;      /* 고정 너비로 정렬 */
+  text-align: center;
+}
+
+/* 메인 콘텐츠 */
+.main {
+  margin-left: 250px;
+  padding: 100px 24px 24px 24px;
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 푸터 */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+/* 버튼 */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-gray {
+  background-color: var(--color-primary);
+}
+
+.btn-gray:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-red {
+  background-color: var(--color-danger);
+}
+
+.btn-red:hover {
+  background-color: var(--color-danger-hover);
+}

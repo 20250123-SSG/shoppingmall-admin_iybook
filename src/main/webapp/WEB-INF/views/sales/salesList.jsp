@@ -53,7 +53,7 @@
     </table>
   </div>
 
-  <script src="${contextPath}/resources/js/common.js"></script>
+  <script src="${contextPath}/resources/js/pages/sales.js"></script>
 
   <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

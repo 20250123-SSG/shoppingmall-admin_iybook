@@ -5,11 +5,16 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 
-  <div class="main">
+<link rel="stylesheet" href="${contextPath}/resources/css/pages/notice.css">
+
+
+<div class="main">
     <h2>공지사항</h2>
 
 
-  </div>
+</div>
+
+<script src="${contextPath}/resources/js/pages/notice.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

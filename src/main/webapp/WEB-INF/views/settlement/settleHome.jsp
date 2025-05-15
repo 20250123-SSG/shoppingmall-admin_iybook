@@ -5,11 +5,15 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 
+<link rel="stylesheet" href="${contextPath}/resources/css/pages/settlement.css">
+
   <div class="main">
     <h2>정산관리</h2>
 
 
   </div>
+
+<script src="${contextPath}/resources/js/pages/settlement.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

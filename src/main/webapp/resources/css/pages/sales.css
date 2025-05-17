@@ -1,0 +1,47 @@
+/* salesList.jsp */
+.search-sales-form {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+#search-sales-submit-button {
+    width: 100px;
+    height: 30px;
+    margin-top: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-sales-group {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.search-sales-period-group {
+    display: flex;
+    align-items: center;
+}
+.btn-period {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+
+/* sales 공통 */
+.option-name {
+    margin-right: 30px;
+}
+.btn-active {
+    background-color: var(--color-danger-hover);
+    color: white;
+}
+.info-text {
+    font-size: small;
+    color: var(--color-danger);
+}

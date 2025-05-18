@@ -1,14 +1,20 @@
 package com.iybook.sales.controller;
 
+import com.iybook.sales.dto.OrderListResponseDto;
 import com.iybook.sales.dto.OrderRequestFilterDto;
+import com.iybook.sales.dto.OrderDto;
 import com.iybook.sales.service.SalesService;
+import com.iybook.sales.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,29 +25,60 @@ public class SalesController {
     private final SalesService salesService;
 
     @GetMapping("/salesList.page")
-    public String salesList(){
+    public String salesList(@RequestParam(value = "page", defaultValue = "1") int page,
+                            @ModelAttribute OrderRequestFilterDto searchFilter,
+                            Model model){
+        OrderListResponseDto orderListResult;
+
+        boolean isFirstPageLoad = searchFilter.getStartDate() == null || searchFilter.getEndDate() == null;
+        if(isFirstPageLoad){
+            searchFilter = OrderRequestFilterDto.init();
+            orderListResult = OrderListResponseDto.empty();
+        }else {
+            orderListResult = salesService.getOrderListAndPageInfoByFilter(page, searchFilter);
+            log.debug("*******************************************************");
+            log.debug("now page = {}",page);
+            log.debug("startDate: {}", searchFilter.getStartDate());
+            log.debug("endDate: {}", searchFilter.getEndDate());
+            log.debug("customerId: {}", searchFilter.getCustomerId());
+            log.debug("orderId: {}", searchFilter.getOrderId());
+            log.debug("orderStatus: {}", searchFilter.getOrderStatus());
+            log.debug("*******************************************************");
+        }
+        model.addAttribute("filter", searchFilter);
+        model.addAttribute("orderListResult", orderListResult);
+        model.addAttribute("orderCount", orderListResult.getTotalOrderCount());
+
         return "sales/salesList";
     }
 
-    @PostMapping("/search.do")
-    public String search(@ModelAttribute OrderRequestFilterDto filter){
-        log.debug("startDate: {}", filter.getStartDate());
-        log.debug("endDate: {}", filter.getEndDate());
-        log.debug("customerId: {}", filter.getCustomerId());
-        log.debug("orderId: {}", filter.getOrderId());
-        log.debug("orderStatus: {}", filter.getOrderStatus());
+    @PostMapping("/acceptOrders.do")
+    public String acceptOrders(@RequestParam String selectedOrderIds) {
+        log.debug(selectedOrderIds);
+        List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
+        log.debug("orderIdList = {}",orderIdList);
 
-        //todo
-        /**
-         * 입력되지 않은 경우는 빈칸트로 들어감.
-         * 동적쿼리로 필터링 하기 위해서는 null을 다루는 것이 유리할 거 같은데 빈칸을 어떻게 처리할지 고민
-         *
-         * 리스트를 띄우는 것도 동적이 나을까?
-         * 검색 조건을 submit 하게되면 조건이 초기화가 되어버려서 사용자가 현재 무슨 조건의 결과인지 확인 할 수 없다.
-         */
-
+        /// orderIdList로 배송완료로 상태 변경
         return "redirect:/sales/salesList.page";
     }
 
+    @PostMapping("/cancelOrders.do")
+    public String cancelOrders(@RequestParam String selectedOrderIds) {
+        List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
+        log.debug("orderIdList = {}",orderIdList);
+
+        /// orderIdList로 취소완료로 상태 변경
+        return "redirect:/sales/salesList.page";
+    }
+
+    @GetMapping("/allOrderIds.ajax")
+    @ResponseBody
+    public Map<String, Object> allOrderIds(@ModelAttribute OrderRequestFilterDto filterDto) {
+        List<String> allIds = List.of("40", "39", "38", "1", "2", "3");
+        log.debug("{}",filterDto);
+
+        /// filter로 해당 모든 아이디 가져오기
+        return Map.of("ids", allIds);
+    }
 
 }

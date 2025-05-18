@@ -16,4 +16,9 @@ public class StatisticsController {
     @GetMapping("/stats.page")
     public void stats(){}
 
+    // 1. 매출 통계
+
+    // 2. 주문건, 취소건 통계
+
+    // 3. 카테고리별 통계
 }

@@ -9,13 +9,13 @@
 
 <div class="main">
 
-  <form action="${contextPath}/sales/search.do" method="POST" class="search-sales-form">
+  <form action="${contextPath}/sales/salesList.page" method="GET" class="content-section" id="search-form">
     <div class="search-sales-group">
       <div class="search-sales-period-group">
         <label for="startDate" class="option-name">조회 기간</label>
         <div class="custom-period">
-          <input type="date" class="date-period" id="startDate" name="startDate"> ~
-          <input type="date" class="date-period" id="endDate" name="endDate">
+          <input type="date" class="date-period" id="startDate" name="startDate" value="${filter.startDate}"> ~
+          <input type="date" class="date-period" id="endDate" name="endDate" value="${filter.endDate}">
         </div>
         <div class="btn-period">
           <button class="date-btn" id="todayBtn">오늘</button>
@@ -28,84 +28,139 @@
       </div>
       <div class="order-status-checkboxes">
         <label class="option-name">주문 상태</label>
+        <input type="hidden" id="filterOrderStatus" value="${filter.orderStatus}">
         <label><input type="checkbox" id="checkAllStatus" checked> 전체</label>
-        <label><input type="checkbox" name="orderStatus" value="주문완료" checked> 주문완료</label>
-        <label><input type="checkbox" name="orderStatus" value="취소요청" checked> 취소요청</label>
-        <label><input type="checkbox" name="orderStatus" value="취소완료" checked> 취소완료</label>
-        <label><input type="checkbox" name="orderStatus" value="배송완료" checked> 배송완료</label>
+        <label><input type="checkbox" name="orderStatus" value="주문완료"> 주문완료</label>
+        <label><input type="checkbox" name="orderStatus" value="취소요청"> 취소요청</label>
+        <label><input type="checkbox" name="orderStatus" value="취소완료"> 취소완료</label>
+        <label><input type="checkbox" name="orderStatus" value="배송완료"> 배송완료</label>
       </div>
       <div class="search-sales-userId-group">
         <label for="customerId" class="option-name">사용자 ID</label>
-        <input type="text" id="customerId" name="customerId">
+        <input type="text" id="customerId" name="customerId" value="${filter.customerId}">
       </div>
       <div class="search-sales-orderId-group">
         <label for="orderId" class="option-name">주문 번호</label>
-        <input type="text" id="orderId" name="orderId">
+        <input type="text" id="orderId" name="orderId" value="${filter.orderId}">
       </div>
       <button type="submit" class="btn btn-gray" id="search-sales-submit-button">조회</button>
     </div>
   </form>
 
+  <form method="POST" id="order-action-form">
+    <input type="hidden" name="selectedOrderIds" id="selectedOrderIds">
+    <div class="button-left-side">
+      <button type="submit"
+              class="btn btn-gray"
+              formaction="${contextPath}/sales/acceptOrders.do"
+              formmethod="POST">
+        주문 수락
+      </button>
+      <button type="submit"
+              class="btn btn-red"
+              formaction="${contextPath}/sales/cancelOrders.do"
+              formmethod="POST">
+        주문 취소
+      </button>
+    </div>
+  </form>
+  <div class="content-section">
+    <div class="order-list-header">
+      <h2>주문 목록</h2>
+      <p>총 ${orderCount}건</p>
+    </div>
+    <br>
+    <div class="table-section">
+      <table border="1" cellspacing="0" cellpadding="8">
+        <thead>
+        <tr>
+          <th><input type="checkbox" id="checkAll"></th>
+          <th>주문 ID</th>
+          <th>고객 ID</th>
+          <th>상태</th>
+          <th>상품 수량</th>
+          <th>총 결제금액</th>
+          <th>결제수단</th>
+          <th>주문일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:choose>
+          <c:when test="${empty orderListResult.orderList}">
+            <tr><td colspan="8">조회된 주문이 없습니다.</td></tr>
+          </c:when>
+          <c:otherwise>
+            <c:forEach var="order" items="${orderListResult.orderList}">
+              <tr class="selectable-row">
+                <td style="text-align: center;">
+                  <input type="checkbox" name="orderCheckbox" value="${order.orderId}">
+                </td>
+                <td>${order.orderId}</td>
+                <td>${order.customerId}</td>
+                <td>${order.orderStatus}</td>
+                <td>${order.orderTotalCount}</td>
+                <td>${order.orderTotalPrice}</td>
+                <td>${order.payment}</td>
+                <td>${order.orderDate}</td>
+              </tr>
+            </c:forEach>
+          </c:otherwise>
+        </c:choose>
+        </tbody>
+      </table>
 
+      <ul class="pagination">
+        <c:url var="prevUrl" value="/sales/salesList.page">
+          <c:param name="page" value="${orderListResult.page - 1}" />
+          <c:param name="startDate" value="${filter.startDate}" />
+          <c:param name="endDate" value="${filter.endDate}" />
+          <c:param name="customerId" value="${filter.customerId}" />
+          <c:param name="orderId" value="${filter.orderId}" />
+          <c:forEach var="status" items="${filter.orderStatus}">
+            <c:param name="orderStatus" value="${status}" />
+          </c:forEach>
+        </c:url>
+        <li class="page-item ${orderListResult.page == 1 ? 'disabled' : ''}">
+          <a class="page-link" href="${prevUrl}">Previous</a>
+        </li>
+        <c:forEach var="p" begin="${orderListResult.beginPage}" end="${orderListResult.endPage}">
+          <c:url var="pageUrl" value="/sales/salesList.page">
+            <c:param name="page" value="${p}" />
+            <c:param name="startDate" value="${filter.startDate}" />
+            <c:param name="endDate" value="${filter.endDate}" />
+            <c:param name="customerId" value="${filter.customerId}" />
+            <c:param name="orderId" value="${filter.orderId}" />
+            <c:forEach var="status" items="${filter.orderStatus}">
+              <c:param name="orderStatus" value="${status}" />
+            </c:forEach>
+          </c:url>
+          <li class="page-item ${p == orderListResult.page ? 'active' : ''}">
+            <a class="page-link" href="${pageUrl}">${p}</a>
+          </li>
+        </c:forEach>
+        <c:url var="nextUrl" value="/sales/salesList.page">
+          <c:param name="page" value="${orderListResult.page + 1}" />
+          <c:param name="startDate" value="${filter.startDate}" />
+          <c:param name="endDate" value="${filter.endDate}" />
+          <c:param name="customerId" value="${filter.customerId}" />
+          <c:param name="orderId" value="${filter.orderId}" />
+          <c:forEach var="status" items="${filter.orderStatus}">
+            <c:param name="orderStatus" value="${status}" />
+          </c:forEach>
+        </c:url>
+        <li class="page-item ${orderListResult.page == orderListResult.totalPage ? 'disabled' : ''}">
+          <a class="page-link" href="${nextUrl}">Next</a>
+        </li>
+      </ul>
+    </div>
 
-
-
-
-
-
-
-  <h2>주문 관리</h2>
-  <div style="margin-bottom: 1rem;">
-    <button class="btn btn-gray"><i class="fa-solid fa-download"></i> 엑셀 다운로드</button>
-    <button class="btn btn-red"><i class="fa-solid fa-plus"></i> 새 주문 등록</button>
   </div>
-
-  <table border="1" cellspacing="0" cellpadding="8">
-    <thead>
-    <tr>
-      <th><input type="checkbox"></th>
-      <th>주문 ID</th>
-      <th>주문일시</th>
-      <th>고객 ID</th>
-      <th>상품 정보</th>
-      <th>주문 상태</th>
-      <th>결제 금액</th>
-      <th>관리</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td style="text-align: center;"><input type="checkbox"></td>
-      <td>ORD-2025001</td>
-      <td>2025-05-11 14:30</td>
-      <td>user123</td>
-      <td>책 제목 등 외 2권</td>
-      <td style="text-align: center;">
-        <select>
-          <option>주문완료</option>
-          <option>배송준비</option>
-          <option>배송중</option>
-          <option>배송완료</option>
-        </select>
-      </td>
-      <td style="text-align: right;">45,000원</td>
-      <td style="text-align: center;">
-        <i class="fa-solid fa-eye"></i>
-        <i class="fa-solid fa-pen"></i>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-
-
-
-
 
 </div>
 
+<script>
+  const contextPath = "${contextPath}";
+</script>
 <script src="${contextPath}/resources/js/pages/sales.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-
-

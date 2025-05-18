@@ -5,7 +5,8 @@
 <configuration>
 
   <typeAliases>
-
+    <typeAlias type="com.iybook.product.dto.ProductDto" alias="ProductDto"/>
+    <typeAlias type="com.iybook.product.dto.CategoryDto" alias="CategoryDto"/>
   </typeAliases>
 
 </configuration>

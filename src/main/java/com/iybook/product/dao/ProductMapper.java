@@ -1,5 +1,10 @@
 package com.iybook.product.dao;
 
-public interface ProductMapper {
+import com.iybook.product.dto.ProductDto;
 
+import java.util.List;
+
+public interface ProductMapper {
+    List<ProductDto> selectProductList();
+    int insertProduct(ProductDto product);
 }

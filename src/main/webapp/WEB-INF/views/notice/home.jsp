@@ -14,7 +14,6 @@
 
 </div>
 
-<script src="${contextPath}/resources/js/pages/notice.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

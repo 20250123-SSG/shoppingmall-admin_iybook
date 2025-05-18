@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iybook.sales.dao.ProductMapper">
+
+    <resultMap id="productResultMap" type="ProductDto">
+        <id column="book_id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="author_name" property="authorName"/>
+        <result column="publisher" property="publisher"/>
+        <result column="book_price" property="bookPrice"/>
+        <result column="book_image" property="bookImage"/>
+        <result column="book_description" property="bookDescription"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="published_at" property="publishedAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="publish_status" property="publishStatus"/>
+        <result column="stock" property="stock"/>
+    </resultMap>
+
+    <resultMap id="categoryResultMap" type="CategoryDto">
+        <id column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="selectProductList" parameterMap="ProductResultMap">
+        select
+              book_id
+            , book_name
+            , author_name
+            , publisher
+            , book_price
+            , book_image
+            , book_description
+            , category_id
+            , published_at
+            , created_at
+            , updated_at
+            , publish_status
+            , stock
+        from
+            tbl_book
+    </select>
+
+    <insert id="insertProduct" useGeneratedKeys="true" keyProperty="productId">
+        insert into
+            tbl_product
+            (
+              book_name
+            , author_name
+            , publisher
+            , book_price
+            , book_image
+            , book_description
+            , category_id
+            , published_at
+            , publish_status
+            , stock
+            )
+        values
+            (
+              #{bookName}
+            , #{authorName}
+            , #{publisher}
+            , #{bookPrice}
+            , #{bookImage}
+            , #{bookDescription}
+            , #{categoryId}
+            , #{publishedAt}
+            , #{publishStatus}
+            , #{stock}
+            )
+    </insert>
+
+</mapper>

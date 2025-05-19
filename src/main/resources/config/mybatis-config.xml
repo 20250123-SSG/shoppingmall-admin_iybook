@@ -6,6 +6,9 @@
 
   <typeAliases>
     <typeAlias type="com.iybook.main.dto.UserDto" alias="UserDto"/>
+    <typeAlias type="com.iybook.sales.dto.OrderDto" alias="OrderDto"/>
+    <typeAlias type="com.iybook.sales.dto.OrderRequestFilterDto" alias="OrderRequestFilterDto"/>
+    <typeAlias type="com.iybook.sales.dto.SingleOrderPagingRequestDto" alias="SingleOrderPagingRequestDto"/>
   </typeAliases>
 
 </configuration>

@@ -134,11 +134,11 @@
             tbl_category
     </select>
 
-    <select id="selectBookListByFilter" parameterMap="BookFilterDto">
-        select
-            (
-            )
+<!--    <select id="selectBookListByFilter" parameterMap="BookFilterDto">-->
+<!--        select-->
+<!--            (-->
+<!--            )-->
 
-    </select>
+<!--    </select>-->
 
 </mapper>

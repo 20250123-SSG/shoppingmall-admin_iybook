@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUser(UserDto user) {
 
-        UserDto selectedUser = sqlSession.getMapper(UserMapper.class).selectUserById(user.getUserLoginId());
+        UserDto selectedUser = sqlSession.getMapper(UserMapper.class).selectUserByLoginId(user.getUserLoginId());
 
         // 로그인실패
         if(selectedUser == null || !user.getUserPwd().equals(selectedUser.getUserPwd())){

@@ -13,12 +13,20 @@
 
     <h2 class="login-title">로그인</h2>
 
-    <form method="post" action="${contextPath}/login" class="login-form">
+    <!-- ✅ 로그인 실패 메시지 출력 -->
+    <c:if test="${not empty message}">
+        <script>
+            alert("${message}");
+        </script>
+    </c:if>
+
+
+    <form method="POST" action="${contextPath}/login.do" class="login-form">
         <label>아이디:
-            <input type="text" name="userId" required />
+            <input type="text" name="userLoginId" value="${userLoginId}" required />
         </label>
         <label>비밀번호:
-            <input type="password" name="password" required />
+            <input type="password" name="userPwd" required />
         </label>
         <button type="submit">로그인</button>
     </form>

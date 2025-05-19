@@ -29,17 +29,20 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void toggleNoticeHiddenStatus(Long noticeId, boolean currentHidden) {
+    public void toggleNoticeHiddenStatus(int noticeId) {
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
-        // currentHidden 상태의 반대로 변경
-        noticeMapper.updateNoticeHidden(noticeId, !currentHidden);
+
+        NoticeDto notice = noticeMapper.selectNoticeById(noticeId);
+        String publishStatus = "숨김".equals(notice.getPublishStatus()) ? "게시" : "숨김";
+
+        noticeMapper.updateNoticeHidden(noticeId, publishStatus);
     }
 
     @Override
     public int registerNotice(NoticeDto notice) {
-        NoticeMapper boardMapper = sqlSession.getMapper(NoticeMapper.class);
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
-        int result = boardMapper.insertNotice(notice);
+        int result = noticeMapper.insertNotice(notice);
 
         return result;
     }
@@ -49,8 +52,15 @@ public class NoticeServiceImpl implements NoticeService {
 
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
-        NoticeDto notice = noticeMapper.selectNoticeByNo(no);
+        NoticeDto notice = noticeMapper.selectNoticeById(no);
 
         return notice;
+    }
+
+    @Override
+    public void deleteNoticesByIds(List<Integer> noticeIds) {
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+
+        noticeMapper.deleteNoticesByIds(noticeIds);
     }
 }

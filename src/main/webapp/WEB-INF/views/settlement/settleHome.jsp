@@ -6,22 +6,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 
-<style>
-    /* sidebar가 220px 고정일 때 */
-    /*.content-area {*/
-    /*    margin-left: 220px; !* sidebar 너비만큼 띄움 *!*/
-    /*    padding: 30px 20px 20px 20px;*/
-    /*    min-height: 100vh;*/
-    /*    background: #f8f9fa;*/
-    /*}*/
-
-    @media (max-width: 991px) {
-        .content-area {
-            margin-left: 0;
-        }
-    }
-</style>
-
 <div class="main">
     <div class="container-fluid">
         <!-- 조회 조건 -->
@@ -29,7 +13,7 @@
             <form method="post" action="settleHome.jsp">
                 <div class="form-row align-items-center">
                     <div class="col-auto">
-                        <label for="settlementMonth" class="col-form-label">정산월</label>
+                        <label for="settlementMonth" class="col-form-label">정산 기준월</label>
                         <input type="month" class="form-control" id="settlementMonth" name="settlementMonth"
                                value="${param.settlementMonth}" required>
                         <button type="submit" class="btn btn-success">검색</button>

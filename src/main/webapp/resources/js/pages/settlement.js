@@ -7,17 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const settlementMonth = document.getElementById('settlementMonth');
     
-    // 파라미터로 전달된 값이 없는 경우 현재 월을 기본값으로 설정
     if (!settlementMonth.value) {
         settlementMonth.value = defaultValue;
     }
-    
-    // 폼 제출 전 유효성 검사
-    document.querySelector('form').addEventListener('submit', function(e) {
-        if (!settlementMonth.value) {
-            e.preventDefault();
-            alert('정산월을 선택해주세요.');
-            return false;
-        }
-    });
 });

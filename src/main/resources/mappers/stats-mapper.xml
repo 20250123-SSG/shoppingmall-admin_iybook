@@ -4,4 +4,48 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iybook.statistics.dao.StatisticsMapper">
 
-</mapper>
+    <!-- 일별 통계 -->
+    <select id="selectDailyStatistics" resultType="StatisticsSalesDto">
+      SELECT
+        DATE_FORMAT(o.created_at, '%Y-%m-%d') AS statisticsDate,
+        SUM(od.order_detail_total_price) AS totalSales,
+        COUNT(CASE WHEN o.order_status = '주문완료' THEN 1 END) AS orderCount,
+        COUNT(CASE WHEN o.order_status = '취소완료' THEN 1 END) AS cancelCount
+      FROM tbl_order o
+        JOIN tbl_order_detail od ON o.order_id = od.order_id
+      WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
+      GROUP BY statisticsDate
+      ORDER BY statisticsDate
+    </select>
+
+    <!-- 월별 통계 -->
+    <select id="selectMonthlyStatistics" resultType="StatisticsSalesDto">
+      SELECT
+      DATE_FORMAT(o.created_at, '%Y-%m') AS statisticsDate,
+      SUM(od.order_detail_total_price) AS totalSales,
+      COUNT(CASE WHEN o.order_status = '주문완료' THEN 1 END) AS orderCount,
+      COUNT(CASE WHEN o.order_status = '취소요청' THEN 1 END) AS cancelCount
+      FROM tbl_order o
+      JOIN tbl_order_detail od ON o.order_id = od.order_id
+      WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
+      GROUP BY statisticsDate
+      ORDER BY statisticsDate
+    </select>
+
+    <!-- 연별 통계 -->
+    <select id="selectYearlyStatistics" resultType="StatisticsSalesDto">
+      SELECT
+      DATE_FORMAT(o.created_at, '%Y') AS statisticsDate,
+      SUM(od.order_detail_total_price) AS totalSales,
+      COUNT(CASE WHEN o.order_status = '주문완료' THEN 1 END) AS orderCount,
+      COUNT(CASE WHEN o.order_status = '취소완료' THEN 1 END) AS cancelCount
+      FROM tbl_order o
+      JOIN tbl_order_detail od ON o.order_id = od.order_id
+      WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
+      GROUP BY statisticsDate
+      ORDER BY statisticsDate
+    </select>
+
+    <!-- 직접 조회 통계 -->
+
+  </mapper>

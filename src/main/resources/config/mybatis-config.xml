@@ -10,6 +10,7 @@
     <typeAlias type="com.iybook.sales.dto.OrderDto" alias="OrderDto"/>
     <typeAlias type="com.iybook.sales.dto.OrderRequestFilterDto" alias="OrderRequestFilterDto"/>
     <typeAlias type="com.iybook.sales.dto.SingleOrderPagingRequestDto" alias="SingleOrderPagingRequestDto"/>
+    <typeAlias type="com.iybook.sales.dto.OrdersStatusUpdateDto" alias="OrdersStatusUpdateDto"/>
     <typeAlias type="com.iybook.notice.dto.NoticeDto" alias="NoticeDto"/>
   </typeAliases>
 

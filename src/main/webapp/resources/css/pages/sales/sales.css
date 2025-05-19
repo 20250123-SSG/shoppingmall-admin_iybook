@@ -1,0 +1,104 @@
+/*
+    검색 기능
+ */
+.content-section {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 40px;
+    background-color: #fff;
+}
+#search-sales-submit-button {
+    width: 100px;
+    height: 30px;
+    margin-top: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-sales-group {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.search-sales-period-group {
+    display: flex;
+    align-items: center;
+}
+.btn-period {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+/*
+    주문 기록 테이블
+*/
+.table-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+.pagination {
+    margin-right: 80px;
+}
+.page-item {
+    display: inline-block;
+    margin: 0 4px;
+}
+.page-link {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.page-link:hover {
+    background-color: #f2f2f2;
+}
+.page-item.active .page-link {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+    cursor: default;
+}
+.page-item.disabled .page-link {
+    color: #aaa;
+    background-color: #f9f9f9;
+    border-color: #ddd;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+
+/* sales 공통 */
+.option-name {
+    margin-right: 30px;
+}
+.btn-active {
+    background-color: var(--color-danger-hover);
+    color: white;
+}
+.info-text {
+    font-size: small;
+    color: var(--color-danger);
+}
+.order-list-header{
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-left: 30px;
+}
+.button-left-side {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    justify-content: flex-end;
+}

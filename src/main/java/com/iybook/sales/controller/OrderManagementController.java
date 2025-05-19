@@ -12,6 +12,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 주문 통합 조회와 다른 점
+ *
+ * 주 행동
+ * - 주문완료 -> 배송완료 or 취소완료
+ *
+ * 기본 orderStatus
+ * - 주문 완료 + 오늘
+ *
+ * 필요한 orderStatus는
+ * - 주문 완료
+ *
+ *
+ */
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/sales")
@@ -28,18 +42,10 @@ public class OrderManagementController {
 
         boolean isFirstPageLoad = searchFilter.getStartDate() == null || searchFilter.getEndDate() == null;
         if(isFirstPageLoad){
-            searchFilter = OrderRequestFilterDto.initSalesList();
+            searchFilter = OrderRequestFilterDto.initOrderControl();
             orderListResult = OrderListResponseDto.empty();
         }else {
             orderListResult = salesService.getOrderListAndPageInfoByFilter(page, searchFilter);
-            log.debug("*******************************************************");
-            log.debug("now page = {}",page);
-            log.debug("startDate: {}", searchFilter.getStartDate());
-            log.debug("endDate: {}", searchFilter.getEndDate());
-            log.debug("customerId: {}", searchFilter.getCustomerId());
-            log.debug("orderId: {}", searchFilter.getOrderId());
-            log.debug("orderStatus: {}", searchFilter.getOrderStatus());
-            log.debug("*******************************************************");
         }
         model.addAttribute("filter", searchFilter);
         model.addAttribute("orderListResult", orderListResult);
@@ -53,6 +59,12 @@ public class OrderManagementController {
         log.debug(selectedOrderIds);
         List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
         log.debug("orderIdList = {}",orderIdList);
+
+
+
+        salesService.acceptOrder(orderIdList);
+
+
 
         /// orderIdList로 배송완료로 상태 변경
         return "redirect:/sales/salesList.page";

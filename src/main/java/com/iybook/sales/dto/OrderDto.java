@@ -1,6 +1,10 @@
 package com.iybook.sales.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +20,12 @@ public class OrderDto {
     private int orderTotalPrice;
     private String payment;
     private String orderMemo;
-    private String orderDate;
+    private LocalDateTime orderDate;
+
+    public String getFormattedOrderDate() {
+        return orderDate != null
+                ? orderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                : "";
+    }
 
 }

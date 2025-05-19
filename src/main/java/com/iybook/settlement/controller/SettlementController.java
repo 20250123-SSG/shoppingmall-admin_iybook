@@ -27,9 +27,12 @@ public class SettlementController {
     @GetMapping("/monthly")
     @ResponseBody // 이 어노테이션을 추가하여 JSON 데이터를 반환하도록 변경
     public List<SettlementDto> settleMonthPage(String month){
-        log.debug("month:" + month);
         List<SettlementDto> list = settlementService.getSettlementByMonth(month);
-        return list; // Spring이 자동으로 JSON 형태로 변환하여 응답
+        return list;
+    }
+
+    @GetMapping("/settlementList")
+    public void settleList() {
     }
 
 }

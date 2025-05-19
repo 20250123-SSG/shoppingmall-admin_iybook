@@ -7,16 +7,14 @@
     <table class="table table-bordered table-hover text-center align-middle">
         <thead>
         <tr>
-            <th>주문번호</th>
-            <th>상품명</th>
-            <th>주문일자</th>
-            <th>결제금액</th>
-            <th>정산상태</th>
+            <th>정산기준일</th>
             <th>정산예정일</th>
             <th>정산완료일</th>
+            <th>정산금액</th>
+            <th>수수료합계</th>
         </tr>
         </thead>
-        <tbody id="detailTableBody">
+        <tbody id="settlementListBody">
         <tr>
             <td colspan="7" class="text-center py-4">데이터를 불러오는 중입니다...</td>
         </tr>
@@ -30,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadDetailSettlementData() {
-    const tbody = document.getElementById('detailTableBody');
-    fetch('${contextPath}/api/settlement/detail.page')
+    const tbody = document.getElementById('settlementListBody');
+    fetch('${contextPath}/api/settlement/settlementList.page')
         .then(response => response.json())
         .then(data => {
             if (data && data.length > 0) {

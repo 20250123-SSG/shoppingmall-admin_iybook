@@ -56,7 +56,7 @@
         padding: 24px 0;
     }
 
-    .tab-view.selected {
+    .tab-view.active {
         display: block;
     }
 
@@ -85,14 +85,17 @@
 <div class="main">
     <div class="container-fluid">
         <div class="tab-box">
-            <ul class="clearfix">
-                <li class="selected" data-tab="monthly">월별 정산내역</li>
-                <li data-tab="detail">건별 정산내역</li>
+            <ul>
+                <li class="selected" data-view="monthlyView">월별 정산내역</li>
+                <li data-view="detailView">정산내역 목록</li>
             </ul>
             
-            <div id="settlementViewContainer">
-                <!-- 초기에는 월별 정산내역을 보여줌 -->
+            <div class="tab-view active" id="monthlyView">
                 <jsp:include page="monthlySettlement.jsp"/>
+            </div>
+
+            <div class="tab-view" id="detailView">
+                <jsp:include page="settlementList.jsp"/>
             </div>
         </div>
     </div>
@@ -100,31 +103,27 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.tab-box li');
-    const viewContainer = document.getElementById('settlementViewContainer');
+    const tabItems = document.querySelectorAll('.tab-box ul li');
+    const tabViews = document.querySelectorAll('.tab-view');
 
-    function loadView(tabId) {
-        fetch('${contextPath}/settlement/' + tabId)
-            .then(response => response.text())
-            .then(html => {
-                viewContainer.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading view:', error);
-                viewContainer.innerHTML = '<p>뷰를 로드하는 데 실패했습니다.</p>';
-            });
-    }
+    tabItems.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // 1. 모든 탭 메뉴에서 'selected' 클래스 제거
+            tabItems.forEach(item => item.classList.remove('selected'));
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            tabs.forEach(t => t.classList.remove('selected'));
-            this.classList.add('selected');
-            const tabId = this.getAttribute('data-tab');
-            
-            if (tabId === 'monthly') {
-                viewContainer.innerHTML = '<jsp:include page="monthlySettlement.jsp"/>';
-            } else if (tabId === 'detail') {
-                viewContainer.innerHTML = '<jsp:include page="detailSettlement.jsp"/>';
+            // 2. 클릭된 탭 메뉴에 'selected' 클래스 추가
+            tab.classList.add('selected');
+
+            // 3. 모든 탭 뷰에서 'active' 클래스 제거
+            tabViews.forEach(view => view.classList.remove('active'));
+
+            // 4. 클릭된 탭 메뉴의 'data-view' 속성 값 가져오기
+            const viewId = tab.dataset.view;
+
+            // 5. 해당 'id'를 가진 탭 뷰에 'active' 클래스 추가하여 표시
+            const selectedView = document.getElementById(viewId);
+            if (selectedView) {
+                selectedView.classList.add('active');
             }
         });
     });
@@ -132,5 +131,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-
-

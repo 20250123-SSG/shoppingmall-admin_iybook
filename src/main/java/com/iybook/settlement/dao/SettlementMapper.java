@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SettlementMapper {
     List<SettlementDto> findSettlementByStDate(String month);
-//    List<SettlementDto>
+    List<SettlementDto> findAllSettlement();
 }

@@ -9,7 +9,7 @@
 
 <div class="main">
 
-  <form action="${contextPath}/sales/salesList.page" method="GET" class="content-section" id="search-form">
+  <form action="${contextPath}/sales/orderControl.page" method="GET" class="content-section" id="search-form">
     <div class="search-sales-group">
       <div class="search-sales-period-group">
         <label for="startDate" class="option-name">조회 기간</label>
@@ -47,15 +47,34 @@
     </div>
   </form>
 
+  <form method="POST" id="order-action-form">
+    <input type="hidden" name="selectedOrderIds" id="selectedOrderIds">
+    <div class="button-left-side">
+      <button type="submit"
+              class="btn btn-gray"
+              formaction="${contextPath}/sales/acceptOrders.do"
+              formmethod="POST">
+        주문 수락
+      </button>
+      <button type="submit"
+              class="btn btn-red"
+              formaction="${contextPath}/sales/cancelOrders.do"
+              formmethod="POST">
+        주문 취소
+      </button>
+    </div>
+  </form>
   <div class="content-section">
     <div class="order-list-header">
       <h2>주문 목록</h2>
       <p>총 ${orderCount}건</p>
     </div>
+    <br>
     <div class="table-section">
-      <table border="1">
+      <table border="1" cellspacing="0" cellpadding="8">
         <thead>
         <tr>
+          <th><input type="checkbox" id="checkAll"></th>
           <th>주문 ID</th>
           <th>고객 ID</th>
           <th>상태</th>
@@ -73,6 +92,9 @@
           <c:otherwise>
             <c:forEach var="order" items="${orderListResult.orderList}">
               <tr class="selectable-row">
+                <td style="text-align: center;">
+                  <input type="checkbox" name="orderCheckbox" value="${order.orderId}">
+                </td>
                 <td>${order.orderId}</td>
                 <td>${order.customerId}</td>
                 <td>${order.orderStatus}</td>
@@ -88,7 +110,7 @@
       </table>
 
       <ul class="pagination">
-        <c:url var="prevUrl" value="/sales/salesList.page">
+        <c:url var="prevUrl" value="/sales/orderControl.page">
           <c:param name="page" value="${orderListResult.page - 1}" />
           <c:param name="startDate" value="${filter.startDate}" />
           <c:param name="endDate" value="${filter.endDate}" />
@@ -102,7 +124,7 @@
           <a class="page-link" href="${prevUrl}">Previous</a>
         </li>
         <c:forEach var="p" begin="${orderListResult.beginPage}" end="${orderListResult.endPage}">
-          <c:url var="pageUrl" value="/sales/salesList.page">
+          <c:url var="pageUrl" value="/sales/orderControl.page">
             <c:param name="page" value="${p}" />
             <c:param name="startDate" value="${filter.startDate}" />
             <c:param name="endDate" value="${filter.endDate}" />
@@ -116,7 +138,7 @@
             <a class="page-link" href="${pageUrl}">${p}</a>
           </li>
         </c:forEach>
-        <c:url var="nextUrl" value="/sales/salesList.page">
+        <c:url var="nextUrl" value="/sales/orderControl.page">
           <c:param name="page" value="${orderListResult.page + 1}" />
           <c:param name="startDate" value="${filter.startDate}" />
           <c:param name="endDate" value="${filter.endDate}" />
@@ -139,6 +161,6 @@
 <script>
   const contextPath = "${contextPath}";
 </script>
-<script src="${contextPath}/resources/js/pages/sales/salesList.js"></script>
+<script src="${contextPath}/resources/js/pages/sales/orderControl.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

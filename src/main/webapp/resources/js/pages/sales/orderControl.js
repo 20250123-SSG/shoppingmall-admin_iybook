@@ -123,27 +123,6 @@ window.addEventListener("DOMContentLoaded", (evt) => {
     setPeriod(730, evt.target);
   });
 
-  // const checkAllStatus = document.getElementById("checkAllStatus");
-  // const statusCheckboxes = document.querySelectorAll("input[name='orderStatus']");
-  // const rawStatusStr = document.getElementById("filterOrderStatus")?.value || "";
-  // const selectedStatuses = rawStatusStr.replace(/^\[|\]$/g, "").split(",").map(s => s.trim()).filter(Boolean);
-  //
-  // statusCheckboxes.forEach(cb => {
-  //   cb.checked = selectedStatuses.includes(cb.value);
-  // });
-  //
-  // checkAllStatus.checked = Array.from(statusCheckboxes).every(cb => cb.checked);
-  //
-  // checkAllStatus?.addEventListener("change", () => {
-  //   statusCheckboxes.forEach(cb => cb.checked = checkAllStatus.checked);
-  // });
-  //
-  // statusCheckboxes.forEach(cb => {
-  //   cb.addEventListener("change", () => {
-  //     checkAllStatus.checked = Array.from(statusCheckboxes).every(cb => cb.checked);
-  //   });
-  // });
-
   const rowCheckboxes = document.querySelectorAll("input[name='orderCheckbox']");
   rowCheckboxes.forEach(cb => {
     if (getStoredIds().includes(cb.value)) {

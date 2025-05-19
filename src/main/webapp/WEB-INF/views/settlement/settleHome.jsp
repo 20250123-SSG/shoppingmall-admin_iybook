@@ -6,73 +6,130 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 
+<style>
+    .tab-box {
+        margin: 20px 0;
+    }
+
+    .tab-box ul {
+        display: flex;
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .tab-box li {
+        padding: 12px 24px;
+        margin-right: 4px;
+        cursor: pointer;
+        font-size: 15px;
+        color: #495057;
+        background: transparent;
+        border: none;
+        position: relative;
+        transition: all 0.2s ease;
+        list-style: none;
+    }
+
+    .tab-box li:hover {
+        color: #495057;
+    }
+
+    .tab-box li.selected {
+        color: #495057;
+        font-weight: 600;
+    }
+
+    .tab-box li.selected::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #495057;
+    }
+
+    .tab-view {
+        display: none;
+        padding: 24px 0;
+    }
+
+    .tab-view.selected {
+        display: block;
+    }
+
+    .search-area {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .table td {
+        color: #495057;
+    }
+
+    .container-fluid {
+        padding: 24px;
+    }
+</style>
+
 <div class="main">
     <div class="container-fluid">
-        <!-- 조회 조건 -->
-        <div class="search-area border rounded p-3 bg-light">
-            <form method="post" action="settleHome.jsp">
-                <div class="form-row align-items-center">
-                    <div class="col-auto">
-                        <label for="settlementMonth" class="col-form-label">정산 기준월</label>
-                        <input type="month" class="form-control" id="settlementMonth" name="settlementMonth"
-                               value="${param.settlementMonth}" required>
-                        <button type="submit" class="btn btn-success">검색</button>
-                        <a href="settleHome.jsp" class="btn btn-secondary">초기화</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- 정산내역 및 목록 -->
-        <div class="table-area border rounded p-3 bg-white">
-            <div class="d-flex justify-content-between mb-2">
-                <div>
-                    <b>정산내역 및 목록</b><br>
-                </div>
+        <div class="tab-box">
+            <ul class="clearfix">
+                <li class="selected" data-tab="monthly">월별 정산내역</li>
+                <li data-tab="detail">건별 정산내역</li>
+            </ul>
+            
+            <div id="settlementViewContainer">
+                <!-- 초기에는 월별 정산내역을 보여줌 -->
+                <jsp:include page="monthlySettlement.jsp"/>
             </div>
-            <table class="table table-bordered table-hover text-center">
-                <thead class="thead-light">
-                <tr>
-                    <th>정산기준일</th>
-                    <th>정산예정일</th>
-                    <th>정산완료일</th>
-                    <th>정산금액(합계)</th>
-                    <th>정산기준금액</th>
-                    <th>수수료합계</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:choose>
-                    <c:when test="${empty settleList}">
-                        <tr>
-                            <td colspan="10" class="empty-data">데이터가 존재하지 않습니다.</td>
-                        </tr>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach var="row" items="${settleList}">
-                            <tr>
-                                <td><fmt:formatDate value="${row.stDate}" pattern="yyyy-MM-dd"/></td>
-                                <td><fmt:formatDate value="${row.exDate}" pattern="yyyy-MM-dd"/></td>
-                                <td><fmt:formatDate value="${row.comp_date}" pattern="yyyy-MM-dd"/></td>
-                                <td><fmt:formatNumber value="${row.stPrice}" type="number"/></td>
-                                <td><fmt:formatNumber value="${row.tax}" type="number"/></td>
-                            </tr>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
-                </tbody>
-            </table>
-            <!-- 페이지네이션 (예시) -->
-            <nav>
-                <ul class="pagination">
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
 
-<script src="${contextPath}/resources/js/pages/settlement.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tab-box li');
+    const viewContainer = document.getElementById('settlementViewContainer');
+
+    function loadView(tabId) {
+        fetch('${contextPath}/settlement/' + tabId)
+            .then(response => response.text())
+            .then(html => {
+                viewContainer.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading view:', error);
+                viewContainer.innerHTML = '<p>뷰를 로드하는 데 실패했습니다.</p>';
+            });
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            tabs.forEach(t => t.classList.remove('selected'));
+            this.classList.add('selected');
+            const tabId = this.getAttribute('data-tab');
+            
+            if (tabId === 'monthly') {
+                viewContainer.innerHTML = '<jsp:include page="monthlySettlement.jsp"/>';
+            } else if (tabId === 'detail') {
+                viewContainer.innerHTML = '<jsp:include page="detailSettlement.jsp"/>';
+            }
+        });
+    });
+});
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

@@ -93,3 +93,33 @@
 .notice-table tbody td form button:hover {
   background-color: var(--color-primary-hover);
 }
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination-list {
+  list-style: none;
+  display: inline-flex;
+  padding: 0;
+}
+
+.pagination-list li {
+  margin: 0 5px;
+}
+
+.pagination-list a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.pagination-list li.active a {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}

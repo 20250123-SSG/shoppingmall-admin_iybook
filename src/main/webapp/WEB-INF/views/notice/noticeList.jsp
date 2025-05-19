@@ -73,6 +73,31 @@
         </tbody>
     </table>
 </div>
+
+    <!-- 공지사항 테이블 아래에 페이징 영역 추가 -->
+    <div class="pagination">
+        <c:if test="${totalPage > 1}">
+            <ul class="pagination-list">
+                <!-- 이전 페이지 -->
+                <c:if test="${page > 1}">
+                    <li><a href="noticeList.page?page=${page - 1}">&laquo;</a></li>
+                </c:if>
+
+                <!-- 페이지 번호 목록 -->
+                <c:forEach begin="${beginPage}" end="${endPage}" var="i">
+                    <li class="${i == page ? 'active' : ''}">
+                        <a href="noticeList.page?page=${i}">${i}</a>
+                    </li>
+                </c:forEach>
+
+                <!-- 다음 페이지 -->
+                <c:if test="${page < totalPage}">
+                    <li><a href="noticeList.page?page=${page + 1}">&raquo;</a></li>
+                </c:if>
+            </ul>
+        </c:if>
+    </div>
+
 </div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${contextPath}/resources/js/pages/notice.js"></script>

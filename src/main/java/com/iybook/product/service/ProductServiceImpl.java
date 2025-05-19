@@ -53,6 +53,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public int deleteBooks(List<String> bookIds) {
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        return productMapper.deleteBooks(bookIds);
+    }
+
+    @Override
     public List<CategoryDto> getCategoryList() {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
         return productMapper.selectCategoryList();

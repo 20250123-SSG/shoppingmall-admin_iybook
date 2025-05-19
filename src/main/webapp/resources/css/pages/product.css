@@ -33,6 +33,10 @@
   margin-left: 5px;
 }
 
+.stat-value:hover {
+  cursor: pointer;
+}
+
 /* 검색 필터 */
 .form-row {
   display: flex;
@@ -60,26 +64,35 @@ input[type="text"], select, input[type="date"] {
 }
 .btn-primary {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-text);
 }
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
 }
 .btn-secondary {
   background-color: var(--color-muted);
-  color: white;
+  color: var(--color-text);
 }
 .btn-danger {
   background-color: var(--color-danger);
-  color: white;
+  color: var(--color-text);
 }
 .btn-danger:hover {
   background-color: var(--color-danger-hover);
 }
 
+.date-shortcuts button {
+  color: var(--color-bg);
+}
+
 .date-shortcuts button.active {
   background-color: var(--color-primary);
-  color: #fff;
+  color: var(--color-text);
+}
+
+.btn:disabled {
+  background-color: var(--color-muted);
+  cursor: not-allowed;
 }
 
 /* 상품 목록 카드 내부에 스크롤 생기도록 */
@@ -126,4 +139,9 @@ input[type="text"], select, input[type="date"] {
   margin-bottom: 10px;
   display: flex;
   gap: 12px;
+}
+
+.table-actions select {
+  margin-left: 8px;
+  padding: 6px;
 }

@@ -8,10 +8,10 @@ import com.iybook.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/product")
@@ -35,6 +35,15 @@ public class ProductController {
         model.addAttribute("bookList", bookList);
     }
 
-
+    @PostMapping("/delete.do")
+    @ResponseBody
+    public Map<String, Object> deleteBooks(@RequestBody Map<String, List<String>> payload){
+        List<String> bookIds = payload.get("bookIds");
+        int result = productService.deleteBooks(bookIds);
+        if (bookIds.size() == result) {
+            return Map.of("success", true, "deleteCount", result);
+        }
+        return Map.of("success", false);
+    }
 
 }

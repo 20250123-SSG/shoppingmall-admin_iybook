@@ -18,10 +18,26 @@
 
         <!-- 🔷 통계 영역 -->
         <div class="card stat-box">
-          <div class="stat-item">전체 <span class="stat-value">${stats.all}</span></div>
-          <div class="stat-item">판매중 <span class="stat-value">${stats.sell}</span></div>
-          <div class="stat-item">품절 <span class="stat-value">${stats.sold}</span></div>
-          <div class="stat-item">판매종료 <span class="stat-value">${stats.end}</span></div>
+          <div class="stat-item">전체
+            <span class="stat-value" onclick="location.href='${contextPath}/product/list.page'">
+              ${stats.all}
+            </span>
+          </div>
+          <div class="stat-item">판매중
+            <span class="stat-value" onclick="location.href='${contextPath}/product/list.page?status=판매'">
+              ${stats.sell}
+            </span>
+          </div>
+          <div class="stat-item">품절
+            <span class="stat-value" onclick="location.href='${contextPath}/product/list.page?status=품절'">
+              ${stats.sold}
+            </span>
+          </div>
+          <div class="stat-item">판매종료
+            <span class="stat-value" onclick="location.href='${contextPath}/product/list.page?status=숨김'">
+              ${stats.end}
+            </span>
+          </div>
         </div>
 
         <!-- 🔶 검색 필터 영역 -->
@@ -87,13 +103,16 @@
 
         <!-- 🟩 상품 목록 영역 -->
         <div class="card product-list-box">
-          <div class="table-actions">
-            <button class="btn btn-danger">선택 삭제</button>
-            <select name="status">
-              <option value="">판매상태 변경</option>
-              <option value="sell">판매중</option>
-              <option value="end">판매중지</option>
-            </select>
+          <div class="table-actions" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="left-actions">
+              <button class="btn btn-danger" id="deleteSelected">선택 삭제</button>
+              <select name="status" id="statusChangeSelect">
+                <option value="">판매상태 변경</option>
+                <option value="sell">판매중</option>
+                <option value="end">판매중지</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="saveChanges">수정 저장</button>
           </div>
 
           <table class="product-table">
@@ -147,7 +166,9 @@
 
   </div>
 
-
+<script>
+  const contextPath = "${contextPath}";
+</script>
 
 <script src="${contextPath}/resources/js/pages/product.js"></script>
 

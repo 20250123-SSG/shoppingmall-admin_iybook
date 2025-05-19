@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
   // ✅ [판매상태 체크박스 동기화]
   const statusAll = document.querySelector('input[id="all"]');
@@ -100,4 +101,98 @@ document.addEventListener("DOMContentLoaded", function () {
   updateDateConstraints(); // ✅ 페이지 로딩 시 기본 유효범위 적용
 
 
+});
+
+// table 체크박스 선택 구문
+document.addEventListener("DOMContentLoaded", function () {
+  const masterCheckbox = document.querySelector('.product-table thead input[type="checkbox"]');
+  const rowCheckboxes = document.querySelectorAll('.product-table tbody input[type="checkbox"]');
+
+  // 마스터 체크박스 클릭 시
+  masterCheckbox.addEventListener('change', function () {
+    rowCheckboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+  });
+
+  // 개별 체크박스 변경 시 마스터 체크박스 상태 업데이트
+  rowCheckboxes.forEach(cb => {
+    cb.addEventListener('change', function () {
+      const allChecked = Array.from(rowCheckboxes).every(cb => cb.checked);
+      masterCheckbox.checked = allChecked;
+    });
+  });
+});
+
+
+/* 일괄처리 */
+document.addEventListener("DOMContentLoaded", function () {
+  const deleteBtn = document.getElementById("deleteSelected");
+  const saveBtn = document.getElementById("saveChanges");
+  const statusSelect = document.getElementById("statusChangeSelect");
+
+  // 선택된 체크박스들의 도서 ID 목록을 배열로 반환
+  function getSelectedBookIds() {
+    return Array.from(document.querySelectorAll('.product-table tbody input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+  }
+
+  // 선택 삭제 버튼 클릭
+  deleteBtn.addEventListener("click", function () {
+    const selectedIds = getSelectedBookIds();
+    if (selectedIds.length === 0) {
+      alert("삭제할 항목을 선택하세요.");
+      return;
+    }
+
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    // AJAX 요청
+    fetch(contextPath + '/product/delete.do', {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({bookIds: selectedIds})
+    })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.deleteCount + "건 삭제가 완료되었습니다.");
+          } else {
+            alert("삭제 실패")
+          }
+          location.reload();
+        })
+        .catch(err => {
+          alert("삭제 중 오류 발생");
+        });
+  });
+
+  // 판매상태 저장 버튼 클릭
+  saveBtn.addEventListener("click", function () {
+    const selectedIds = getSelectedBookIds();
+    const newStatus = statusSelect.value;
+
+    if (selectedIds.length === 0) {
+      alert("수정할 항목을 선택하세요.");
+      return;
+    }
+    if (!newStatus) {
+      alert("변경할 상태를 선택하세요.");
+      return;
+    }
+
+    // AJAX 요청
+    fetch("/book/updateStatus", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({bookIds: selectedIds, status: newStatus})
+    })
+        .then(res => res.json())
+        .then(data => {
+          alert("판매상태가 변경되었습니다.");
+          location.reload();
+        })
+        .catch(err => {
+          alert("상태 변경 중 오류 발생");
+          console.error(err);
+        });
+  });
 });

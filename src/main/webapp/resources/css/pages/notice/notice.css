@@ -38,7 +38,13 @@
 .notice-table td {
   padding: 14px 12px;
   border-bottom: 1px solid var(--color-table-bg);
+  border-right: 1px solid var(--color-table-bg); /* 세로줄 추가 */
   vertical-align: middle;
+}
+
+.notice-table th:last-child,
+.notice-table td:last-child {
+  border-right: none;
 }
 
 /* 테이블 바디 행 */

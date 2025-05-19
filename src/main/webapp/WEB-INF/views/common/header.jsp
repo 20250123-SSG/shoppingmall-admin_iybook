@@ -18,6 +18,8 @@
     <div class="user-info">
       <i class="fas fa-bell"></i>
       <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="avatar">
-      <span>Admin</span>
+      <c:if test="${not empty sessionScope.loginUser}">
+        <span>${sessionScope.loginUser.userName}</span>
+      </c:if>
     </div>
   </header>

@@ -82,8 +82,11 @@ public class SalesServiceImpl implements SalesService {
                 getOrderIdList(invalidOrders)
         );
 
+        log.debug("fagwrgsergsergsergsergsergerg{}",result.successIds());
+
+
         int updateResult = salesMapper.updateOrderStatusByOrderId(
-                new OrderStatusChangeDto(
+                new OrdersStatusUpdateDto(
                         OrderStatus.DELIVERED.getValue(),
                         result.successIds()
                 )
@@ -118,13 +121,13 @@ public class SalesServiceImpl implements SalesService {
 
     private List<OrderDto> getValidOrderList(List<OrderDto> orderList, String orderStatus) {
         return orderList.stream()
-                .filter(order -> order.getOrderStatus().equals(OrderStatus.COMPLETED.getValue()))
+                .filter(order -> order.getOrderStatus().equals(orderStatus))
                 .toList();
     }
 
     private List<OrderDto> getInvalidOrders(List<OrderDto> orderList, String orderStatus) {
         return orderList.stream()
-                .filter(order -> !order.getOrderStatus().equals(OrderStatus.COMPLETED.getValue()))
+                .filter(order -> !order.getOrderStatus().equals(orderStatus))
                 .toList();
     }
 

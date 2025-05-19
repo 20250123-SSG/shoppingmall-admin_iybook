@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -76,10 +77,10 @@
                 <td>${order.orderId}</td>
                 <td>${order.customerId}</td>
                 <td>${order.orderStatus}</td>
-                <td>${order.orderTotalCount}</td>
-                <td>${order.orderTotalPrice}</td>
+                <td><fmt:formatNumber value="${order.orderTotalCount}"/></td>
+                <td><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
                 <td>${order.payment}</td>
-                <td>${order.orderDate}</td>
+                <td>${order.getFormattedOrderDate()}</td>
               </tr>
             </c:forEach>
           </c:otherwise>

@@ -16,5 +16,4 @@
   <typeHandlers>
     <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
   </typeHandlers>
-
 </configuration>

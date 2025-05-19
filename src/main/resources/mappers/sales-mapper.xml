@@ -81,4 +81,18 @@
             #{offset}, #{display}
     </select>
 
+    <select id="selectOrderListByIdForChangeStatus" parameterType="list" resultMap="orderResultMap">
+        select
+            order_id
+          , order_status
+          , created_at
+        from
+            tbl_order
+        where
+            order_id in
+        <foreach collection="orderIdList" item="orderId" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </select>
+
 </mapper>

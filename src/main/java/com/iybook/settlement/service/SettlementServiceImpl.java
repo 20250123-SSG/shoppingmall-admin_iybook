@@ -24,4 +24,10 @@ public class SettlementServiceImpl implements SettlementService {
             List<SettlementDto> settlementByStDate = sqlSession.getMapper(SettlementMapper.class).findSettlementByStDate(month);
             return settlementByStDate;
     }
+
+    @Override
+    public List<SettlementDto> getAllSettlement() {
+        List<SettlementDto> list = sqlSession.getMapper(SettlementMapper.class).findAllSettlement();
+        return list;
+    }
 }

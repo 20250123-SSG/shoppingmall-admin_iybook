@@ -32,7 +32,10 @@ public class SettlementController {
     }
 
     @GetMapping("/settlementList")
-    public void settleList() {
+    @ResponseBody
+    public List<SettlementDto> settleList() {
+        List<SettlementDto> list = settlementService.getAllSettlement();
+        return list;
     }
 
 }

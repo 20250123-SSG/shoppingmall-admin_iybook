@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SettlementService {
     List<SettlementDto> getSettlementByMonth(String month);
+    List<SettlementDto> getAllSettlement();
 }

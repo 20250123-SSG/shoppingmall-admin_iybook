@@ -91,11 +91,11 @@
             </ul>
             
             <div class="tab-view active" id="monthlyView">
-                <jsp:include page="monthlySettlement.jsp"/>
+                <jsp:include page="/WEB-INF/views/settlement/monthlySettlement.jsp"/>
             </div>
 
             <div class="tab-view" id="detailView">
-                <jsp:include page="settlementList.jsp"/>
+                <jsp:include page="/WEB-INF/views/settlement/settlementList.jsp"/>
             </div>
         </div>
     </div>

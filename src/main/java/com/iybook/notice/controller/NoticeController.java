@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -38,6 +40,18 @@ public class NoticeController {
     public String toggleStatus(@RequestParam Long noticeId, @RequestParam boolean currentHidden) {
         log.debug("토글 요청 noticeId={}, currentHidden={}", noticeId, currentHidden);
         noticeService.toggleNoticeHiddenStatus(noticeId, currentHidden);
+        return "redirect:/notice/noticeList.page";
+    }
+
+    @PostMapping("/deleteSelected.do")
+    public String deleteSelected(@RequestParam("noticeIds[]") List<Long> noticeIds, RedirectAttributes redirectAttributes) {
+        if (noticeIds == null || noticeIds.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "삭제할 공지사항을 선택해주세요.");
+            return "redirect:/notice/noticeList.page";
+        }
+
+        noticeService.deleteNoticesByIds(noticeIds);
+        redirectAttributes.addFlashAttribute("message", "선택한 공지사항이 삭제되었습니다.");
         return "redirect:/notice/noticeList.page";
     }
 }

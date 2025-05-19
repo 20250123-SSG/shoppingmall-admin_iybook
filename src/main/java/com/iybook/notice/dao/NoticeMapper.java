@@ -16,4 +16,6 @@ public interface NoticeMapper {
 
     NoticeDto selectNoticeByNo(int no);
 
+    void deleteNoticesByIds(@Param("noticeIds") List<Long> noticeIds);
+
 }

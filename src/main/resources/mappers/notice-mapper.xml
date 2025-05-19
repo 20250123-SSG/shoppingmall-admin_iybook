@@ -74,4 +74,13 @@
     WHERE notice_id = #{noticeId}
   </update>
 
+  <delete id="deleteNoticesByIds" parameterType="list">
+    DELETE
+    FROM tbl_notice
+    WHERE notice_id IN
+    <foreach item="id" index="index" collection="noticeIds" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
+
 </mapper>

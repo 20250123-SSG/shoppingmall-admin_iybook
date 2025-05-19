@@ -16,10 +16,6 @@
   <header class="header">
     <div class="header-title" onclick="location.href='${contextPath}/'">인용문고 관리자페이지</div>
     <div class="user-info">
-      <i class="fas fa-bell"></i>
-      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="avatar">
-      <c:if test="${not empty sessionScope.loginUser}">
-        <span><strong>${sessionScope.loginUser.userName}</strong> 관리자님 </span>
-      </c:if>
+      <span>회원가입</span>
     </div>
   </header>

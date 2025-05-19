@@ -16,7 +16,7 @@
 %>
 
 <div class="sidebar">
-  <div class="sidebar-item ${activeMenu eq 'notice' ? 'active' : ''}" onclick="location.href='${contextPath}/notice/home.page'">
+  <div class="sidebar-item ${activeMenu eq 'notice' ? 'active' : ''}" onclick="location.href='${contextPath}/notice/noticeList.page'">
     <i class="fas fa-bullhorn"></i>
     <span>공지사항 관리</span>
   </div>

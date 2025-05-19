@@ -1,4 +1,4 @@
-package com.iybook.notice.service;
+package com.iybook.common.util;
 
 import org.springframework.stereotype.Component;
 

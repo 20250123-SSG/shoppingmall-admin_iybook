@@ -5,6 +5,7 @@ import com.iybook.notice.dto.NoticeDto;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import com.iybook.common.util.PageUtil;
 
 import java.util.List;
 import java.util.Map;

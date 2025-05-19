@@ -6,7 +6,7 @@ import com.iybook.sales.dto.OrderDto;
 import com.iybook.sales.dto.SingleOrderPagingRequestDto;
 import com.iybook.sales.dto.OrderListResponseDto;
 import com.iybook.sales.dto.OrderRequestFilterDto;
-import com.iybook.sales.util.PageUtil;
+import com.iybook.common.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;

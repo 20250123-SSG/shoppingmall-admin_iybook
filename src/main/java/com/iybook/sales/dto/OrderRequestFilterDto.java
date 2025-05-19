@@ -1,5 +1,7 @@
 package com.iybook.sales.dto;
 
+import com.iybook.sales.constants.OrderStatus;
+import com.iybook.sales.constants.OrderTableInfo;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -20,19 +22,18 @@ public class OrderRequestFilterDto {
     private String startDate;
     private String endDate;
 
-    private static final List<String> DEFAULT_ORDER_STATUS =
-            List.of("주문완료", "취소요청", "취소완료", "배송완료");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private static final DateTimeFormatter DATE_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-    public static OrderRequestFilterDto init() {
+    public static OrderRequestFilterDto initSalesList() {
         LocalDate today = LocalDate.now();
 
         return new OrderRequestFilterDto(
                 "",
                 "",
-                DEFAULT_ORDER_STATUS,
+                List.of(OrderStatus.COMPLETED.getValue(),
+                        OrderStatus.CANCEL_REQUESTED.getValue(),
+                        OrderStatus.CANCELED.getValue(),
+                        OrderStatus.DELIVERED.getValue()),
                 today.minusDays(7).format(DATE_FORMATTER),
                 today.format(DATE_FORMATTER)
         );

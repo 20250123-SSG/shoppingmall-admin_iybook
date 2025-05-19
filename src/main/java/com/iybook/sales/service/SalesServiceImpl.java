@@ -3,7 +3,7 @@ package com.iybook.sales.service;
 import com.iybook.sales.constants.OrderTableInfo;
 import com.iybook.sales.dao.SalesMapper;
 import com.iybook.sales.dto.OrderDto;
-import com.iybook.sales.dto.SingleOrderPagingDto;
+import com.iybook.sales.dto.SingleOrderPagingRequestDto;
 import com.iybook.sales.dto.OrderListResponseDto;
 import com.iybook.sales.dto.OrderRequestFilterDto;
 import com.iybook.sales.util.PageUtil;
@@ -32,7 +32,7 @@ public class SalesServiceImpl implements SalesService {
                 OrderTableInfo.DISPLAY.getValue(),
                 OrderTableInfo.PAGE_PER_BLOCK.getValue()
         );
-        SingleOrderPagingDto paging = new SingleOrderPagingDto(
+        SingleOrderPagingRequestDto paging = new SingleOrderPagingRequestDto(
                 (Integer) pageInfo.get("offset"),
                 (Integer) pageInfo.get("display"),
                 filter

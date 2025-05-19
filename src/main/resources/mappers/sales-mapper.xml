@@ -16,7 +16,7 @@
     </resultMap>
 
     
-    <select id="selectOrderListCountByFilter" parameterType="OrderRequestFilterDto">
+    <select id="selectOrderListCountByFilter" parameterType="OrderRequestFilterDto" resultType="_int">
         select
             count(*)
         from
@@ -43,7 +43,7 @@
         </where>
     </select>
 
-    <select id="selectOrderListByFilterWithPaging" parameterType="SingleOrderPagingDto" resultMap="orderResultMap">
+    <select id="selectOrderListByFilterWithPaging" parameterType="SingleOrderPagingRequestDto" resultMap="orderResultMap">
         select
             order_id
           , customer_id

@@ -9,9 +9,9 @@ public interface NoticeService {
 
     Map<String, Object> getNoticesAndPaging(int page);
 
-    void toggleNoticeHiddenStatus(Long noticeId, boolean currentHidden);
+    void toggleNoticeHiddenStatus(int noticeId);
 
-    void deleteNoticesByIds(List<Long> noticeIds);
+    void deleteNoticesByIds(List<Integer> noticeIds);
 
     int registerNotice(NoticeDto board);
 

@@ -10,7 +10,9 @@
 
 <div class="main">
     <div class="notice-container">
-        <form action="${contextPath}/notice/deleteSelected.do" method="post" onsubmit="return confirm('선택한 공지사항을 삭제하시겠습니까?')">
+        <form id="deleteForm" action="${contextPath}/notice/deleteSelected.do" method="post" onsubmit="return confirm('선택한 공지사항을 삭제하시겠습니까?')">
+            <button type="submit" class="btn-delete">선택 삭제</button>
+        </form>
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h2>공지사항</h2>
                 <div>
@@ -57,17 +59,19 @@
                         <td>
                             <c:choose>
                                 <c:when test="${notice.publishStatus == '숨김'}">숨김</c:when>
-                                <c:otherwise>게시중</c:otherwise>
+                                <c:otherwise>게시</c:otherwise>
                             </c:choose>
                         </td>
                         <td>
-                            <!-- NOTE: form 중첩 제거 -->
-                            <button type="submit" formaction="${contextPath}/notice/toggleStatus.do" formmethod="post" name="noticeId" value="${notice.noticeId}">
-                                <c:choose>
-                                    <c:when test="${notice.publishStatus == '숨김'}">게시</c:when>
-                                    <c:otherwise>숨김</c:otherwise>
-                                </c:choose>
-                            </button>
+                            <form action="${contextPath}/notice/toggleStatus.do" method="post" style="margin:0;">
+                                <input type="hidden" name="noticeId" value="${notice.noticeId}" />
+                                <button type="submit">
+                                    <c:choose>
+                                        <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
+                                        <c:otherwise>숨겨놓기</c:otherwise>
+                                    </c:choose>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -78,7 +82,6 @@
                 </c:if>
                 </tbody>
             </table>
-        </form>
     </div>
 
     <script>

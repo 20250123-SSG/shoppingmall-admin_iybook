@@ -54,22 +54,23 @@
     )
   </insert>
 
-  <select id="selectNoticeByNo" resultMap="noticeResultMap">
+  <select id="selectNoticeById" resultMap="noticeResultMap">
     select
-    notice_id
-    , title
-    , description
-    , user_id
-    , date_format(created_at, '%Y-%m-%d') as created_at
+      notice_id
+      , title
+      , description
+      , user_id
+      , DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at
+      , DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at
+      , publish_status
     from
       tbl_notice
-    join tbl_user on (user_id = notice_writer)
     where
       notice_id = #{id}
   </select>
 
   <update id="updateNoticeHidden">
-    UPDATE notice
+    UPDATE tbl_notice
     SET publish_status = #{publishStatus}
     WHERE notice_id = #{noticeId}
   </update>

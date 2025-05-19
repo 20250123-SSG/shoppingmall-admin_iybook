@@ -10,12 +10,12 @@ public interface NoticeMapper {
     int selectNoticeListCount();
     List<NoticeDto> selectNoticeList(Map<String, Object> map);
 
-    void updateNoticeHidden(@Param("noticeId") Long noticeId, @Param("hidden") boolean publishStatus);
+    void updateNoticeHidden(@Param("noticeId") int noticeId, @Param("publishStatus") String publishStatus);
 
     int insertNotice(NoticeDto board);
 
-    NoticeDto selectNoticeByNo(int no);
+    NoticeDto selectNoticeById(int id);
 
-    void deleteNoticesByIds(@Param("noticeIds") List<Long> noticeIds);
+    void deleteNoticesByIds(@Param("noticeIds") List<Integer> noticeIds);
 
 }

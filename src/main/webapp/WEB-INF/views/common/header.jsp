@@ -18,6 +18,8 @@
     <div class="user-info">
       <i class="fas fa-bell"></i>
       <img src="https://www.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png" class="avatar">
-      <span>Admin</span>
+      <c:if test="${not empty sessionScope.loginUser}">
+        <span><strong>${sessionScope.loginUser.userName}</strong> 관리자님 </span>
+      </c:if>
     </div>
   </header>

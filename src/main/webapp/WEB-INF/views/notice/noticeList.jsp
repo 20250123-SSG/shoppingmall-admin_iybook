@@ -10,14 +10,14 @@
 
 <div class="main">
     <div class="notice-container">
-        <form id="deleteForm" action="${contextPath}/notice/deleteSelected.do" method="post" onsubmit="return confirm('선택한 공지사항을 삭제하시겠습니까?')">
-            <button type="submit" class="btn-delete">선택 삭제</button>
-        </form>
+
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h2>공지사항</h2>
-                <div>
-                    <a href="${contextPath}/noticeForm.page" class="btn-register">등록</a>
-                    <button type="submit" class="btn-delete">선택 삭제</button>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">
+                    <a href="${contextPath}/notice/noticeForm.page" class="btn-register">등록</a>
+                    <form id="deleteForm" action="${contextPath}/notice/deleteSelected.do" method="post" onsubmit="return confirm('선택한 공지사항을 삭제하시겠습니까?')" style="margin:0;">
+                        <button type="submit" class="btn-delete">선택 삭제</button>
+                    </form>
                 </div>
             </div>
 

@@ -37,6 +37,11 @@ public class NoticeController {
         return "notice/noticeList";
     }
 
+    @GetMapping("/noticeForm.page")
+    public String showNoticeForm() {
+        return "notice/registNotice";
+    }
+
     @PostMapping("/toggleStatus.do")
     public String toggleStatus(@RequestParam int noticeId) {
         noticeService.toggleNoticeHiddenStatus(noticeId);

@@ -18,17 +18,21 @@ public class NoticeServiceImpl implements NoticeService {
     private final PageUtil pageUtil;
 
     @Override
-    public Map<String, Object> getNoticesAndPaging(int page) { // int page == 현재 요청한 페이지 번호
-
+    public Map<String, Object> getNoticesAndPaging(int page) {
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
         int totalCount = noticeMapper.selectNoticeListCount();
         Map<String, Object> map = pageUtil.getPageInfo(totalCount, page, 5, 5);
         List<NoticeDto> list = noticeMapper.selectNoticeList(map);
         map.put("list", list);
-        // map : {totalPage:xx, beginPage:xx, endPage:xx, .., list:List<BoardDto>}
-
         return map;
+    }
+
+    @Override
+    public void toggleNoticeHiddenStatus(Long noticeId, boolean currentHidden) {
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+        // currentHidden 상태의 반대로 변경
+        noticeMapper.updateNoticeHidden(noticeId, !currentHidden);
     }
 
     @Override

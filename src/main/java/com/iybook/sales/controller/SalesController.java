@@ -4,7 +4,7 @@ import com.iybook.sales.dto.OrderListResponseDto;
 import com.iybook.sales.dto.OrderRequestFilterDto;
 import com.iybook.sales.dto.OrderDto;
 import com.iybook.sales.service.SalesService;
-import com.iybook.sales.util.PageUtil;
+import com.iybook.common.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

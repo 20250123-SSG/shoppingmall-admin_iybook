@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:6.3.0'
     implementation 'org.mybatis:mybatis-spring:3.0.3'
     implementation("org.mybatis:mybatis-typehandlers-jsr310:1.0.2")
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     // 기타 라이브러리
     compileOnly 'org.projectlombok:lombok:1.18.24'

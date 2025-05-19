@@ -1,11 +1,19 @@
 package com.iybook.settlement.controller;
 
+import com.iybook.settlement.dto.SettlementDto;
 import com.iybook.settlement.service.SettlementService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/settlement")
 @Controller
@@ -15,5 +23,13 @@ public class SettlementController {
 
     @GetMapping("/settleHome.page")
     public void settleHome(){}
+
+    @GetMapping("/monthly")
+    @ResponseBody // 이 어노테이션을 추가하여 JSON 데이터를 반환하도록 변경
+    public List<SettlementDto> settleMonthPage(String month){
+        log.debug("month:" + month);
+        List<SettlementDto> list = settlementService.getSettlementByMonth(month);
+        return list; // Spring이 자동으로 JSON 형태로 변환하여 응답
+    }
 
 }

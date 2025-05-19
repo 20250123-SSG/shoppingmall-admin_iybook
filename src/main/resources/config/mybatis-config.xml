@@ -5,7 +5,8 @@
 <configuration>
 
   <typeAliases>
-
+    <typeAlias type="com.iybook.statistics.dto.StatisticsSalesDto" alias="StatisticsSalesDto"/>
+    <typeAlias type="com.iybook.statistics.dto.StatisticsRequestDto" alias="StatisticsRequestDto"/>
   </typeAliases>
 
 </configuration>

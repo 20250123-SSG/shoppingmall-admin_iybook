@@ -19,7 +19,7 @@
       <i class="fas fa-bell"></i>
       <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="avatar">
       <c:if test="${not empty sessionScope.loginUser}">
-        <span>${sessionScope.loginUser.userName}</span>
+        <span><strong>${sessionScope.loginUser.userName}</strong> 관리자님 </span>
       </c:if>
     </div>
   </header>

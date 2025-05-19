@@ -134,11 +134,51 @@
             tbl_category
     </select>
 
-    <select id="selectBookListByFilter" parameterMap="BookFilterDto">
+    <select id="selectBookListByFilter" resultMap="bookResultMap">
         select
-            (
-            )
-
+              book_id
+            , book_name
+            , author_name
+            , publisher
+            , book_price
+            , book_image
+            , book_description
+            , category_id
+            , published_at
+            , created_at
+            , updated_at
+            , publish_status
+            , stock
+        from
+            tbl_book
+        <where>
+            <if test="bookId != null and bookId !=''">
+                AND book_id LIKE CONCAT('%', #{bookId}, '%')
+            </if>
+            <if test="bookName != null and bookName !=''">
+                AND book_name LIKE CONCAT('%', #{bookName}, '%')
+            </if>
+            <if test="publisher != null and publisher != ''">
+                AND publisher LIKE CONCAT('%', #{publisher}, '%')
+            </if>
+            <if test="status != null and status.size() > 0">
+                AND publish_status IN
+                <foreach collection="status" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND ${dateType} &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND ${dateType} &lt;= DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND category_id = #{categoryId}
+            </if>
+        </where>
+        order by
+            created_at desc
     </select>
 
 </mapper>

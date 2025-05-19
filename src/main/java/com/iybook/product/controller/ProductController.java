@@ -1,5 +1,6 @@
 package com.iybook.product.controller;
 
+import com.iybook.product.dto.BookDto;
 import com.iybook.product.dto.BookFilterDto;
 import com.iybook.product.dto.BookStatsDto;
 import com.iybook.product.dto.CategoryDto;
@@ -30,7 +31,8 @@ public class ProductController {
         List<CategoryDto> categoryList = productService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
         // productList 호출
-
+        List<BookDto> bookList = productService.getBookListByFilter(bookFilter);
+        model.addAttribute("bookList", bookList);
     }
 
 

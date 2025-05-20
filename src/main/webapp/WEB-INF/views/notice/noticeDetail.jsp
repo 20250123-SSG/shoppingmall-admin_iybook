@@ -25,14 +25,16 @@
       <div class="left-buttons">
         <a href="${contextPath}/notice/noticeList.page" class="btn btn-list">목록으로</a>
 
-        <form action="${contextPath}/notice/toggleStatus.do" method="post" style="display:inline;">
-          <input type="hidden" name="noticeId" value="${notice.noticeId}" />
-          <button type="submit" class="btn btn-toggle-status">
-            <c:choose>
-              <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
-              <c:otherwise>숨겨놓기</c:otherwise>
-            </c:choose>
-          </button>
+        <form action="${contextPath}/notice/detail/toggleStatus.do" method="post" style="display:inline;">
+          <input type="hidden" name="noticeId" value="${notice.noticeId}" /><button type="submit" class="btn <c:choose>
+                      <c:when test='${notice.publishStatus == "숨김"}'>btn-publish</c:when>
+                      <c:otherwise>btn-hide</c:otherwise>
+                   </c:choose>">
+          <c:choose>
+            <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
+            <c:otherwise>숨겨놓기</c:otherwise>
+          </c:choose>
+        </button>
         </form>
       </div>
 

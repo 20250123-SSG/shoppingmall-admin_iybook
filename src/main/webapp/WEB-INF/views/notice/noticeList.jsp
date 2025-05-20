@@ -57,14 +57,19 @@
                     <td>${notice.updatedAt}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${notice.publishStatus == '숨김'}">숨김</c:when>
-                            <c:otherwise>게시</c:otherwise>
+                            <c:when test="${notice.publishStatus == '숨김'}">
+                                <span class="status-red">숨김</span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="status-blue">게시</span>
+                            </c:otherwise>
                         </c:choose>
                     </td>
                     <td>
                         <form action="${contextPath}/notice/toggleStatus.do" method="post" style="display:inline;">
                             <input type="hidden" name="noticeId" value="${notice.noticeId}">
-                            <button type="submit" class="toggle-btn">
+                            <button type="submit"
+                                    class="toggle-btn ${notice.publishStatus == '숨김' ? 'btn-blue' : 'btn-red'}">
                                 <c:choose>
                                     <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
                                     <c:otherwise>숨겨놓기</c:otherwise>

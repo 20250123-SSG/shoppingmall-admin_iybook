@@ -15,6 +15,8 @@
     <typeAlias type="com.iybook.sales.dto.OrderRequestFilterDto" alias="OrderRequestFilterDto"/>
     <typeAlias type="com.iybook.sales.dto.SingleOrderPagingRequestDto" alias="SingleOrderPagingRequestDto"/>
     <typeAlias type="com.iybook.notice.dto.NoticeDto" alias="NoticeDto"/>
+    <typeAlias type="com.iybook.statistics.dto.StatisticsSalesDto" alias="StatisticsSalesDto"/>
+    <typeAlias type="com.iybook.statistics.dto.StatisticsRequestDto" alias="StatisticsRequestDto"/>
   </typeAliases>
 
   <typeHandlers>

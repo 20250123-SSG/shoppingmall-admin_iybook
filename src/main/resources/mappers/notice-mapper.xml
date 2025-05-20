@@ -86,4 +86,8 @@
     </foreach>
   </delete>
 
+  <delete id="deleteById" parameterType="int">
+    DELETE FROM tbl_notice WHERE notice_id = #{noticeId}
+  </delete>
+
 </mapper>

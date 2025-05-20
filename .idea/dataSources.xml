@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@ssg-7.iptime.org" uuid="76199aee-11a3-4d24-9961-c921728b5e2e">
+    <data-source source="LOCAL" name="@ssg-7.iptime.org" uuid="01d4547b-10bf-413b-b547-08373e47b046">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
@@ -12,5 +12,6 @@
         <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

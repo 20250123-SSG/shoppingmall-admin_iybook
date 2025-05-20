@@ -37,18 +37,24 @@
   <!-- 총 매출 요약 출력 영역 -->
   <div class="summary-box" id="total-summary"></div>
 
+  <!-- 차트 -->
+  <div class="chart-container">
+    <canvas id="myChart" width="600" height="300"></canvas>
+  </div>
+
+  <br>
+
   <!-- 통계 테이블 -->
   <table class="statistics-table">
     <thead>
     <tr>
       <th>일자</th>
       <th>매출액</th>
-      <th>주문수</th>
+      <th>주문건</th>
       <th>취소건</th>
     </tr>
     </thead>
     <tbody id="result-body">
-    <!-- JS에서 채움 -->
     </tbody>
   </table>
 </div>
@@ -58,7 +64,8 @@
   const contextPath = "${contextPath}";
 </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="${contextPath}/resources/js/pages/statistics.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

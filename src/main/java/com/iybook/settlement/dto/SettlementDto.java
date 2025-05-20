@@ -1,10 +1,12 @@
 package com.iybook.settlement.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
 public class SettlementDto {
 
     private int stId; // 정산 ID

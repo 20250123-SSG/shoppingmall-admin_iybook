@@ -62,12 +62,15 @@
                         </c:choose>
                     </td>
                     <td>
-                        <button type="button" class="toggle-btn" onclick="toggleStatus(${notice.noticeId})">
-                            <c:choose>
-                                <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
-                                <c:otherwise>숨겨놓기</c:otherwise>
-                            </c:choose>
-                        </button>
+                        <form action="${contextPath}/notice/toggleStatus.do" method="post" style="display:inline;">
+                            <input type="hidden" name="noticeId" value="${notice.noticeId}">
+                            <button type="submit" class="toggle-btn">
+                                <c:choose>
+                                    <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
+                                    <c:otherwise>숨겨놓기</c:otherwise>
+                                </c:choose>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             </c:forEach>
@@ -79,6 +82,7 @@
     </div>
 
     <script>
+
         function toggleAll(masterCheckbox) {
             const checkboxes = document.querySelectorAll('.delete-check');
             checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
@@ -109,29 +113,6 @@
             return confirm("선택한 공지사항을 삭제하시겠습니까?");
         }
 
-        function toggleStatus(noticeId) {
-            if (!confirm("상태를 변경하시겠습니까?")) return;
-
-            fetch("${contextPath}/notice/toggleStatus.do", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: "noticeId=" + encodeURIComponent(noticeId)
-            })
-              .then(res => res.json())
-              .then(data => {
-                  if (data.success) {
-                      alert("상태 변경 성공");
-                      location.reload(); // 또는 DOM을 직접 갱신
-                  } else {
-                      alert(data.message || "상태 변경 실패");
-                  }
-              })
-              .catch(err => {
-                  console.error("오류 발생:", err);
-              });
-        }
     </script>
 
     <!-- 공지사항 테이블 아래에 페이징 영역 추가 -->

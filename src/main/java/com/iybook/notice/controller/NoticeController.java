@@ -43,20 +43,14 @@ public class NoticeController {
     }
 
     @PostMapping("/toggleStatus.do")
-    @ResponseBody
-    public Map<String, Object> toggleStatus(@RequestParam int noticeId) {
+    public String toggleStatus(@RequestParam int noticeId, RedirectAttributes redirectAttributes) {
         int result = noticeService.toggleNoticeHiddenStatus(noticeId);
-        Map<String, Object> response = new HashMap<>();
         if (result > 0) {
-            NoticeDto updated = noticeService.getNoticeDetail(noticeId); // 변경된 값 조회
-            response.put("success", true);
-            response.put("publishStatus", updated.getPublishStatus());
-            response.put("updatedAt", updated.getUpdatedAt());
+            redirectAttributes.addFlashAttribute("message", "상태가 변경되었습니다.");
         } else {
-            response.put("success", false);
-            response.put("message", "상태 변경 실패");
+            redirectAttributes.addFlashAttribute("message", "상태 변경에 실패했습니다.");
         }
-        return response;
+        return "redirect:/notice/noticeList.page";
     }
 
     @PostMapping("/regist.do")

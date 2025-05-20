@@ -8,12 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,12 +43,20 @@ public class NoticeController {
     }
 
     @PostMapping("/toggleStatus.do")
-    public String toggleStatus(@RequestParam int noticeId, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public Map<String, Object> toggleStatus(@RequestParam int noticeId) {
         int result = noticeService.toggleNoticeHiddenStatus(noticeId);
-
-        redirectAttributes.addFlashAttribute("message", result > 0 ? "상태 변경 성공" : "상태 변경 실패");
-
-        return "redirect:/notice/noticeList.page";
+        Map<String, Object> response = new HashMap<>();
+        if (result > 0) {
+            NoticeDto updated = noticeService.getNoticeDetail(noticeId); // 변경된 값 조회
+            response.put("success", true);
+            response.put("publishStatus", updated.getPublishStatus());
+            response.put("updatedAt", updated.getUpdatedAt());
+        } else {
+            response.put("success", false);
+            response.put("message", "상태 변경 실패");
+        }
+        return response;
     }
 
     @PostMapping("/regist.do")

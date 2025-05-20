@@ -98,11 +98,11 @@
                 </td>
                 <td>${order.orderId}</td>
                 <td>${order.customerId}</td>
-                <td>${order.orderStatus}</td>
-                <td><fmt:formatNumber value="${order.orderTotalCount}"/></td>
-                <td><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
-                <td>${order.payment}</td>
-                <td>${order.getFormattedOrderDate()}</td>
+                <td style="text-align: center">${order.orderStatus}</td>
+                <td style="text-align: right"><fmt:formatNumber value="${order.orderTotalCount}"/></td>
+                <td style="text-align: right"><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
+                <td style="text-align: center">${order.payment}</td>
+                <td style="text-align: center">${order.getFormattedOrderDate()}</td>
               </tr>
             </c:forEach>
           </c:otherwise>

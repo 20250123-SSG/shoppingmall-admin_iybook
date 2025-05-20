@@ -1,0 +1,137 @@
+/* 메인 컨테이너 */
+.main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+  box-sizing: border-box;
+  overflow-x: auto; /* 혹시 넘치는 경우 스크롤 가능하게 */
+}
+
+/* 제목 */
+.main h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #444;
+  padding-bottom: 10px;
+}
+
+/* 테이블 기본 */
+.statistics-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 각 열 너비 고정 */
+  font-size: 15px;
+}
+
+/* 열 너비 비율 조절 */
+.statistics-table th:nth-child(1),
+.statistics-table td:nth-child(1) {
+  width: 40%; /* 일자 넓게 */
+}
+
+.statistics-table th:nth-child(2),
+.statistics-table td:nth-child(2) {
+  width: 30%; /* 매출액 중간 */
+}
+
+.statistics-table th:nth-child(3),
+.statistics-table td:nth-child(3) {
+  width: 15%; /* 주문수 좁게 */
+}
+
+.statistics-table th:nth-child(4),
+.statistics-table td:nth-child(4) {
+  width: 15%; /* 취소건 좁게 */
+}
+
+/* 테이블 기본 스타일 */
+.statistics-table th,
+.statistics-table td {
+  border: 1px solid #ddd;
+  padding: 12px 10px;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.statistics-table th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.statistics-table tr:nth-child(even) {
+  background-color: #fcfcfc;
+}
+
+/* 합계 행 강조 */
+.statistics-table tr.summary-row {
+  background-color: #f1f1f1;
+  font-weight: bold;
+  border-top: 2px solid #aaa;
+}
+
+/* 통계 페이지 전용 제목 스타일 */
+.statistics-title {
+  margin-top: 80px; /* 헤더 높이만큼 공간 확보 */
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #444;
+}
+
+/* 통계 조회 폼 스타일 */
+#stats-form {
+  margin-bottom: 20px;
+}
+
+.stats-form-group {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.stats-form-group label {
+  font-weight: 500;
+}
+
+.stats-form-group input,
+.stats-form-group select {
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.stats-form-group button {
+  padding: 6px 12px;
+  background-color: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 요약 박스 */
+.summary-box {
+  margin: 15px 0 30px;
+  padding: 12px 20px;
+  background-color: #f0f8ff;
+  border: 1px solid #bcd;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+.summary-box span strong {
+  color: #2b6cb0; /* 진한 파랑 */
+}
+
+.child-row td {
+  background-color: #f9f9f9;
+  font-style: italic;
+}
+.clickable-row {
+  cursor: pointer;
+}
+
+

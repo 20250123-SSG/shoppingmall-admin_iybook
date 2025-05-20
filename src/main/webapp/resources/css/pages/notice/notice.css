@@ -71,7 +71,7 @@
 
 /* 내용 칸은 왼쪽 정렬, 길면 말줄임 */
 .notice-table tbody td:nth-child(3) {
-  text-align: left;
+  text-align: center;
   max-width: 350px;
   white-space: nowrap;
   overflow: hidden;
@@ -155,4 +155,34 @@
 
 .btn-delete:hover {
   background-color: #d32f2f;
+}
+
+.btn-blue {
+  background-color: #1976d2;
+}
+
+.btn-blue:hover {
+  background-color: #1565c0;
+}
+
+.btn-red {
+  background-color: #e67e22
+;
+}
+
+.btn-red:hover {
+  background-color: #e67e22
+;
+
+}
+
+.status-red {
+  color: #e67e22
+;
+  font-weight: bold;
+}
+
+.status-blue {
+  color: #1976d2;
+  font-weight: bold;
 }

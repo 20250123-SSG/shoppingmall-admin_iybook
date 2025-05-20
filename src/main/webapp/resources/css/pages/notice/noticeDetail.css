@@ -1,0 +1,145 @@
+.notice-detail-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.notice-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.notice-detail-table th {
+  background-color: var(--color-primary);
+  width: 140px;
+  font-weight: 700;        /* 더 진하게 */
+  color: #fff;
+  vertical-align: middle;  /* 세로 가운데 정렬 */
+  text-align: center;      /* 가운데 정렬 */
+  padding: 14px 18px;
+  border: 1px solid #e0e0e0;
+}
+
+.notice-detail-table td {
+  background-color: #fff;     /* 흰 배경 */
+  color: #333;                /* 일반 텍스트 색 */
+  padding: 14px 18px;
+  border: 1px solid #e0e0e0;
+  font-size: 15px;
+  line-height: 1.5;
+  vertical-align: top;
+  text-align: left;
+}
+
+
+
+.notice-detail-table td pre {
+  white-space: pre-wrap; /* 줄바꿈 유지 */
+  max-height: 300px;      /* 최대 높이 지정 */
+  overflow-y: auto;       /* 높이 초과 시 세로 스크롤 */
+  padding: 10px;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.notice-detail-actions {
+  margin-top: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 왼쪽 버튼 그룹 */
+.notice-detail-actions .left-buttons {
+  display: flex;
+  gap: 14px;
+}
+
+/* 버튼 기본 스타일 */
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* 목록으로 버튼 */
+.btn-list {
+  background-color: #4CAF50;
+}
+
+.btn-list:hover {
+  background-color: #45a049;
+}
+
+/* 숨겨놓기 / 게시하기 버튼 */
+.btn-toggle-status {
+  background-color: #f2994a;
+}
+
+.btn-toggle-status:hover {
+  background-color: #c76c14;
+}
+
+/* 삭제하기 버튼 - 오른쪽 고정 */
+.btn-delete {
+  background-color: #eb5757;
+}
+
+.btn-delete:hover {
+  background-color: #a83131;
+}
+
+.notice-title-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #333;
+  user-select: none;
+}
+
+.notice-id-badge {
+  background-color: #2f80ed;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(47, 128, 237, 0.25);
+}
+
+/* 게시하기 버튼 - 파란색 */
+.btn-publish {
+  background-color: #2f80ed;
+}
+
+.btn-publish:hover {
+  background-color: #2c80b4;
+}
+
+/* 숨겨놓기 버튼 - 주황색 */
+.btn-hide {
+  background-color: #f2994a;
+}
+
+.btn-hide:hover {
+  background-color: #c76c14;
+}

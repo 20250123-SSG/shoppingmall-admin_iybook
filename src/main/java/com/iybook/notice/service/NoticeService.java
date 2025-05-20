@@ -12,6 +12,8 @@ public interface NoticeService {
     int toggleNoticeHiddenStatus(int noticeId);
 
     void deleteNoticesByIds(List<Integer> noticeIds);
+    void deleteNoticeById(int noticeId);
+
 
     int registerNotice(NoticeDto notice, int userId);
 

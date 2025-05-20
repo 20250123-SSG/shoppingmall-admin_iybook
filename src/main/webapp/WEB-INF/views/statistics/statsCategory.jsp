@@ -12,7 +12,7 @@
 <div class="main">
   <h2 class="statistics-title">통계</h2>
 
-  <!-- 카테고리 조회 폼 -->
+  <!-- 날짜 & 단위 선택 -->
   <div class="stats-form-group">
     <label>시작일:
       <span id="start-container">
@@ -34,14 +34,15 @@
     <button type="button" id="search-btn">조회</button>
   </div>
 
-  <!-- 차트 -->
+  <!-- 카테고리별 통계 차트 -->
   <div class="chart-container">
-    <canvas id="myChart" width="600" height="300"></canvas>
+    <h3>전체 카테고리 통계 차트</h3>
+    <canvas id="categoryChart" width="800" height="300"></canvas>
   </div>
 
   <br>
 
-  <!-- 통계 테이블 -->
+  <!-- 통계 테이블 3종 -->
   <h3>전체 고객 기준</h3>
   <table border="1">
     <thead>
@@ -66,13 +67,17 @@
     <tbody id="age-body"></tbody>
   </table>
 
-<!-- 자바스크립트 -->
-<script>
-  const contextPath = "${contextPath}";
-</script>
+  <!-- JS 리소스 로딩 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <!-- ✨ contextPath 자바스크립트에서 쓸 수 있도록 먼저 선언 -->
+  <script>
+    const contextPath = "${contextPath}";
+  </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="${contextPath}/resources/js/pages/statistics.js"></script>
+  <!-- ✨ js 파일 (이 안에서 contextPath를 사용함!) -->
+  <script src="${contextPath}/resources/js/pages/statistics/statisticsCategory.js"></script>
+
+</div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

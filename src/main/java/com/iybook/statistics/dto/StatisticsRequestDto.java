@@ -2,6 +2,7 @@ package com.iybook.statistics.dto;
 
 import lombok.*;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

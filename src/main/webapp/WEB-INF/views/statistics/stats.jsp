@@ -66,6 +66,6 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="${contextPath}/resources/js/pages/statistics.js"></script>
+<script src="${contextPath}/resources/js/pages/statistics/statistics.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

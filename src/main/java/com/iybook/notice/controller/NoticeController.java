@@ -26,7 +26,7 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @GetMapping("/noticeList.page")
-    public String boardListPage(@RequestParam(value="page", defaultValue="1") int page, Model model){
+    public String boardListPage(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         log.debug("사용자가 요청한 페이지: {}", page);
 
         Map<String, Object> map = noticeService.getNoticesAndPaging(page);
@@ -45,8 +45,11 @@ public class NoticeController {
     }
 
     @PostMapping("/toggleStatus.do")
-    public String toggleStatus(@RequestParam int noticeId) {
-        noticeService.toggleNoticeHiddenStatus(noticeId);
+    public String toggleStatus(@RequestParam int noticeId, RedirectAttributes redirectAttributes) {
+        int result = noticeService.toggleNoticeHiddenStatus(noticeId);
+
+        redirectAttributes.addFlashAttribute("message", result > 0 ? "상태 변경 성공" : "상태 변경 실패");
+
         return "redirect:/notice/noticeList.page";
     }
 

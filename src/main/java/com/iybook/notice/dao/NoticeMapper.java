@@ -10,7 +10,7 @@ public interface NoticeMapper {
     int selectNoticeListCount();
     List<NoticeDto> selectNoticeList(Map<String, Object> map);
 
-    void updateNoticeHidden(@Param("noticeId") int noticeId, @Param("publishStatus") String publishStatus);
+    int updateNoticeHidden(@Param("noticeId") int noticeId, @Param("publishStatus") String publishStatus);
 
     int insertNotice(NoticeDto noticeDto);
 

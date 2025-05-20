@@ -57,6 +57,7 @@
       <table border="1">
         <thead>
         <tr>
+          <th width="40px">상세보기</th>
           <th>주문 ID</th>
           <th>고객 ID</th>
           <th>상태</th>
@@ -75,6 +76,10 @@
           <c:otherwise>
             <c:forEach var="order" items="${orderListResult.orderList}">
               <tr class="selectable-row">
+                <td id="order-detail-btn" style="text-align: center; cursor: pointer;"
+                    onclick="location.href='${contextPath}/sales/orderDetail.page?orderId=${order.orderId}';">
+                  👁
+                </td>
                 <td>${order.orderId}</td>
                 <td>${order.customerId}</td>
                 <c:choose>

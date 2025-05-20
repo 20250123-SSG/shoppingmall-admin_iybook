@@ -37,5 +37,4 @@ public class SettlementController {
         List<SettlementDto> list = settlementService.getAllSettlement();
         return list;
     }
-
 }

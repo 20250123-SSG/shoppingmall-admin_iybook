@@ -35,4 +35,27 @@
     from
       tbl_settlement
   </select>
+  <insert id="insertSettlement" keyProperty="stId" useGeneratedKeys="true" parameterType="Settlement">
+    insert into
+      tbl_settlement
+      (
+        order_id
+      , st_date
+      , ex_date
+      , comp_date
+      , st_price
+      , st_Status
+      , tax
+      )
+    values
+      (
+        #{orderId}
+      , #{stDate}
+      , #{exDate}
+      , #{compDate}
+      , #{stPrice}
+      , #{stStatus}
+      , #{tax}
+      )
+  </insert>
 </mapper>

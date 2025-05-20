@@ -14,7 +14,6 @@
         <result column="book_description" property="bookDescription"/>
         <result column="category_id" property="categoryId"/>
         <result column="published_at" property="publishedAt"/>
-        <result column="created_at" property="createdAt"/>
         <result column="updated_at" property="updatedAt"/>
         <result column="publish_status" property="publishStatus"/>
         <result column="stock" property="stock"/>

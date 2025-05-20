@@ -5,8 +5,21 @@
 <configuration>
 
   <typeAliases>
+    <typeAlias type="com.iybook.product.dto.BookDto" alias="BookDto"/>
+    <typeAlias type="com.iybook.product.dto.CategoryDto" alias="CategoryDto"/>
+    <typeAlias type="com.iybook.product.dto.BookFilterDto" alias="BookFilterDto"/>
+    <typeAlias type="com.iybook.product.dto.BookStatsDto" alias="BookStatsDto"/>
+    <typeAlias type="com.iybook.settlement.dto.SettlementDto" alias="Settlement"/>
+    <typeAlias type="com.iybook.main.dto.UserDto" alias="UserDto"/>
+    <typeAlias type="com.iybook.sales.dto.OrderDto" alias="OrderDto"/>
+    <typeAlias type="com.iybook.sales.dto.OrderRequestFilterDto" alias="OrderRequestFilterDto"/>
+    <typeAlias type="com.iybook.sales.dto.SingleOrderPagingRequestDto" alias="SingleOrderPagingRequestDto"/>
+    <typeAlias type="com.iybook.notice.dto.NoticeDto" alias="NoticeDto"/>
     <typeAlias type="com.iybook.statistics.dto.StatisticsSalesDto" alias="StatisticsSalesDto"/>
     <typeAlias type="com.iybook.statistics.dto.StatisticsRequestDto" alias="StatisticsRequestDto"/>
   </typeAliases>
 
+  <typeHandlers>
+    <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+  </typeHandlers>
 </configuration>

@@ -1,0 +1,158 @@
+.notice-container {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--color-text);
+}
+
+.notice-container h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: 8px;
+  color: var(--color-primary);
+}
+
+/* 테이블 기본 스타일 */
+.notice-table {
+  width: 100%;
+  border-collapse: collapse;  /* 경계선 겹침 제거 */
+  background-color: var(--color-surface);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+/* 헤더 */
+.notice-table thead {
+  background-color: var(--color-primary);
+  color: var(--color-table-th);
+  font-weight: 600;
+  text-align: center;
+}
+
+.notice-table th,
+.notice-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--color-table-bg);
+  border-right: 1px solid var(--color-table-bg); /* 세로줄 추가 */
+  vertical-align: middle;
+}
+
+.notice-table th:last-child,
+.notice-table td:last-child {
+  border-right: none;
+}
+
+/* 테이블 바디 행 */
+.notice-table tbody tr:hover {
+  background-color: var(--color-table-bg);
+}
+
+/* 셀 텍스트 정렬 */
+.notice-table tbody td {
+  text-align: center;
+  color: var(--color-text);
+}
+
+/* 제목 링크 */
+.notice-table tbody td a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.notice-table tbody td a:hover {
+  text-decoration: underline;
+}
+
+/* 내용 칸은 왼쪽 정렬, 길면 말줄임 */
+.notice-table tbody td:nth-child(3) {
+  text-align: left;
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 버튼 스타일 */
+.notice-table tbody td form button {
+  background-color: var(--color-primary);
+  border: none;
+  color: var(--color-table-th);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.notice-table tbody td form button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination-list {
+  list-style: none;
+  display: inline-flex;
+  padding: 0;
+}
+
+.pagination-list li {
+  margin: 0 5px;
+}
+
+.pagination-list a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.pagination-list li.active a {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.btn-register {
+  background-color: #4CAF50;
+  color: white;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.btn-register:hover {
+  background-color: #45a049;
+}
+
+.btn-register, .btn-delete {
+  background-color: #4CAF50;
+  color: white;
+  padding: 6px 12px;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.btn-delete {
+  background-color: #f44336;
+}
+
+.btn-delete:hover {
+  background-color: #d32f2f;
+}

@@ -4,4 +4,95 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iybook.sales.dao.SalesMapper">
 
+    <resultMap id="orderResultMap" type="OrderDto">
+        <id column="order_id" property="orderId"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="order_total_count" property="orderTotalCount"/>
+        <result column="order_total_price" property="orderTotalPrice"/>
+        <result column="payment" property="payment"/>
+        <result column="order_memo" property="orderMemo"/>
+        <result column="created_at" property="orderDate"/>
+    </resultMap>
+
+    
+    <select id="selectOrderListCountByFilter" parameterType="OrderRequestFilterDto" resultType="_int">
+        select
+            count(*)
+        from
+            tbl_order
+        <where>
+            <if test="orderId != null and orderId != ''">
+                AND order_id = #{orderId}
+            </if>
+            <if test="customerId != null and customerId != ''">
+                AND customer_id = #{customerId}
+            </if>
+            <if test="orderStatus != null and orderStatus.size() > 0">
+                AND order_status IN
+                <foreach collection="orderStatus" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND created_at &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND created_at &lt;= date_add(#{endDate}, interval 1 day)
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderListByFilterWithPaging" parameterType="SingleOrderPagingRequestDto" resultMap="orderResultMap">
+        select
+            order_id
+          , customer_id
+          , order_status
+          , order_total_count
+          , order_total_price
+          , payment
+          , order_memo
+          , created_at
+        from
+            tbl_order
+        <where>
+            <if test="filter.orderId != null and filter.orderId != ''">
+                AND order_id = #{filter.orderId}
+            </if>
+            <if test="filter.customerId != null and filter.customerId != ''">
+                AND customer_id = #{filter.customerId}
+            </if>
+            <if test="filter.orderStatus != null and filter.orderStatus.size() > 0">
+                AND order_status IN
+                <foreach collection="filter.orderStatus" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="filter.startDate != null and filter.startDate != ''">
+                AND created_at &gt;= #{filter.startDate}
+            </if>
+            <if test="filter.endDate != null and filter.endDate != ''">
+                AND created_at &lt;= date_add(#{filter.endDate}, interval 1 day)
+            </if>
+        </where>
+        order by
+            order_id desc
+        limit
+            #{offset}, #{display}
+    </select>
+
+    <select id="selectOrderListByIdForChangeStatus" parameterType="list" resultMap="orderResultMap">
+        select
+            order_id
+          , order_status
+          , created_at
+        from
+            tbl_order
+        where
+            order_id in
+        <foreach collection="orderIdList" item="orderId" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </select>
+
 </mapper>

@@ -15,6 +15,9 @@
     <typeAlias type="com.iybook.sales.dto.request.OrderRequestFilterDto" alias="OrderRequestFilterDto"/>
     <typeAlias type="com.iybook.sales.dto.request.SingleOrderPagingRequestDto" alias="SingleOrderPagingRequestDto"/>
     <typeAlias type="com.iybook.sales.dto.request.OrderStatusUpdateDto" alias="OrderStatusUpdateDto"/>
+    <typeAlias type="com.iybook.sales.dto.response.OrderDetailResponseDto" alias="OrderDetailResponseDto"/>
+    <typeAlias type="com.iybook.sales.dto.response.OrderResponseDto" alias="OrderResponseDto"/>
+    <typeAlias type="com.iybook.sales.dto.CustomerDto" alias="CustomerDto"/>
     <typeAlias type="com.iybook.notice.dto.NoticeDto" alias="NoticeDto"/>
     <typeAlias type="com.iybook.statistics.dto.StatisticsSalesDto" alias="StatisticsSalesDto"/>
     <typeAlias type="com.iybook.statistics.dto.StatisticsRequestDto" alias="StatisticsRequestDto"/>

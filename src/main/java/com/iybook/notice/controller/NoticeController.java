@@ -23,6 +23,17 @@ public class NoticeController {
 
     private final NoticeService noticeService;
 
+    @GetMapping("/noticeDetail.do")
+    public String getNoticeDetail(@RequestParam("noticeId") int noticeId, Model model, RedirectAttributes redirectAttributes) {
+        NoticeDto notice = noticeService.getNoticeDetail(noticeId);
+        if (notice == null) {
+            redirectAttributes.addFlashAttribute("message", "존재하지 않는 공지사항입니다.");
+            return "redirect:/notice/noticeList.page";
+        }
+        model.addAttribute("notice", notice);
+        return "notice/noticeDetail";
+    }
+
     @GetMapping("/noticeList.page")
     public String boardListPage(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         log.debug("사용자가 요청한 페이지: {}", page);
@@ -43,20 +54,14 @@ public class NoticeController {
     }
 
     @PostMapping("/toggleStatus.do")
-    @ResponseBody
-    public Map<String, Object> toggleStatus(@RequestParam int noticeId) {
+    public String toggleStatus(@RequestParam int noticeId, RedirectAttributes redirectAttributes) {
         int result = noticeService.toggleNoticeHiddenStatus(noticeId);
-        Map<String, Object> response = new HashMap<>();
         if (result > 0) {
-            NoticeDto updated = noticeService.getNoticeDetail(noticeId); // 변경된 값 조회
-            response.put("success", true);
-            response.put("publishStatus", updated.getPublishStatus());
-            response.put("updatedAt", updated.getUpdatedAt());
+            redirectAttributes.addFlashAttribute("message", "상태가 변경되었습니다.");
         } else {
-            response.put("success", false);
-            response.put("message", "상태 변경 실패");
+            redirectAttributes.addFlashAttribute("message", "상태 변경에 실패했습니다.");
         }
-        return response;
+        return "redirect:/notice/noticeList.page";
     }
 
     @PostMapping("/regist.do")
@@ -72,6 +77,17 @@ public class NoticeController {
         int result = noticeService.registerNotice(notice, loginUser.getUserId());
 
         redirectAttributes.addFlashAttribute("message", result > 0 ? "등록 성공" : "등록 실패");
+        return "redirect:/notice/noticeList.page";
+    }
+
+    @PostMapping("/delete.do")
+    public String deleteNotice(@RequestParam("noticeId") int noticeId, RedirectAttributes redirectAttributes) {
+        try {
+            noticeService.deleteNoticeById(noticeId);
+            redirectAttributes.addFlashAttribute("message", "공지사항이 삭제되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "공지사항 삭제 중 오류가 발생했습니다.");
+        }
         return "redirect:/notice/noticeList.page";
     }
 

@@ -48,13 +48,11 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public NoticeDto getNoticeDetail(int no) {
+    public NoticeDto getNoticeDetail(int noticeId) {
 
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
-        NoticeDto notice = noticeMapper.selectNoticeById(no);
-
-        return notice;
+        return noticeMapper.selectNoticeById(noticeId);
     }
 
     @Override
@@ -62,5 +60,12 @@ public class NoticeServiceImpl implements NoticeService {
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
         noticeMapper.deleteNoticesByIds(noticeIds);
+    }
+
+    @Override
+    public void deleteNoticeById(int noticeId) {
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+
+        noticeMapper.deleteById(noticeId);
     }
 }

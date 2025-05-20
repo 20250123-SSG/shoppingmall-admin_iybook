@@ -39,7 +39,6 @@ public class OrderRequestFilterDto {
         );
     }
 
-    /// 어차피 jsp파일에서 주문완료 체크박스를 checked disabled 설정하는데 필요할까? -> 필요하긴하다 물론
     public static OrderRequestFilterDto initOrderControl() {
         LocalDate today = LocalDate.now();
 

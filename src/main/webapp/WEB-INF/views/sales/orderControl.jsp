@@ -10,6 +10,11 @@
 
 <div class="main">
 
+  <c:if test="${not empty message}">
+    <script>alert('${message}');</script>
+  </c:if>
+
+
   <form action="${contextPath}/sales/orderControl.page" method="GET" class="content-section" id="search-form">
     <div class="search-sales-group">
       <div class="search-sales-period-group">
@@ -29,8 +34,8 @@
       </div>
       <div class="order-status-checkboxes">
         <label class="option-name">주문 상태</label>
-        <input type="hidden" id="filterOrderStatus" value="${filter.orderStatus}">
-        <label><input type="checkbox" name="orderStatus" value="주문완료" checked disabled> 주문완료</label>
+        <input type="hidden" name="orderStatus" value="주문완료">
+        <input type="checkbox" checked disabled> 주문완료
       </div>
       <div class="search-sales-userId-group">
         <label for="customerId" class="option-name">사용자 ID</label>
@@ -93,11 +98,11 @@
                 </td>
                 <td>${order.orderId}</td>
                 <td>${order.customerId}</td>
-                <td>${order.orderStatus}</td>
-                <td><fmt:formatNumber value="${order.orderTotalCount}"/></td>
-                <td><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
-                <td>${order.payment}</td>
-                <td>${order.getFormattedOrderDate()}</td>
+                <td style="text-align: center">${order.orderStatus}</td>
+                <td style="text-align: right"><fmt:formatNumber value="${order.orderTotalCount}"/></td>
+                <td style="text-align: right"><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
+                <td style="text-align: center">${order.payment}</td>
+                <td style="text-align: center">${order.getFormattedOrderDate()}</td>
               </tr>
             </c:forEach>
           </c:otherwise>

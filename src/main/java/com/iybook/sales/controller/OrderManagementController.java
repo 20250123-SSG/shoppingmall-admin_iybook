@@ -2,12 +2,14 @@ package com.iybook.sales.controller;
 
 import com.iybook.sales.dto.OrderListResponseDto;
 import com.iybook.sales.dto.OrderRequestFilterDto;
+import com.iybook.sales.dto.OrderStatusChangeResult;
 import com.iybook.sales.service.SalesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,19 +57,19 @@ public class OrderManagementController {
     }
 
     @PostMapping("/acceptOrders.do")
-    public String acceptOrders(@RequestParam String selectedOrderIds) {
-        log.debug(selectedOrderIds);
+    public String acceptOrders(@RequestParam String selectedOrderIds, RedirectAttributes redirectAttributes) {
         List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
-        log.debug("orderIdList = {}",orderIdList);
 
+        OrderStatusChangeResult result = salesService.acceptOrder(orderIdList);
 
-
-        salesService.acceptOrder(orderIdList);
-
-
-
-        /// orderIdList로 배송완료로 상태 변경
-        return "redirect:/sales/salesList.page";
+        if(result.failedIds().isEmpty()) {
+            redirectAttributes.addFlashAttribute("message",
+                    String.format("총 %,d건 주문을 수락하였습니다.", result.successIds().size()));
+        }else {
+            redirectAttributes.addFlashAttribute("message",
+                    String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.failedIds())));
+        }
+        return "redirect:/sales/orderControl.page";
     }
 
     @PostMapping("/cancelOrders.do")
@@ -76,7 +78,7 @@ public class OrderManagementController {
         log.debug("orderIdList = {}",orderIdList);
 
         /// orderIdList로 취소완료로 상태 변경
-        return "redirect:/sales/salesList.page";
+        return "redirect:/sales/orderControl.page";
     }
 
 }

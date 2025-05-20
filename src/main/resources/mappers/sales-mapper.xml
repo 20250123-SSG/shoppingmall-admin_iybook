@@ -16,6 +16,29 @@
         <result column="updated_at" property="updateDate"/>
     </resultMap>
 
+    <resultMap id="orderDetailResultMap" type="OrderResponseDto">
+        <id column="order_id" property="orderId"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="order_total_count" property="orderTotalCount"/>
+        <result column="order_total_price" property="orderTotalPrice"/>
+        <result column="payment" property="payment"/>
+        <result column="order_memo" property="orderMemo"/>
+        <result column="created_at" property="orderDate"/>
+        <result column="updated_at" property="updateDate"/>
+        <association property="customer" javaType="CustomerDto">
+            <id column="customer_id" property="customerId"/>
+            <result column="customer_name" property="customerName"/>
+            <result column="customer_address" property="customerAddress"/>
+        </association>
+        <collection property="orderDetail" javaType="OrderDetailResponseDto">
+            <id column="order_detail_id" property="orderDetailId"/>
+            <id column="book_id" property="bookId"/>
+            <result column="book_name" property="bookName"/>
+            <result column="order_detail_total_count" property="orderDetailTotalCount"/>
+            <result column="order_detail_total_price" property="orderDetailTotalPrice"/>
+        </collection>
+    </resultMap>
+
     
     <select id="selectOrderListCountByFilter" parameterType="OrderRequestFilterDto">
         select

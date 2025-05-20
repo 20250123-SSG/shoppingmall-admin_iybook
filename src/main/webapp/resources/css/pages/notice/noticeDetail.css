@@ -81,11 +81,11 @@
 
 /* 목록으로 버튼 */
 .btn-list {
-  background-color: #2f80ed;
+  background-color: #4CAF50;
 }
 
 .btn-list:hover {
-  background-color: #1366d6;
+  background-color: #45a049;
 }
 
 /* 숨겨놓기 / 게시하기 버튼 */
@@ -124,4 +124,22 @@
   padding: 4px 12px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(47, 128, 237, 0.25);
+}
+
+/* 게시하기 버튼 - 파란색 */
+.btn-publish {
+  background-color: #2f80ed;
+}
+
+.btn-publish:hover {
+  background-color: #2c80b4;
+}
+
+/* 숨겨놓기 버튼 - 주황색 */
+.btn-hide {
+  background-color: #f2994a;
+}
+
+.btn-hide:hover {
+  background-color: #c76c14;
 }

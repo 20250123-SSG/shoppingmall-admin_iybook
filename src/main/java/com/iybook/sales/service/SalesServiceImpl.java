@@ -94,64 +94,49 @@ public class SalesServiceImpl implements SalesService {
         );
     }
 
+    @Override
+    public Map<String, List<String>> cancelOrders(List<String> orderIdList) {
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
 
+        List<OrderDto> orderList = getOrderListForChangeStatus(orderIdList, salesMapper);
 
+        List<String> success = new ArrayList<>();
+        List<String> fail = new ArrayList<>();
 
+        for (OrderDto order : orderList) {
+            try{
+                int result = salesMapper.updateOrderStatusByOrderId(
+                        new OrderStatusUpdateDto(
+                                order,
+                                OrderStatus.COMPLETED.getValue(),
+                                OrderStatus.CANCELED.getValue()
+                        )
+                );
+                if (result == 1) {
+                    success.add(order.getOrderId());
+                } else {
+                    fail.add(order.getOrderId());
+                }
+            }catch (Exception e) {
+                fail.add(order.getOrderId());
+            }
+        }
 
-
-    public void cancelOrder() {
+        return Map.of(
+                "success", success,
+                "fail", fail
+        );
     }
 
-    public void approveCancelRequest() {
+
+    public void approveCancelRequestOrders() {
     }
 
-    public void rejectCancelRequest() {
+    public void rejectCancelRequestOrders() {
     }
-
-
-
-//    @Transactional
-//    public void 주문처리부모메서드(List<String> orderIdList) {
-//        for(String orderId : orderIdList) {
-//
-//        }
-//    }
-//
-//    @Transactional(propagation = REQUIRES_NEW)
-//    public void 주문하나하나처리자식메서드(String orderId, String orderStatus) {
-//
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private List<OrderDto> getOrderListForChangeStatus(List<String> orderIdList, SalesMapper salesMapper) {
         return salesMapper.selectOrderListByIdForChangeStatus(orderIdList);
     }
-
-
-//    //이거를 꼭 validateOrderList로 가져올 이유가 없디ㅏ.
-//    private List<OrderDto> getValidOrderList(List<OrderDto> orderList, String orderStatus) {
-//        return orderList.stream()
-//                .filter(order -> order.getOrderStatus().equals(orderStatus))
-//                .toList();
-//    }
-//
-//    private List<OrderDto> getInvalidOrders(List<OrderDto> orderList, String orderStatus) {
-//        return orderList.stream()
-//                .filter(order -> !order.getOrderStatus().equals(orderStatus))
-//                .toList();
-//    }
 
 }

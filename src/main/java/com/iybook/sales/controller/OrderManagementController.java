@@ -14,20 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 주문 통합 조회와 다른 점
- *
- * 주 행동
- * - 주문완료 -> 배송완료 or 취소완료
- *
- * 기본 orderStatus
- * - 주문 완료 + 오늘
- *
- * 필요한 orderStatus는
- * - 주문 완료
- *
- *
- */
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/sales")
@@ -73,11 +59,18 @@ public class OrderManagementController {
     }
 
     @PostMapping("/cancelOrders.do")
-    public String cancelOrders(@RequestParam String selectedOrderIds) {
+    public String cancelOrders(@RequestParam String selectedOrderIds, RedirectAttributes redirectAttributes) {
         List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
-        log.debug("orderIdList = {}",orderIdList);
 
-        /// orderIdList로 취소완료로 상태 변경
+        Map<String, List<String>> result = salesService.cancelOrders(orderIdList);
+
+        if(result.get("fail").isEmpty()) {
+            redirectAttributes.addFlashAttribute("message",
+                    String.format("총 %,d건 주문을 취소하였습니다.", result.get("success").size()));
+        }else {
+            redirectAttributes.addFlashAttribute("message",
+                    String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.get("fail"))));
+        }
         return "redirect:/sales/orderControl.page";
     }
 

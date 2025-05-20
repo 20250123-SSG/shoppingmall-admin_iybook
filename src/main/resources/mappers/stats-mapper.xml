@@ -5,7 +5,7 @@
 <mapper namespace="com.iybook.statistics.dao.StatisticsMapper">
 
     <!-- 일별 통계 -->
-    <select id="selectDailyStatistics" resultType="StatisticsSalesDto">
+    <select id="selectDailyStatistics" parameterType="StatisticsRequestDto" resultType="StatisticsSalesDto">
       SELECT
         DATE_FORMAT(o.created_at, '%Y-%m-%d') AS statisticsDate,
         SUM(od.order_detail_total_price) AS totalSales,
@@ -19,7 +19,7 @@
     </select>
 
     <!-- 월별 통계 -->
-    <select id="selectMonthlyStatistics" resultType="StatisticsSalesDto">
+    <select id="selectMonthlyStatistics" parameterType="StatisticsRequestDto" resultType="StatisticsSalesDto">
       SELECT
         DATE_FORMAT(o.created_at, '%Y-%m') AS statisticsDate,
         SUM(od.order_detail_total_price) AS totalSales,
@@ -33,7 +33,7 @@
     </select>
 
     <!-- 연별 통계 -->
-    <select id="selectYearlyStatistics" resultType="StatisticsSalesDto">
+    <select id="selectYearlyStatistics" parameterType="StatisticsRequestDto" resultType="StatisticsSalesDto">
       SELECT
         DATE_FORMAT(o.created_at, '%Y') AS statisticsDate,
         SUM(od.order_detail_total_price) AS totalSales,
@@ -46,6 +46,7 @@
       ORDER BY statisticsDate
     </select>
 
+
     <!-- 카테고리 통계 -->
 
     <!-- 전체 고객 -->
@@ -53,14 +54,14 @@
       parameterType="StatisticsRequestDto">
 
       SELECT
-        c.categroy_name AS categoryName,
+        c.category_name AS categoryName,
         COUNT(*) AS orderCount
       FROM tbl_order o
         JOIN tbl_order_detail od ON o.order_id = od.order_id
         JOIN tbl_book b ON od.book_id = b.book_id
         JOIN tbl_category c ON b.category_id = c.category_id
       WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
-      GROUP BY c.categroy_name
+      GROUP BY c.category_name
       ORDER BY orderCount DESC
     </select>
 
@@ -69,7 +70,7 @@
     parameterType="StatisticsRequestDto">
       SELECT
         cu.customer_gender AS gender,
-        c.categroy_name AS categoryName,
+        c.category_name AS categoryName,
         COUNT(*) AS orderCount
       FROM tbl_order o
         JOIN tbl_order_detail od ON o.order_id = od.order_id
@@ -77,9 +78,10 @@
         JOIN tbl_category c ON b.category_id = c.category_id
         JOIN tbl_customer cu ON o.customer_id = cu.customer_id
       WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
-      GROUP BY cu.customer_gender, c.categroy_name
+      GROUP BY cu.customer_gender, c.category_name
       ORDER BY cu.customer_gender, orderCount DESC
     </select>
+
     <!-- 나이 기준 -->
     <select id="selectCategoryAgeStatistics" resultType="StatisticsCategoryDto"
       parameterType="StatisticsRequestDto">
@@ -91,7 +93,7 @@
         WHEN cu.customer_age BETWEEN 40 AND 49 THEN '40대'
         ELSE '50대 이상'
       END AS ageGroup,
-        c.categroy_name AS categoryName,
+        c.category_name AS categoryName,
         COUNT(*) AS orderCount
       FROM tbl_order o
         JOIN tbl_order_detail od ON o.order_id = od.order_id
@@ -99,7 +101,7 @@
         JOIN tbl_category c ON b.category_id = c.category_id
         JOIN tbl_customer cu ON o.customer_id = cu.customer_id
       WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
-      GROUP BY ageGroup, c.categroy_name
+      GROUP BY ageGroup, c.category_name
       ORDER BY ageGroup, orderCount DESC
     </select>
   </mapper>

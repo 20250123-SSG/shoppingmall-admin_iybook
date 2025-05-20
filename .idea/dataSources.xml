@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@ssg-7.iptime.org" uuid="01d4547b-10bf-413b-b547-08373e47b046">
+    <data-source source="LOCAL" name="iybookstestdb@localhost" uuid="3e1d41d6-6df0-4686-a18c-ab5a1e438684">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://ssg-7.iptime.org:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/iybookstestdb</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

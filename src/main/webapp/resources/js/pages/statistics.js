@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  loadMonthlySettlementChart();
   document.querySelectorAll('.clickable-row').forEach(row => {
     row.addEventListener('click', () => {
       const date = row.dataset.date;
@@ -217,6 +218,62 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx2d.fillText('차트 데이터를 불러오는데 실패했습니다.', ctx.width / 2, ctx.height / 2);
       });
   }
-    document.addEventListener('DOMContentLoaded', loadMonthlySettlementChart);
 
-});
+
+  // 예시
+  document.getElementById('search-btn').addEventListener('click', () => {
+    const granularity = document.getElementById('granularity').value;
+    let startDate = document.getElementById('start-date').value;
+    let endDate = document.getElementById('end-date').value;
+
+    if (!startDate || !endDate) {
+      alert("시작일과 종료일을 모두 선택해주세요.");
+      return;
+    }
+
+    // 날짜 보정
+    if (granularity === 'YEAR') {
+      startDate += '-01-01';
+      endDate += '-12-31';
+    } else if (granularity === 'MONTH') {
+      const [y, m] = endDate.split('-');
+      const endDay = new Date(y, m, 0).getDate();
+      startDate += '-01';
+      endDate += `-${endDay}`;
+    }
+
+    // 1. 요약 통계 (차트 + 표)
+    loadSalesChart(startDate, endDate, granularity);
+    fetch(`${contextPath}/statistics/summary.do?startDate=${startDate}&endDate=${endDate}&granularity=${granularity}`)
+      .then(res => res.json())
+      .then(data => renderSummaryTable(data, granularity));
+
+    // 2. 카테고리 통계
+    fetch(`${contextPath}/statistics/category/all?startDate=${startDate}&endDate=${endDate}&granularity=${granularity}`)
+      .then(res => res.json())
+      .then(data => renderTable(data, 'all-body'));
+
+    fetch(`${contextPath}/statistics/category/gender?startDate=${startDate}&endDate=${endDate}&granularity=${granularity}`)
+      .then(res => res.json())
+      .then(data => renderTable(data, 'gender-body'));
+
+    fetch(`${contextPath}/statistics/category/age?startDate=${startDate}&endDate=${endDate}&granularity=${granularity}`)
+      .then(res => res.json())
+      .then(data => renderTable(data, 'age-body'));
+  });
+
+  function renderTable(data, tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    tbody.innerHTML = '';
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      if (row.gender) {
+        tr.innerHTML = `<td>${row.gender}</td><td>${row.categoryName}</td><td>${row.orderCount}</td>`;
+      } else if (row.ageGroup) {
+        tr.innerHTML = `<td>${row.ageGroup}</td><td>${row.categoryName}</td><td>${row.orderCount}</td>`;
+      } else {
+        tr.innerHTML = `<td>${row.categoryName}</td><td>${row.orderCount}</td>`;
+      }
+      tbody.appendChild(tr);
+    });
+  }

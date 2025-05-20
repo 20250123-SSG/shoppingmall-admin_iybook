@@ -1,7 +1,7 @@
 package com.iybook.sales.service;
 
-import com.iybook.sales.dto.OrderListResponseDto;
-import com.iybook.sales.dto.OrderRequestFilterDto;
+import com.iybook.sales.dto.response.OrderListResponseDto;
+import com.iybook.sales.dto.request.OrderRequestFilterDto;
 
 import java.util.List;
 import java.util.Map;

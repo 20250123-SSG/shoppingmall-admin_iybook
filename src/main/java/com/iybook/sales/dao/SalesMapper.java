@@ -1,9 +1,9 @@
 package com.iybook.sales.dao;
 
 import com.iybook.sales.dto.OrderDto;
-import com.iybook.sales.dto.OrderStatusUpdateDto;
-import com.iybook.sales.dto.SingleOrderPagingRequestDto;
-import com.iybook.sales.dto.OrderRequestFilterDto;
+import com.iybook.sales.dto.request.OrderStatusUpdateDto;
+import com.iybook.sales.dto.request.SingleOrderPagingRequestDto;
+import com.iybook.sales.dto.request.OrderRequestFilterDto;
 
 import java.util.List;
 

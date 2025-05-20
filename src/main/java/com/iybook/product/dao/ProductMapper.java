@@ -16,4 +16,5 @@ public interface ProductMapper {
     int updatePublishStatus(Map<String, Object> map);
     BookStatsDto selectBookStats();
     List<CategoryDto> selectCategoryList();
+    int deleteBooks(List<String> bookIds);
 }

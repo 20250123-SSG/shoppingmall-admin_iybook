@@ -10,99 +10,128 @@
 
 <div class="main">
     <div class="notice-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>공지사항</h2>
+            <c:if test="${not empty message}">
+                <script>alert("${message}");</script>
+            </c:if>
 
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2>공지사항</h2>
-                <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">
-                    <a href="${contextPath}/notice/noticeForm.page" class="btn-register">등록</a>
-                    <form id="deleteForm" action="${contextPath}/notice/deleteSelected.do" method="post" onsubmit="return confirm('선택한 공지사항을 삭제하시겠습니까?')" style="margin:0;">
-                        <button type="submit" class="btn-delete">선택 삭제</button>
-                    </form>
-                </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">
+                <a href="${contextPath}/notice/registNotice.page" class="btn-register">등록</a>
+                <form id="deleteForm" action="${contextPath}/notice/deleteSelected.do" method="post" onsubmit="return handleDeleteSubmit()" style="margin:0;">
+                    <button type="submit" class="btn-delete">선택 삭제</button>
+                </form>
             </div>
+        </div>
 
-            <table class="notice-table">
-                <thead>
+        <table class="notice-table">
+            <thead>
+            <tr>
+                <th><input type="checkbox" onclick="toggleAll(this)"/></th>
+                <th>No</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>생성일</th>
+                <th>수정일</th>
+                <th>숨김 여부</th>
+                <th>상태 변경</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="notice" items="${list}" varStatus="status">
                 <tr>
-                    <th><input type="checkbox" onclick="toggleAll(this)"/></th>
-                    <th>No</th>
-                    <th>제목</th>
-                    <th>내용</th>
-                    <th>생성일</th>
-                    <th>수정일</th>
-                    <th>숨김 여부</th>
-                    <th>상태 변경</th>
+                    <td><input type="checkbox" class="delete-check" value="${notice.noticeId}"/></td>
+                    <td>${notice.noticeId}</td>
+                    <td><a href="noticeDetail.do?noticeId=${notice.noticeId}">${notice.title}</a></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${fn:length(notice.description) > 30}">
+                                ${fn:substring(notice.description, 0, 30)}...
+                            </c:when>
+                            <c:otherwise>
+                                ${notice.description}
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>${notice.createdAt}</td>
+                    <td>${notice.updatedAt}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${notice.publishStatus == '숨김'}">숨김</c:when>
+                            <c:otherwise>게시</c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <button type="button" class="toggle-btn" onclick="toggleStatus(${notice.noticeId})">
+                            <c:choose>
+                                <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
+                                <c:otherwise>숨겨놓기</c:otherwise>
+                            </c:choose>
+                        </button>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="notice" items="${list}" varStatus="status">
-                    <tr>
-                        <td><input type="checkbox" name="noticeIds[]" value="${notice.noticeId}"/></td>
-                        <td>${notice.noticeId}</td>
-                        <td>
-                            <a href="noticeDetail.do?noticeId=${notice.noticeId}">
-                                    ${notice.title}
-                            </a>
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${fn:length(notice.description) > 30}">
-                                    ${fn:substring(notice.description, 0, 30)}...
-                                </c:when>
-                                <c:otherwise>
-                                    ${notice.description}
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>${notice.createdAt}</td>
-                        <td>${notice.updatedAt}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${notice.publishStatus == '숨김'}">숨김</c:when>
-                                <c:otherwise>게시</c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <form action="${contextPath}/notice/toggleStatus.do" method="post" style="margin:0;">
-                                <input type="hidden" name="noticeId" value="${notice.noticeId}" />
-                                <button type="submit">
-                                    <c:choose>
-                                        <c:when test="${notice.publishStatus == '숨김'}">게시하기</c:when>
-                                        <c:otherwise>숨겨놓기</c:otherwise>
-                                    </c:choose>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </c:forEach>
-                <c:if test="${empty list}">
-                    <tr>
-                        <td colspan="8">등록된 공지사항이 없습니다.</td>
-                    </tr>
-                </c:if>
-                </tbody>
-            </table>
+            </c:forEach>
+            <c:if test="${empty list}">
+                <tr><td colspan="8">등록된 공지사항이 없습니다.</td></tr>
+            </c:if>
+            </tbody>
+        </table>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // 전체 선택 체크박스 함수 (기존)
-            window.toggleAll = function(checkbox) {
-                const checkboxes = document.querySelectorAll('input[name="noticeIds[]"]');
-                checkboxes.forEach(cb => cb.checked = checkbox.checked);
+        function toggleAll(masterCheckbox) {
+            const checkboxes = document.querySelectorAll('.delete-check');
+            checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        }
+
+        function handleDeleteSubmit() {
+            const form = document.getElementById("deleteForm");
+
+            // 기존 hidden inputs 제거
+            form.querySelectorAll('input[name="noticeIds[]"]').forEach(input => input.remove());
+
+            // 체크된 공지사항 수집
+            const checked = document.querySelectorAll('.delete-check:checked');
+            if (checked.length === 0) {
+                alert("삭제할 공지사항을 하나 이상 선택해주세요.");
+                return false;
             }
 
-            // 폼 submit 이벤트 핸들러 추가
-            const form = document.querySelector('form[action$="deleteSelected.do"]');
-            form.addEventListener('submit', (e) => {
-                const checkedBoxes = form.querySelectorAll('input[name="noticeIds[]"]:checked');
-                if (checkedBoxes.length === 0) {
-                    e.preventDefault(); // 폼 제출 막기
-                    alert('삭제할 공지사항을 하나 이상 선택해주세요.');
-                    return false;
-                }
+            // hidden input 동적 추가
+            checked.forEach(cb => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "noticeIds[]";
+                input.value = cb.value;
+                form.appendChild(input);
             });
-        });
+
+            return confirm("선택한 공지사항을 삭제하시겠습니까?");
+        }
+
+        function toggleStatus(noticeId) {
+            if (!confirm("상태를 변경하시겠습니까?")) return;
+
+            fetch("${contextPath}/notice/toggleStatus.do", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "noticeId=" + encodeURIComponent(noticeId)
+            })
+              .then(res => res.json())
+              .then(data => {
+                  if (data.success) {
+                      alert("상태 변경 성공");
+                      location.reload(); // 또는 DOM을 직접 갱신
+                  } else {
+                      alert(data.message || "상태 변경 실패");
+                  }
+              })
+              .catch(err => {
+                  console.error("오류 발생:", err);
+              });
+        }
     </script>
 
     <!-- 공지사항 테이블 아래에 페이징 영역 추가 -->

@@ -1,17 +1,17 @@
 package com.iybook.notice.controller;
 
+import com.iybook.main.dto.UserDto;
 import com.iybook.notice.dto.NoticeDto;
 import com.iybook.notice.service.NoticeService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @GetMapping("/noticeList.page")
-    public String boardListPage(@RequestParam(value="page", defaultValue="1") int page, Model model){
+    public String boardListPage(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         log.debug("사용자가 요청한 페이지: {}", page);
 
         Map<String, Object> map = noticeService.getNoticesAndPaging(page);
@@ -37,14 +37,41 @@ public class NoticeController {
         return "notice/noticeList";
     }
 
-    @GetMapping("/noticeForm.page")
-    public String showNoticeForm() {
+    @GetMapping("/registNotice.page")
+    public String showRegistNotice() {
         return "notice/registNotice";
     }
 
     @PostMapping("/toggleStatus.do")
-    public String toggleStatus(@RequestParam int noticeId) {
-        noticeService.toggleNoticeHiddenStatus(noticeId);
+    @ResponseBody
+    public Map<String, Object> toggleStatus(@RequestParam int noticeId) {
+        int result = noticeService.toggleNoticeHiddenStatus(noticeId);
+        Map<String, Object> response = new HashMap<>();
+        if (result > 0) {
+            NoticeDto updated = noticeService.getNoticeDetail(noticeId); // 변경된 값 조회
+            response.put("success", true);
+            response.put("publishStatus", updated.getPublishStatus());
+            response.put("updatedAt", updated.getUpdatedAt());
+        } else {
+            response.put("success", false);
+            response.put("message", "상태 변경 실패");
+        }
+        return response;
+    }
+
+    @PostMapping("/regist.do")
+    public String registNotice(@RequestParam String title,
+                               @RequestParam String description, HttpSession session, RedirectAttributes redirectAttributes) {
+        NoticeDto notice = new NoticeDto();
+        notice.setTitle(title);
+        notice.setDescription(description);
+        notice.setPublishStatus("게시"); // 기본 게시 상태
+
+        UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+
+        int result = noticeService.registerNotice(notice, loginUser.getUserId());
+
+        redirectAttributes.addFlashAttribute("message", result > 0 ? "등록 성공" : "등록 실패");
         return "redirect:/notice/noticeList.page";
     }
 

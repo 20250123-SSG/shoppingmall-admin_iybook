@@ -31,11 +31,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<BookDto> getBookListByFilter(BookFilterDto bookFilterDto) {
+    public List<BookDto> getBookListByFilter(BookFilterDto bookFilter) {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
-
-
-        return List.of();
+        return productMapper.selectBookListByFilter(bookFilter);
     }
 
     @Override
@@ -51,7 +49,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public int updatePublishStatus(Map<String, Object> map) {
-        return 0;
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+
+        return productMapper.updatePublishStatus(map);
+    }
+
+    @Override
+    public int deleteBooks(List<String> bookIds) {
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        return productMapper.deleteBooks(bookIds);
     }
 
     @Override

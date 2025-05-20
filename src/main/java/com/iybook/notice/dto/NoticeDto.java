@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public class NoticeDto {
     private int noticeId;
-    private String userId;
+    private int userId;
     private String title;
     private String description;
     private String createdAt;

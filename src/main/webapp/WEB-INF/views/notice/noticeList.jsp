@@ -13,8 +13,14 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h2>공지사항</h2>
+                <c:if test="${not empty message}">
+                    <script>
+                        alert("${message}");
+                    </script>
+                </c:if>
+
                 <div style="display: flex; justify-content: flex-end; gap: 10px; align-items: center;">
-                    <a href="${contextPath}/notice/noticeForm.page" class="btn-register">등록</a>
+                    <a href="${contextPath}/notice/registNotice.page" class="btn-register">등록</a>
                     <form id="deleteForm" action="${contextPath}/notice/deleteSelected.do" method="post" onsubmit="return confirm('선택한 공지사항을 삭제하시겠습니까?')" style="margin:0;">
                         <button type="submit" class="btn-delete">선택 삭제</button>
                     </form>

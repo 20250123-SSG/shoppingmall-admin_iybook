@@ -39,10 +39,10 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int registerNotice(NoticeDto notice) {
+    public int registerNotice(NoticeDto noticeDto, int userId) {
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
-
-        int result = noticeMapper.insertNotice(notice);
+        noticeDto.setUserId(userId);
+        int result = noticeMapper.insertNotice(noticeDto);
 
         return result;
     }

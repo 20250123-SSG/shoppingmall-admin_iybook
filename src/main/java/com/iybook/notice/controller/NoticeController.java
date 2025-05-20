@@ -1,7 +1,9 @@
 package com.iybook.notice.controller;
 
+import com.iybook.main.dto.UserDto;
 import com.iybook.notice.dto.NoticeDto;
 import com.iybook.notice.service.NoticeService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -37,14 +39,30 @@ public class NoticeController {
         return "notice/noticeList";
     }
 
-    @GetMapping("/noticeForm.page")
-    public String showNoticeForm() {
+    @GetMapping("/registNotice.page")
+    public String showRegistNotice() {
         return "notice/registNotice";
     }
 
     @PostMapping("/toggleStatus.do")
     public String toggleStatus(@RequestParam int noticeId) {
         noticeService.toggleNoticeHiddenStatus(noticeId);
+        return "redirect:/notice/noticeList.page";
+    }
+
+    @PostMapping("/regist.do")
+    public String registNotice(@RequestParam String title,
+                               @RequestParam String description, HttpSession session, RedirectAttributes redirectAttributes) {
+        NoticeDto notice = new NoticeDto();
+        notice.setTitle(title);
+        notice.setDescription(description);
+        notice.setPublishStatus("게시"); // 기본 게시 상태
+
+        UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+
+        int result = noticeService.registerNotice(notice, loginUser.getUserId());
+
+        redirectAttributes.addFlashAttribute("message", result > 0 ? "등록 성공" : "등록 실패");
         return "redirect:/notice/noticeList.page";
     }
 

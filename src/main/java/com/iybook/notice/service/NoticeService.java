@@ -13,7 +13,7 @@ public interface NoticeService {
 
     void deleteNoticesByIds(List<Integer> noticeIds);
 
-    int registerNotice(NoticeDto board);
+    int registerNotice(NoticeDto notice, int userId);
 
     NoticeDto getNoticeDetail(int no);
 }

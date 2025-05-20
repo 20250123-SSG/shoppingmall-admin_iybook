@@ -37,4 +37,11 @@ public class SalesController {
         return "sales/salesList";
     }
 
+
+    @ResponseBody
+    @GetMapping("/orderDetail.page")
+    public String orderDetail(String orderId) {
+        return "AEWF";
+    }
+
 }

@@ -14,5 +14,8 @@ public interface SalesService {
 
     Map<String, List<String>> cancelOrders(List<String> orderIdList);
 
+    Map<String, List<String>> approveCancelOrders(List<String> orderIdList);
+
+    Map<String, List<String>> rejectCancelOrders(List<String> orderIdList);
 
 }

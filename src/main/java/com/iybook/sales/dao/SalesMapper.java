@@ -17,5 +17,4 @@ public interface SalesMapper {
 
     List<OrderDto> selectOrderListByIdForChangeStatus(List<String> orderIdList);
 
-
 }

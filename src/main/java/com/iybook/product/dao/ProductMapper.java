@@ -10,11 +10,12 @@ import java.util.Map;
 
 public interface ProductMapper {
     List<BookDto> selectBookList();
-//    List<BookDto> selectBookListByFilter(BookFilterDto bookFilter);
+    List<BookDto> selectBookListByFilter(BookFilterDto bookFilter);
     int insertBook(BookDto book);
     int updateBookById(BookDto book);
     int updatePublishStatus(Map<String, Object> map);
     BookStatsDto selectBookStats();
     List<CategoryDto> selectCategoryList();
     int deleteBooks(List<String> bookIds);
+    BookDto selectBookById(String id);
 }

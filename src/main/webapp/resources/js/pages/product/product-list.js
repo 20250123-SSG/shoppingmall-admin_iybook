@@ -200,3 +200,23 @@ document.addEventListener("DOMContentLoaded", function () {
         });
   });
 });
+
+/* 상세보기(수정) 페이지 돌입 */
+document.addEventListener("DOMContentLoaded", function () {
+  const rows = document.querySelectorAll(".product-table tbody tr");
+
+  rows.forEach(row => {
+    const checkbox = row.querySelector("td:first-child input[type='checkbox']");
+
+    row.addEventListener("click", function (e) {
+      // 체크박스를 클릭했으면 row 이동 막기
+      if (e.target === checkbox) return;
+
+      const bookId = row.dataset.bookId;
+      if (bookId) {
+        window.location.href = contextPath + "/product/update.page?bookId=" + bookId;
+      }
+    });
+  });
+});
+

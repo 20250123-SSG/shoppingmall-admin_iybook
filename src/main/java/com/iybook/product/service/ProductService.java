@@ -22,8 +22,10 @@ public interface ProductService {
     int updateBookById(BookDto book);
     // 상품일괄 판매변경
     int updatePublishStatus(Map<String, Object> map);
-    // 상품
+    // 상품삭제
     int deleteBooks(List<String> bookIds);
+    // id로 상품조회
+    BookDto getBookById(String id);
 
     // 카테고리 조회
     List<CategoryDto> getCategoryList();

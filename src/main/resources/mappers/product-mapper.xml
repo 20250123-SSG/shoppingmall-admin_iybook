@@ -14,6 +14,7 @@
         <result column="book_description" property="bookDescription"/>
         <result column="category_id" property="categoryId"/>
         <result column="published_at" property="publishedAt"/>
+        <result column="created_at" property="createdAt"/>
         <result column="updated_at" property="updatedAt"/>
         <result column="publish_status" property="publishStatus"/>
         <result column="stock" property="stock"/>
@@ -82,7 +83,7 @@
             )
     </insert>
 
-    <update id="updateBookById">
+    <update id="updateBookById" parameterType="BookDto">
         update
             tbl_book
         set
@@ -93,7 +94,7 @@
             , book_image = #{bookImage}
             , book_description = #{bookDescription}
             , category_id = #{categoryId}
-            , updated_at = now()
+            , published_at = #{publishedAt}
             , publish_status = #{publishStatus}
             , stock = #{stock}
         where
@@ -190,5 +191,26 @@
                 #{id}
             </foreach>
     </delete>
+
+    <select id="selectBookById" resultMap="bookResultMap">
+        select
+              book_id
+            , book_name
+            , author_name
+            , publisher
+            , book_price
+            , book_image
+            , book_description
+            , category_id
+            , published_at
+            , created_at
+            , updated_at
+            , publish_status
+            , stock
+        from
+            tbl_book
+        where
+            book_id = ${id}
+    </select>
 
 </mapper>

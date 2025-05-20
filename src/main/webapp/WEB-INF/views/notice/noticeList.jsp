@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/pages/notice/notice.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/pages/notice/notice.css?">
 
 <div class="main">
     <div class="notice-container">

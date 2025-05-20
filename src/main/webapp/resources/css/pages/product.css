@@ -29,8 +29,9 @@
 }
 
 .stat-value {
-  color: var(--color-primary);
+  color: var(--color-text);
   margin-left: 5px;
+  font-size: large;
 }
 
 .stat-value:hover {
@@ -64,30 +65,30 @@ input[type="text"], select, input[type="date"] {
 }
 .btn-primary {
   background-color: var(--color-primary);
-  color: var(--color-text);
+  color: var(--color-btn-ac);
 }
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
 }
 .btn-secondary {
   background-color: var(--color-muted);
-  color: var(--color-text);
+  color: var(--color-btn-ac);
 }
 .btn-danger {
   background-color: var(--color-danger);
-  color: var(--color-text);
+  color: var(--color-btn-ac);
 }
 .btn-danger:hover {
   background-color: var(--color-danger-hover);
 }
 
 .date-shortcuts button {
-  color: var(--color-bg);
+  color: var(--color-btn-deac);
 }
 
 .date-shortcuts button.active {
   background-color: var(--color-primary);
-  color: var(--color-text);
+  color: var(--color-btn-ac);
 }
 
 .btn:disabled {

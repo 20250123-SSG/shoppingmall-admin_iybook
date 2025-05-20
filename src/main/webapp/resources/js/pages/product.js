@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-  // ✅ [판매상태 체크박스 동기화]
+  // 판매상태 체크박스 동기화
   const statusAll = document.querySelector('input[id="all"]');
   const statusOptions = Array.from(document.querySelectorAll('input[name="status"]'))
     .filter(cb => cb.id !== "all");
@@ -18,9 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
     cb.addEventListener("change", updateAllCheckbox);
   });
 
-  updateAllCheckbox(); // ✅ 초기 상태 동기화
+  updateAllCheckbox();
 
-  // ✅ [날짜 단축 버튼 및 유효성 체크]
+  // 날짜 단축 버튼 및 유효성 체크
   const startInput = document.querySelector('input[name="startDate"]');
   const endInput = document.querySelector('input[name="endDate"]');
   const shortcutButtons = document.querySelectorAll(".date-shortcuts button");
@@ -38,14 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
       shortcutButtons.forEach(btn => btn.classList.remove("active"));
       button.classList.add("active");
 
-      updateDateConstraints(); // ✅ 버튼 클릭 시도 유효범위 갱신
+      updateDateConstraints();
     });
   });
 
   [startInput, endInput].forEach(input => {
     input.addEventListener("change", () => {
       shortcutButtons.forEach(btn => btn.classList.remove("active"));
-      updateDateConstraints(); // ✅ 직접 입력 시도 유효범위 갱신
+      updateDateConstraints();
     });
   });
 
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-  updateDateConstraints(); // ✅ 페이지 로딩 시 기본 유효범위 적용
+  updateDateConstraints();
 
 
 });
@@ -139,29 +139,29 @@ document.addEventListener("DOMContentLoaded", function () {
   deleteBtn.addEventListener("click", function () {
     const selectedIds = getSelectedBookIds();
     if (selectedIds.length === 0) {
-      alert("삭제할 항목을 선택하세요.");
+      alert("판매종료 처리할 항목을 선택하세요.");
       return;
     }
 
-    if (!confirm("정말 삭제하시겠습니까?")) return;
+    if (!confirm("정말 변경하시겠습니까?")) return;
 
     // AJAX 요청
-    fetch(contextPath + '/product/delete.do', {
+    fetch(contextPath + '/product/update.do', {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({bookIds: selectedIds})
+      body: JSON.stringify({bookIds: selectedIds, status: '숨김'})
     })
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            alert(data.deleteCount + "건 삭제가 완료되었습니다.");
+            alert(data.resultCount + "건 판매종료 처리되었습니다.");
           } else {
-            alert("삭제 실패")
+            alert("설정 변경 실패")
           }
           location.reload();
         })
         .catch(err => {
-          alert("삭제 중 오류 발생");
+          alert("판매종료 처리 중 오류 발생");
         });
   });
 
@@ -180,14 +180,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // AJAX 요청
-    fetch("/book/updateStatus", {
+    fetch(contextPath + "/product/update.do", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({bookIds: selectedIds, status: newStatus})
     })
         .then(res => res.json())
         .then(data => {
-          alert("판매상태가 변경되었습니다.");
+          if (data.success) {
+            alert(data.resultCount + "건 판매상태가 변경되었습니다.");
+          } else {
+            alert("변경 실패")
+          }
           location.reload();
         })
         .catch(err => {

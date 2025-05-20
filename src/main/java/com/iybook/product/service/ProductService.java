@@ -22,7 +22,7 @@ public interface ProductService {
     int updateBookById(BookDto book);
     // 상품일괄 판매변경
     int updatePublishStatus(Map<String, Object> map);
-    // 상품삭제
+    // 상품
     int deleteBooks(List<String> bookIds);
 
     // 카테고리 조회

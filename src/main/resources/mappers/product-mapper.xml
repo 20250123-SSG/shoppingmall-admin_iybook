@@ -105,10 +105,10 @@
         update
             tbl_book
         set
-            publish_status = #{publishStatus}
+            publish_status = #{status}
         where
             book_id in
-        <foreach collection="list" item="id" open="(" separator="," close=")">
+        <foreach collection="bookIds" item="id" open="(" separator="," close=")">
              #{id}
         </foreach>
     </update>

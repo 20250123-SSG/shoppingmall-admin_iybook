@@ -35,13 +35,13 @@ public class ProductController {
         model.addAttribute("bookList", bookList);
     }
 
-    @PostMapping("/delete.do")
+    @PostMapping("/update.do")
     @ResponseBody
-    public Map<String, Object> deleteBooks(@RequestBody Map<String, List<String>> payload){
-        List<String> bookIds = payload.get("bookIds");
-        int result = productService.deleteBooks(bookIds);
+    public Map<String, Object> updateBooks(@RequestBody Map<String, Object> payload){
+        List<String> bookIds = (List<String>)payload.get("bookIds");
+        int result = productService.updatePublishStatus(payload);
         if (bookIds.size() == result) {
-            return Map.of("success", true, "deleteCount", result);
+            return Map.of("success", true, "resultCount", result);
         }
         return Map.of("success", false);
     }

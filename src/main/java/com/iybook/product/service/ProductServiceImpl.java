@@ -49,7 +49,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public int updatePublishStatus(Map<String, Object> map) {
-        return 0;
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+
+        return productMapper.updatePublishStatus(map);
     }
 
     @Override

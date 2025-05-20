@@ -16,7 +16,7 @@
 
       <div class="container">
 
-        <!-- 🔷 통계 영역 -->
+        <!-- 통계 영역 -->
         <div class="card stat-box">
           <div class="stat-item">전체
             <span class="stat-value" onclick="location.href='${contextPath}/product/list.page'">
@@ -40,7 +40,7 @@
           </div>
         </div>
 
-        <!-- 🔶 검색 필터 영역 -->
+        <!-- 검색 필터 영역 -->
         <div class="card search-box">
           <form method="get" action="${contextPath}/product/list.page">
 
@@ -84,10 +84,10 @@
                 <option value="updated_at" <c:if test="${filter.dateType == 'updated_at'}">selected</c:if>>최종수정일</option>
               </select>
               <div class="date-shortcuts">
-                <button type="button" class="btn btn-light"  data-range="1">오늘</button>
-                <button type="button" class="btn btn-light"  data-range="7">1주일</button>
-                <button type="button" class="btn btn-light"  data-range="30">1개월</button>
-                <button type="button" class="btn btn-light"  data-range="365">1년</button>
+                <button type="button" class="btn btn-light" data-range="1">오늘</button>
+                <button type="button" class="btn btn-light" data-range="7">1주일</button>
+                <button type="button" class="btn btn-light" data-range="30">1개월</button>
+                <button type="button" class="btn btn-light" data-range="365">1년</button>
               </div>
               <input type="date" name="startDate" value="${filter.startDate}" />
               <input type="date" name="endDate" value="${filter.endDate}" />
@@ -101,15 +101,15 @@
           </form>
         </div>
 
-        <!-- 🟩 상품 목록 영역 -->
+        <!-- 상품 목록 영역 -->
         <div class="card product-list-box">
           <div class="table-actions" style="display: flex; justify-content: space-between; align-items: center;">
             <div class="left-actions">
               <button class="btn btn-danger" id="deleteSelected">선택 삭제</button>
               <select name="status" id="statusChangeSelect">
                 <option value="">판매상태 변경</option>
-                <option value="sell">판매중</option>
-                <option value="end">판매중지</option>
+                <option value="판매">판매중</option>
+                <option value="품절">판매중지</option>
               </select>
             </div>
             <button class="btn btn-primary" id="saveChanges">수정 저장</button>

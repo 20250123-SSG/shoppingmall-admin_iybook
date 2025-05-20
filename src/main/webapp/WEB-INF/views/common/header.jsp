@@ -14,7 +14,7 @@
 <body>
 
 <header class="header">
-  <div class="header-title" onclick="location.href='${contextPath}/'">인용문고 관리자페이지</div>
+  <div class="header-title" onclick="location.href='${contextPath}/main'">인용문고 관리자페이지</div>
 
   <div class="user-info">
     <i class="fas fa-bell"></i>

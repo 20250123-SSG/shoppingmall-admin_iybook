@@ -22,11 +22,20 @@ public class StatisticsController {
     public void statsPage() {
     }
 
-    // 통계 데이터 조회 (요약용)
+    // 통계 데이터 조회
     @GetMapping("/summary.do")
     @ResponseBody
     public List<StatisticsSalesDto> getSummary(@ModelAttribute StatisticsRequestDto req) {
         log.info("[요약 조회] {}, {}", req.getStartDate(), req.getEndDate());
         return statisticsService.getStatisticsList(req);
     }
+
+    // 카테고리 통계 페이지
+    @GetMapping("/statsCategory.page")
+    public void statsCategoryPage() {
+
+    }
+
+
+
 }

@@ -64,6 +64,17 @@ public class NoticeController {
         return "redirect:/notice/noticeList.page";
     }
 
+    @PostMapping("/detail/toggleStatus.do")
+    public String detailToggleStatus(@RequestParam int noticeId, RedirectAttributes redirectAttributes) {
+        int result = noticeService.toggleNoticeHiddenStatus(noticeId);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("message", "상태가 변경되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "상태 변경에 실패했습니다.");
+        }
+        return "redirect:/notice/noticeDetail.do?noticeId=" + noticeId;
+    }
+
     @PostMapping("/regist.do")
     public String registNotice(@RequestParam String title,
                                @RequestParam String description, HttpSession session, RedirectAttributes redirectAttributes) {

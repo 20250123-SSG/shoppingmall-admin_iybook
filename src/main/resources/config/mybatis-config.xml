@@ -21,9 +21,10 @@
     <typeAlias type="com.iybook.notice.dto.NoticeDto" alias="NoticeDto"/>
     <typeAlias type="com.iybook.statistics.dto.StatisticsSalesDto" alias="StatisticsSalesDto"/>
     <typeAlias type="com.iybook.statistics.dto.StatisticsRequestDto" alias="StatisticsRequestDto"/>
+    <typeAlias type="com.iybook.statistics.dto.StatisticsCategoryDto" alias="StatisticsCategoryDto"/>
   </typeAliases>
 
   <typeHandlers>
-    <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+    <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler"/>
   </typeHandlers>
 </configuration>

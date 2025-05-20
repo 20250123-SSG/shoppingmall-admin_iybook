@@ -14,11 +14,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
 
 @Slf4j
@@ -60,6 +63,8 @@ public class SalesServiceImpl implements SalesService {
 
     /**
      * 받아온 리스트에서 주문이 불가능한것과 가능한 상태의 데이터를 나누고 일단 주문이 가능한 상태의 것을 처리하고 불가능인것이 있으면 예외처리
+     * 유효하고, 유효하지않는 주문의 판단은DB에 접근시키고, try-catch에서 CATCH로 받은것들을 추가함녀 될거같다.
+     * 그리고 주문관리가 아니라 취소 관리에서는 조회 상태가 취소요청과, 취소완료로 될 수 있다. 때문에. ORDERsTATUS를 유효검증해도 괜찮을 거 갗다.
      * @param orderIdList
      * @return
      */
@@ -81,9 +86,6 @@ public class SalesServiceImpl implements SalesService {
                 getOrderIdList(validOrders),
                 getOrderIdList(invalidOrders)
         );
-
-        log.debug("fagwrgsergsergsergsergsergerg{}",result.successIds());
-
 
         int updateResult = salesMapper.updateOrderStatusByOrderId(
                 new OrdersStatusUpdateDto(
@@ -108,6 +110,33 @@ public class SalesServiceImpl implements SalesService {
     }
 
 
+
+//    @Transactional
+//    public void 주문처리부모메서드(List<String> orderIdList) {
+//        for(String orderId : orderIdList) {
+//
+//        }
+//    }
+//
+//    @Transactional(propagation = REQUIRES_NEW)
+//    public void 주문하나하나처리자식메서드(String orderId, String orderStatus) {
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private List<OrderDto> getOrderListWithOrderDate(List<String> orderIdList, SalesMapper salesMapper) {
         return salesMapper.selectOrderListByIdForChangeStatus(orderIdList);
     }
@@ -119,6 +148,7 @@ public class SalesServiceImpl implements SalesService {
         return orderList.stream().map(OrderDto::getOrderId).collect(Collectors.toList());
     }
 
+    //이거를 꼭 validateOrderList로 가져올 이유가 없디ㅏ.
     private List<OrderDto> getValidOrderList(List<OrderDto> orderList, String orderStatus) {
         return orderList.stream()
                 .filter(order -> order.getOrderStatus().equals(orderStatus))

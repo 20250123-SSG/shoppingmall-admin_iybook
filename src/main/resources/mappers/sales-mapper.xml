@@ -13,6 +13,7 @@
         <result column="payment" property="payment"/>
         <result column="order_memo" property="orderMemo"/>
         <result column="created_at" property="orderDate"/>
+        <result column="updated_at" property="updateDate"/>
     </resultMap>
 
     
@@ -53,6 +54,7 @@
           , payment
           , order_memo
           , created_at
+          , updated_at
         from
             tbl_order
         <where>

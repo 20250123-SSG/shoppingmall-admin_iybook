@@ -64,6 +64,7 @@
           <th>총 결제금액</th>
           <th>결제수단</th>
           <th>주문일</th>
+          <th>주문상태 변경일</th>
         </tr>
         </thead>
         <tbody>
@@ -76,11 +77,26 @@
               <tr class="selectable-row">
                 <td>${order.orderId}</td>
                 <td>${order.customerId}</td>
-                <td>${order.orderStatus}</td>
-                <td><fmt:formatNumber value="${order.orderTotalCount}"/></td>
-                <td><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
-                <td>${order.payment}</td>
-                <td>${order.getFormattedOrderDate()}</td>
+                <c:choose>
+                  <c:when test="${order.orderStatus == '주문완료'}">
+                    <td style="color: blue; text-align: center;">${order.orderStatus}</td>
+                  </c:when>
+                  <c:otherwise>
+                    <td style="text-align: center">${order.orderStatus}</td>
+                  </c:otherwise>
+                </c:choose>
+                <td style="text-align: right"><fmt:formatNumber value="${order.orderTotalCount}"/></td>
+                <td style="text-align: right"><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
+                <td style="text-align: center">${order.payment}</td>
+                <td style="text-align: center">${order.getFormattedOrderDate()}</td>
+                <c:choose>
+                  <c:when test="${order.updateDate == order.orderDate}">
+                    <td style="text-align: center">-</td>
+                  </c:when>
+                  <c:otherwise>
+                    <td style="text-align: center">${order.getFormattedUpdateDate()}</td>
+                  </c:otherwise>
+                </c:choose>
               </tr>
             </c:forEach>
           </c:otherwise>

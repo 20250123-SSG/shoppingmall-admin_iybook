@@ -21,10 +21,19 @@ public class OrderDto {
     private String payment;
     private String orderMemo;
     private LocalDateTime orderDate;
+    private LocalDateTime updateDate;
+
+    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public String getFormattedOrderDate() {
         return orderDate != null
-                ? orderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                ? orderDate.format(formatter)
+                : "";
+    }
+
+    public String getFormattedUpdateDate() {
+        return updateDate != null
+                ? updateDate.format(formatter)
                 : "";
     }
 

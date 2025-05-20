@@ -79,19 +79,19 @@
 }
 
 /* 버튼 스타일 */
-.notice-table tbody td form button {
-  background-color: var(--color-primary);
+.toggle-btn {
+  background-color: #1976d2;
+  color: white;
   border: none;
-  color: var(--color-table-th);
-  padding: 6px 14px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s;
 }
 
-.notice-table tbody td form button:hover {
-  background-color: var(--color-primary-hover);
+.toggle-btn:hover {
+  background-color: #1565c0;
 }
 
 .pagination {

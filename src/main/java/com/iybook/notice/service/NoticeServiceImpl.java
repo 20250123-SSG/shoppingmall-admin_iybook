@@ -29,20 +29,20 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void toggleNoticeHiddenStatus(int noticeId) {
+    public int toggleNoticeHiddenStatus(int noticeId) {
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
         NoticeDto notice = noticeMapper.selectNoticeById(noticeId);
         String publishStatus = "숨김".equals(notice.getPublishStatus()) ? "게시" : "숨김";
 
-        noticeMapper.updateNoticeHidden(noticeId, publishStatus);
+        return noticeMapper.updateNoticeHidden(noticeId, publishStatus);
     }
 
     @Override
-    public int registerNotice(NoticeDto notice) {
+    public int registerNotice(NoticeDto noticeDto, int userId) {
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
-
-        int result = noticeMapper.insertNotice(notice);
+        noticeDto.setUserId(userId);
+        int result = noticeMapper.insertNotice(noticeDto);
 
         return result;
     }

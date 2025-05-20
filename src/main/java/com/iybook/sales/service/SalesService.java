@@ -12,4 +12,7 @@ public interface SalesService {
 
     Map<String, List<String>> acceptOrders(List<String> orderIdList);
 
+    Map<String, List<String>> cancelOrders(List<String> orderIdList);
+
+
 }

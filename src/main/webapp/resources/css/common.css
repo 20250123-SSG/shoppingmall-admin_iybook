@@ -10,6 +10,8 @@
   --color-danger-hover: #c7224c;
   --color-table-bg: #edf1f1;
   --color-table-th: #fffafa;
+  --color-btn-deac: #2d3748;
+  --color-btn-ac: #fffafa;
 }
 
 /* 다크모드 지원 */
@@ -25,6 +27,8 @@
     --color-danger-hover: #f87171;
     --color-table-bg: #3d3944;
     --color-table-th: #5d4151;
+    --color-btn-deac: #2d3748;
+    --color-btn-ac: #fffafa;
   }
 }
 

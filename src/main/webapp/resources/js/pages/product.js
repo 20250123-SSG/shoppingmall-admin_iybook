@@ -1,5 +1,6 @@
+
 document.addEventListener("DOMContentLoaded", function () {
-  // ✅ [판매상태 체크박스 동기화]
+  // 판매상태 체크박스 동기화
   const statusAll = document.querySelector('input[id="all"]');
   const statusOptions = Array.from(document.querySelectorAll('input[name="status"]'))
     .filter(cb => cb.id !== "all");
@@ -17,9 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
     cb.addEventListener("change", updateAllCheckbox);
   });
 
-  updateAllCheckbox(); // ✅ 초기 상태 동기화
+  updateAllCheckbox();
 
-  // ✅ [날짜 단축 버튼 및 유효성 체크]
+  // 날짜 단축 버튼 및 유효성 체크
   const startInput = document.querySelector('input[name="startDate"]');
   const endInput = document.querySelector('input[name="endDate"]');
   const shortcutButtons = document.querySelectorAll(".date-shortcuts button");
@@ -37,14 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
       shortcutButtons.forEach(btn => btn.classList.remove("active"));
       button.classList.add("active");
 
-      updateDateConstraints(); // ✅ 버튼 클릭 시도 유효범위 갱신
+      updateDateConstraints();
     });
   });
 
   [startInput, endInput].forEach(input => {
     input.addEventListener("change", () => {
       shortcutButtons.forEach(btn => btn.classList.remove("active"));
-      updateDateConstraints(); // ✅ 직접 입력 시도 유효범위 갱신
+      updateDateConstraints();
     });
   });
 
@@ -97,7 +98,105 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-  updateDateConstraints(); // ✅ 페이지 로딩 시 기본 유효범위 적용
+  updateDateConstraints();
 
 
+});
+
+// table 체크박스 선택 구문
+document.addEventListener("DOMContentLoaded", function () {
+  const masterCheckbox = document.querySelector('.product-table thead input[type="checkbox"]');
+  const rowCheckboxes = document.querySelectorAll('.product-table tbody input[type="checkbox"]');
+
+  // 마스터 체크박스 클릭 시
+  masterCheckbox.addEventListener('change', function () {
+    rowCheckboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+  });
+
+  // 개별 체크박스 변경 시 마스터 체크박스 상태 업데이트
+  rowCheckboxes.forEach(cb => {
+    cb.addEventListener('change', function () {
+      const allChecked = Array.from(rowCheckboxes).every(cb => cb.checked);
+      masterCheckbox.checked = allChecked;
+    });
+  });
+});
+
+
+/* 일괄처리 */
+document.addEventListener("DOMContentLoaded", function () {
+  const deleteBtn = document.getElementById("deleteSelected");
+  const saveBtn = document.getElementById("saveChanges");
+  const statusSelect = document.getElementById("statusChangeSelect");
+
+  // 선택된 체크박스들의 도서 ID 목록을 배열로 반환
+  function getSelectedBookIds() {
+    return Array.from(document.querySelectorAll('.product-table tbody input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+  }
+
+  // 선택 삭제 버튼 클릭
+  deleteBtn.addEventListener("click", function () {
+    const selectedIds = getSelectedBookIds();
+    if (selectedIds.length === 0) {
+      alert("판매종료 처리할 항목을 선택하세요.");
+      return;
+    }
+
+    if (!confirm("정말 변경하시겠습니까?")) return;
+
+    // AJAX 요청
+    fetch(contextPath + '/product/update.do', {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({bookIds: selectedIds, status: '숨김'})
+    })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.resultCount + "건 판매종료 처리되었습니다.");
+          } else {
+            alert("설정 변경 실패")
+          }
+          location.reload();
+        })
+        .catch(err => {
+          alert("판매종료 처리 중 오류 발생");
+        });
+  });
+
+  // 판매상태 저장 버튼 클릭
+  saveBtn.addEventListener("click", function () {
+    const selectedIds = getSelectedBookIds();
+    const newStatus = statusSelect.value;
+
+    if (selectedIds.length === 0) {
+      alert("수정할 항목을 선택하세요.");
+      return;
+    }
+    if (!newStatus) {
+      alert("변경할 상태를 선택하세요.");
+      return;
+    }
+
+    // AJAX 요청
+    fetch(contextPath + "/product/update.do", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({bookIds: selectedIds, status: newStatus})
+    })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.resultCount + "건 판매상태가 변경되었습니다.");
+          } else {
+            alert("변경 실패")
+          }
+          location.reload();
+        })
+        .catch(err => {
+          alert("상태 변경 중 오류 발생");
+          console.error(err);
+        });
+  });
 });

@@ -21,6 +21,8 @@ public class OrderResponseDto {
     private String payment;
     private String orderStatus;
     private LocalDateTime orderDate;
+    private LocalDateTime updateDate;
+    private String orderMemo;
 
     private List<OrderDetailResponseDto> orderDetailList;
 

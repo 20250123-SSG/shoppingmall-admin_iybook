@@ -4,6 +4,7 @@ import com.iybook.sales.dto.OrderDto;
 import com.iybook.sales.dto.request.OrderStatusUpdateDto;
 import com.iybook.sales.dto.request.SingleOrderPagingRequestDto;
 import com.iybook.sales.dto.request.OrderRequestFilterDto;
+import com.iybook.sales.dto.response.OrderResponseDto;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface SalesMapper {
     int updateOrderStatusByOrderId(OrderStatusUpdateDto orderStatusChange);
 
     List<OrderDto> selectOrderListByIdForChangeStatus(List<String> orderIdList);
+
+    OrderResponseDto selectOrderDetailByOrderId(int orderId);
 
 }

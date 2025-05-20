@@ -1,7 +1,9 @@
 package com.iybook.sales.controller;
 
+import com.iybook.sales.dto.response.OrderDetailResponseDto;
 import com.iybook.sales.dto.response.OrderListResponseDto;
 import com.iybook.sales.dto.request.OrderRequestFilterDto;
+import com.iybook.sales.dto.response.OrderResponseDto;
 import com.iybook.sales.service.SalesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +42,20 @@ public class SalesController {
 
     @ResponseBody
     @GetMapping("/orderDetail.page")
-    public String orderDetail(String orderId) {
-        return "AEWF";
+    public OrderResponseDto orderDetail(String orderId) {
+
+        System.out.println(orderId);
+        OrderResponseDto selectOrder = salesService.getOrderDetailByOrderId(Integer.parseInt(orderId));
+
+
+        System.out.println(selectOrder);
+
+        for(OrderDetailResponseDto dto : selectOrder.getOrderDetailList()){
+            System.out.println(dto);
+        }
+
+
+        return selectOrder;
     }
 
 }

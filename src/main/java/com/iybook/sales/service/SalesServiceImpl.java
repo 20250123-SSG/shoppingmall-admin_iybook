@@ -9,6 +9,7 @@ import com.iybook.sales.dto.request.SingleOrderPagingRequestDto;
 import com.iybook.sales.dto.response.OrderListResponseDto;
 import com.iybook.sales.dto.request.OrderRequestFilterDto;
 import com.iybook.common.util.PageUtil;
+import com.iybook.sales.dto.response.OrderResponseDto;
 import com.iybook.sales.util.OldestOrderFirstSorter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,13 @@ public class SalesServiceImpl implements SalesService {
                 orderCountResult,
                 orderListResult
         );
+    }
+
+    @Override
+    public OrderResponseDto getOrderDetailByOrderId(int orderId) {
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        return salesMapper.selectOrderDetailByOrderId(orderId);
     }
 
 

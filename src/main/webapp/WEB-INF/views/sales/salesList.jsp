@@ -76,8 +76,7 @@
           <c:otherwise>
             <c:forEach var="order" items="${orderListResult.orderList}">
               <tr class="selectable-row">
-                <td id="order-detail-btn" style="text-align: center; cursor: pointer;"
-                    onclick="location.href='${contextPath}/sales/orderDetail.page?orderId=${order.orderId}';">
+                <td class="order-detail-btn" data-id="${order.orderId}" style="text-align: center; cursor: pointer;">
                   👁
                 </td>
                 <td>${order.orderId}</td>

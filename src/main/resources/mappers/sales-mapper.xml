@@ -28,16 +28,46 @@
         <association property="customer" javaType="CustomerDto">
             <id column="customer_id" property="customerId"/>
             <result column="customer_name" property="customerName"/>
-            <result column="customer_address" property="customerAddress"/>
+            <result column="customer_addr" property="customerAddress"/>
         </association>
-        <collection property="orderDetail" javaType="OrderDetailResponseDto">
+        <collection property="orderDetailList" ofType="OrderDetailResponseDto">
             <id column="order_detail_id" property="orderDetailId"/>
-            <id column="book_id" property="bookId"/>
+            <result column="book_id" property="bookId"/>
+            <result column="author_name" property="authorName"/>
             <result column="book_name" property="bookName"/>
             <result column="order_detail_total_count" property="orderDetailTotalCount"/>
             <result column="order_detail_total_price" property="orderDetailTotalPrice"/>
         </collection>
     </resultMap>
+
+
+    <select id="selectOrderDetailByOrderId" resultMap="orderDetailResultMap">
+        select
+              o.order_id
+            , o.order_status
+            , o.order_total_count
+            , o.order_total_price
+            , o.payment
+            , o.order_memo
+            , o.created_at
+            , o.updated_at
+            , o.customer_id
+            , c.customer_name
+            , c.customer_addr
+            , od.order_detail_id
+            , od.book_id
+            , b.author_name
+            , b.book_name
+            , od.order_detail_total_count
+            , od.order_detail_total_price
+        from
+            tbl_order o
+                join tbl_order_detail od ON od.order_id = o.order_id
+                join tbl_customer c ON o.customer_id = c.customer_id
+                join tbl_book b ON b.book_id = od.book_id
+        where
+            o.order_id = #{orderId}
+    </select>
 
     
     <select id="selectOrderListCountByFilter" parameterType="OrderRequestFilterDto">
@@ -105,19 +135,6 @@
         limit
             #{offset}, #{display}
     </select>
-
-<!--    <update id="updateOrderStatusByOrderId" parameterType="OrderStatusUpdateDto">-->
-<!--        update-->
-<!--            tbl_order-->
-<!--        set-->
-<!--            order_status = #{orderStatus}-->
-<!--          , updated_at = now()-->
-<!--        where-->
-<!--            order_id in-->
-<!--        <foreach collection="orderIdList" item="orderId" open="(" separator="," close=")">-->
-<!--            #{orderId}-->
-<!--        </foreach>-->
-<!--    </update>-->
 
     <update id="updateOrderStatusByOrderId" parameterType="OrderStatusUpdateDto">
         update

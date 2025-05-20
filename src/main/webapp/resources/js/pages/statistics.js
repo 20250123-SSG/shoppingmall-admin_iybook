@@ -64,9 +64,16 @@ document.addEventListener('DOMContentLoaded', function() {
       startDate = startDate + '-01-01';
       endDate = endDate + '-12-31';
     } else if (granularity === 'MONTH') {
+      const getLastDayOfMonth = (ym) => {
+        const [y, m] = ym.split('-');
+        return new Date(y, m, 0).getDate();  // 말일 구하기
+      };
+
       startDate = startDate + '-01';
-      endDate = endDate + '-31';
+      const endDay = getLastDayOfMonth(endDate);
+      endDate = endDate + `-${endDay}`;
     }
+    loadSalesChart(startDate, endDate, granularity);
 
     fetch(`${contextPath}/statistics/summary.do?startDate=${startDate}&endDate=${endDate}&granularity=${granularity}`)
       .then(res => res.json())
@@ -132,4 +139,84 @@ document.addEventListener('DOMContentLoaded', function() {
     if (granularity === "YEAR") return `${y}`;
     return dateStr;
   }
+
+  // 차트
+  const ctx = document.getElementById('myChart');
+  let myChart = null;
+
+// 매출 통계 차트
+  function loadSalesChart(startDate, endDate, granularity) {
+    fetch(`${contextPath}/statistics/summary.do?startDate=${startDate}&endDate=${endDate}&granularity=${granularity}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          const labels = data.map(item => item.statisticsDate);
+          const chartData = data.map(item => item.totalSales);
+
+          if (myChart) myChart.destroy();
+
+          myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: '총 매출 금액 (원)',
+                data: chartData,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: true },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      let label = context.dataset.label || '';
+                      if (label) label += ': ';
+                      if (context.parsed.y !== null) {
+                        label += new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(context.parsed.y);
+                      }
+                      return label;
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: { title: { display: true, text: '' } },
+                y: {
+                  beginAtZero: true,
+                  title: { display: true, text: '금액 (원)' },
+                  ticks: {
+                    callback: function(value) {
+                      return new Intl.NumberFormat('ko-KR').format(value) + '원';
+                    }
+                  }
+                }
+              }
+            }
+          });
+        } else {
+          if (myChart) myChart.destroy();
+          const ctx2d = ctx.getContext('2d');
+          ctx2d.clearRect(0, 0, ctx.width, ctx.height);
+          ctx2d.font = '16px Arial';
+          ctx2d.textAlign = 'center';
+          ctx2d.fillText('통계 데이터가 없습니다.', ctx.width / 2, ctx.height / 2);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching settlement data for chart:', error);
+        if (myChart) myChart.destroy();
+        const ctx2d = ctx.getContext('2d');
+        ctx2d.clearRect(0, 0, ctx.width, ctx.height);
+        ctx2d.font = '16px Arial';
+        ctx2d.textAlign = 'center';
+        ctx2d.fillText('차트 데이터를 불러오는데 실패했습니다.', ctx.width / 2, ctx.height / 2);
+      });
+  }
+    document.addEventListener('DOMContentLoaded', loadMonthlySettlementChart);
+
 });

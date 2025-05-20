@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<BookDto> getBookListByFilter(BookFilterDto bookFilter) {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        List<BookDto> list = List.of();
         return productMapper.selectBookListByFilter(bookFilter);
     }
 

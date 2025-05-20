@@ -1,6 +1,7 @@
 package com.iybook.statistics.service;
 
 import com.iybook.statistics.dao.StatisticsMapper;
+import com.iybook.statistics.dto.StatisticsCategoryDto;
 import com.iybook.statistics.dto.StatisticsSalesDto;
 import com.iybook.statistics.dto.StatisticsRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -37,4 +38,35 @@ public class StatisticsServiceImpl implements StatisticsService {
                 throw new IllegalArgumentException("지원하지 않는 단위입니다: " + req.getGranularity());
         }
     }
+
+    @Override
+    public List<StatisticsCategoryDto> getCategoryAllStatistics(StatisticsRequestDto req) {
+        return List.of();
+    }
+
+    @Override
+    public List<StatisticsCategoryDto> getCategoryGenderStatistics(StatisticsRequestDto req) {
+        return List.of();
+    }
+
+    @Override
+    public List<StatisticsCategoryDto> getCategoryAgeStatistics(StatisticsRequestDto req) {
+        return List.of();
+    }
+
+    /*
+    @Override
+    public List<StatisticsCategoryDto> getCategoryAllStatistics(StatisticsRequestDto req) {
+        return sqlSession.getMapper(StatisticsMapper.class).selectCategoryAllStatistics(req);
+    }
+    @Override
+    public List<StatisticsCategoryDto> getCategoryGenderStatistics(StatisticsRequestDto req) {
+        return sqlSession.getMapper(StatisticsMapper.class).selectCategoryGenderStatistics(req);
+    }
+    @Override
+    public List<StatisticsCategoryDto> getCategoryAgeStatistics(StatisticsRequestDto req) {
+        return sqlSession.getMapper(StatisticsMapper.class).selectCategoryAgeStatistics(req);
+    }
+
+     */
 }

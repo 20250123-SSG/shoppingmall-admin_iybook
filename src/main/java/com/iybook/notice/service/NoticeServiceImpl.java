@@ -18,24 +18,31 @@ public class NoticeServiceImpl implements NoticeService {
     private final PageUtil pageUtil;
 
     @Override
-    public Map<String, Object> getNoticesAndPaging(int page) { // int page == 현재 요청한 페이지 번호
-
+    public Map<String, Object> getNoticesAndPaging(int page) {
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
         int totalCount = noticeMapper.selectNoticeListCount();
         Map<String, Object> map = pageUtil.getPageInfo(totalCount, page, 5, 5);
         List<NoticeDto> list = noticeMapper.selectNoticeList(map);
         map.put("list", list);
-        // map : {totalPage:xx, beginPage:xx, endPage:xx, .., list:List<BoardDto>}
-
         return map;
     }
 
     @Override
-    public int registerNotice(NoticeDto notice) {
-        NoticeMapper boardMapper = sqlSession.getMapper(NoticeMapper.class);
+    public void toggleNoticeHiddenStatus(int noticeId) {
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
-        int result = boardMapper.insertNotice(notice);
+        NoticeDto notice = noticeMapper.selectNoticeById(noticeId);
+        String publishStatus = "숨김".equals(notice.getPublishStatus()) ? "게시" : "숨김";
+
+        noticeMapper.updateNoticeHidden(noticeId, publishStatus);
+    }
+
+    @Override
+    public int registerNotice(NoticeDto notice) {
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+
+        int result = noticeMapper.insertNotice(notice);
 
         return result;
     }
@@ -45,8 +52,15 @@ public class NoticeServiceImpl implements NoticeService {
 
         NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
 
-        NoticeDto notice = noticeMapper.selectNoticeByNo(no);
+        NoticeDto notice = noticeMapper.selectNoticeById(no);
 
         return notice;
+    }
+
+    @Override
+    public void deleteNoticesByIds(List<Integer> noticeIds) {
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+
+        noticeMapper.deleteNoticesByIds(noticeIds);
     }
 }

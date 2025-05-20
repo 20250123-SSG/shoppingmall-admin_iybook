@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -29,11 +30,7 @@
       <div class="order-status-checkboxes">
         <label class="option-name">주문 상태</label>
         <input type="hidden" id="filterOrderStatus" value="${filter.orderStatus}">
-        <label><input type="checkbox" id="checkAllStatus" checked> 전체</label>
-        <label><input type="checkbox" name="orderStatus" value="주문완료"> 주문완료</label>
-        <label><input type="checkbox" name="orderStatus" value="취소요청"> 취소요청</label>
-        <label><input type="checkbox" name="orderStatus" value="취소완료"> 취소완료</label>
-        <label><input type="checkbox" name="orderStatus" value="배송완료"> 배송완료</label>
+        <label><input type="checkbox" name="orderStatus" value="주문완료" checked disabled> 주문완료</label>
       </div>
       <div class="search-sales-userId-group">
         <label for="customerId" class="option-name">사용자 ID</label>
@@ -69,9 +66,8 @@
       <h2>주문 목록</h2>
       <p>총 ${orderCount}건</p>
     </div>
-    <br>
     <div class="table-section">
-      <table border="1" cellspacing="0" cellpadding="8">
+      <table border="1">
         <thead>
         <tr>
           <th><input type="checkbox" id="checkAll"></th>
@@ -98,10 +94,10 @@
                 <td>${order.orderId}</td>
                 <td>${order.customerId}</td>
                 <td>${order.orderStatus}</td>
-                <td>${order.orderTotalCount}</td>
-                <td>${order.orderTotalPrice}</td>
+                <td><fmt:formatNumber value="${order.orderTotalCount}"/></td>
+                <td><fmt:formatNumber value="${order.orderTotalPrice}"/></td>
                 <td>${order.payment}</td>
-                <td>${order.orderDate}</td>
+                <td>${order.getFormattedOrderDate()}</td>
               </tr>
             </c:forEach>
           </c:otherwise>

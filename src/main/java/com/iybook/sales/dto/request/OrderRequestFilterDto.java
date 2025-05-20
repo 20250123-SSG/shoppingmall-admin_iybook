@@ -1,7 +1,6 @@
-package com.iybook.sales.dto;
+package com.iybook.sales.dto.request;
 
 import com.iybook.sales.constants.OrderStatus;
-import com.iybook.sales.constants.OrderTableInfo;
 import lombok.*;
 
 import java.time.LocalDate;

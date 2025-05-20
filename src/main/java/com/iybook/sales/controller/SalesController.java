@@ -1,19 +1,15 @@
 package com.iybook.sales.controller;
 
-import com.iybook.sales.dto.OrderListResponseDto;
-import com.iybook.sales.dto.OrderRequestFilterDto;
-import com.iybook.sales.dto.OrderDto;
+import com.iybook.sales.dto.response.OrderDetailResponseDto;
+import com.iybook.sales.dto.response.OrderListResponseDto;
+import com.iybook.sales.dto.request.OrderRequestFilterDto;
+import com.iybook.sales.dto.response.OrderResponseDto;
 import com.iybook.sales.service.SalesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,6 +37,25 @@ public class SalesController {
         model.addAttribute("orderCount", orderListResult.getTotalOrderCount());
 
         return "sales/salesList";
+    }
+
+
+    @ResponseBody
+    @GetMapping("/orderDetail.page")
+    public OrderResponseDto orderDetail(String orderId) {
+
+        System.out.println(orderId);
+        OrderResponseDto selectOrder = salesService.getOrderDetailByOrderId(Integer.parseInt(orderId));
+
+
+        System.out.println(selectOrder);
+
+        for(OrderDetailResponseDto dto : selectOrder.getOrderDetailList()){
+            System.out.println(dto);
+        }
+
+
+        return selectOrder;
     }
 
 }

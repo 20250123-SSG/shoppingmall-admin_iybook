@@ -3,12 +3,13 @@ package com.iybook.sales.service;
 import com.iybook.sales.constants.OrderStatus;
 import com.iybook.sales.constants.OrderTableInfo;
 import com.iybook.sales.dao.SalesMapper;
-import com.iybook.sales.dto.*;
 import com.iybook.sales.dto.OrderDto;
-import com.iybook.sales.dto.SingleOrderPagingRequestDto;
-import com.iybook.sales.dto.OrderListResponseDto;
-import com.iybook.sales.dto.OrderRequestFilterDto;
+import com.iybook.sales.dto.request.OrderStatusUpdateDto;
+import com.iybook.sales.dto.request.SingleOrderPagingRequestDto;
+import com.iybook.sales.dto.response.OrderListResponseDto;
+import com.iybook.sales.dto.request.OrderRequestFilterDto;
 import com.iybook.common.util.PageUtil;
+import com.iybook.sales.dto.response.OrderResponseDto;
 import com.iybook.sales.util.OldestOrderFirstSorter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,10 +61,48 @@ public class SalesServiceImpl implements SalesService {
     }
 
     @Override
+    public OrderResponseDto getOrderDetailByOrderId(int orderId) {
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        return salesMapper.selectOrderDetailByOrderId(orderId);
+    }
+
+
+    @Override
     public Map<String, List<String>> acceptOrders(List<String> orderIdList) {
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
 
-        List<OrderDto> orderList = getOrderListForChangeStatus(orderIdList, salesMapper);
+        return processApproveOrders(salesMapper, orderIdList, OrderStatus.COMPLETED);
+    }
+
+    @Override
+    public Map<String, List<String>> cancelOrders(List<String> orderIdList) {
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        return processCancelOrders(salesMapper,orderIdList,OrderStatus.COMPLETED);
+    }
+
+
+    @Override
+    public Map<String, List<String>> approveCancelOrders(List<String> orderIdList) {
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        return processCancelOrders(salesMapper, orderIdList, OrderStatus.CANCEL_REQUESTED);
+    }
+
+    @Override
+    public Map<String, List<String>> rejectCancelOrders(List<String> orderIdList) {
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        return processApproveOrders(salesMapper,orderIdList,OrderStatus.CANCEL_REQUESTED);
+    }
+
+
+    private Map<String, List<String>> processApproveOrders(SalesMapper salesMapper,
+                                                           List<String> orderIdList,
+                                                           OrderStatus currentStatus) {
+
+        List<OrderDto> orderList = salesMapper.selectOrderListByIdForChangeStatus(orderIdList);
         orderList.sort(sorter);
 
         List<String> success = new ArrayList<>();
@@ -74,7 +113,7 @@ public class SalesServiceImpl implements SalesService {
                 boolean result = orderAcceptService.acceptOrder(
                         new OrderStatusUpdateDto(
                                 order,
-                                OrderStatus.COMPLETED.getValue(),
+                                currentStatus.getValue(),
                                 OrderStatus.DELIVERED.getValue()
                         )
                 );
@@ -94,11 +133,12 @@ public class SalesServiceImpl implements SalesService {
         );
     }
 
-    @Override
-    public Map<String, List<String>> cancelOrders(List<String> orderIdList) {
-        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+    private Map<String, List<String>> processCancelOrders(SalesMapper salesMapper,
+                                                          List<String> orderIdList,
+                                                          OrderStatus currentStatus) {
 
-        List<OrderDto> orderList = getOrderListForChangeStatus(orderIdList, salesMapper);
+        List<OrderDto> orderList = salesMapper.selectOrderListByIdForChangeStatus(orderIdList);
+        orderList.sort(sorter);
 
         List<String> success = new ArrayList<>();
         List<String> fail = new ArrayList<>();
@@ -108,7 +148,7 @@ public class SalesServiceImpl implements SalesService {
                 int result = salesMapper.updateOrderStatusByOrderId(
                         new OrderStatusUpdateDto(
                                 order,
-                                OrderStatus.COMPLETED.getValue(),
+                                currentStatus.getValue(),
                                 OrderStatus.CANCELED.getValue()
                         )
                 );
@@ -126,17 +166,6 @@ public class SalesServiceImpl implements SalesService {
                 "success", success,
                 "fail", fail
         );
-    }
-
-
-    public void approveCancelRequestOrders() {
-    }
-
-    public void rejectCancelRequestOrders() {
-    }
-
-    private List<OrderDto> getOrderListForChangeStatus(List<String> orderIdList, SalesMapper salesMapper) {
-        return salesMapper.selectOrderListByIdForChangeStatus(orderIdList);
     }
 
 }

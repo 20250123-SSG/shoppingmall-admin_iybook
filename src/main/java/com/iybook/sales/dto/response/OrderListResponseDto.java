@@ -1,5 +1,6 @@
-package com.iybook.sales.dto;
+package com.iybook.sales.dto.response;
 
+import com.iybook.sales.dto.OrderDto;
 import lombok.*;
 
 import java.util.ArrayList;

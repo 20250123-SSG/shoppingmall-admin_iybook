@@ -3,7 +3,7 @@ package com.iybook.sales.service;
 import com.iybook.sales.constants.SettlementStatus;
 import com.iybook.sales.dao.SalesMapper;
 import com.iybook.sales.dto.OrderDto;
-import com.iybook.sales.dto.OrderStatusUpdateDto;
+import com.iybook.sales.dto.request.OrderStatusUpdateDto;
 import com.iybook.sales.util.SettlementDateCalculator;
 import com.iybook.sales.util.TaxCalculator;
 import com.iybook.settlement.dao.SettlementMapper;

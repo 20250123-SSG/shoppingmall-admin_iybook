@@ -20,4 +20,6 @@ public class BookFilterDto {
     private String startDate;
     private String endDate;
 
+    private int offset;
+    private int limit;
 }

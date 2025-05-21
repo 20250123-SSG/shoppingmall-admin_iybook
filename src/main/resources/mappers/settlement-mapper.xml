@@ -57,4 +57,30 @@
       , #{tax}
       )
   </insert>
+  <update id="updateSettlementStatus" parameterType="Settlement">
+    update
+      tbl_settlement
+    set
+      st_status = '정산완료'
+    , comp_date = #{exDate}
+    where
+      ex_date = #{exDate}
+  </update>
+
+  <select id="getOrderStats" resultType="com.iybook.settlement.dto.SettlementStatsDto">
+    SELECT
+
+    FROM
+      tbl_settlement
+  </select>
+
+  <select id="getSettlementStats" resultType="com.iybook.settlement.dto.SettlementStatsDto">
+    SELECT
+      COUNT(*) AS confirmedPurchaseCount,
+      SUM(st_price) AS expectedSettlementAmount,
+      SUM(tax) AS sumTax
+    FROM tbl_settlement
+      WHERE st_status = '정산예정'
+  </select>
+
 </mapper>

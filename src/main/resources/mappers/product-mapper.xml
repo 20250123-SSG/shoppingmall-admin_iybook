@@ -14,6 +14,7 @@
         <result column="book_description" property="bookDescription"/>
         <result column="category_id" property="categoryId"/>
         <result column="published_at" property="publishedAt"/>
+        <result column="created_at" property="createdAt"/>
         <result column="updated_at" property="updatedAt"/>
         <result column="publish_status" property="publishStatus"/>
         <result column="stock" property="stock"/>
@@ -32,25 +33,6 @@
         <result column="sold" property="sold"/>
         <result column="end" property="end"/>
     </resultMap>
-
-    <select id="selectBookList" resultMap="bookResultMap">
-        select
-              book_id
-            , book_name
-            , author_name
-            , publisher
-            , book_price
-            , book_image
-            , book_description
-            , category_id
-            , published_at
-            , created_at
-            , updated_at
-            , publish_status
-            , stock
-        from
-            tbl_book
-    </select>
 
     <insert id="insertBook" useGeneratedKeys="true" keyProperty="bookId">
         insert into
@@ -82,20 +64,41 @@
             )
     </insert>
 
-    <update id="updateBookById">
+    <update id="updateBookById" parameterType="BookDto">
         update
             tbl_book
-        set
-              book_name = #{bookName}
-            , author_name = #{authorName}
-            , publisher = #{publisher}
-            , book_price = #{bookPrice}
-            , book_image = #{bookImage}
-            , book_description = #{bookDescription}
-            , category_id = #{categoryId}
-            , updated_at = now()
-            , publish_status = #{publishStatus}
-            , stock = #{stock}
+        <set>
+            <if test="bookName != null and bookName !=''">
+                , book_name = #{bookName}
+            </if>
+            <if test="authorName != null and authorName !=''">
+                , author_name = #{authorName}
+            </if>
+            <if test="publisher != null and publisher != ''">
+                , publisher = #{publisher}
+            </if>
+            <if test="bookPrice != null and bookPrice != ''">
+                , book_price = #{bookPrice}
+            </if>
+            <if test="bookImage != null and bookImage != ''">
+                , book_image = #{bookImage}
+            </if>
+            <if test="bookDescription != null and bookDescription != ''">
+                , book_description = #{bookDescription}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                , category_id = #{categoryId}
+            </if>
+            <if test="publishedAt != null and publishedAt != ''">
+                , published_at = #{publishedAt}
+            </if>
+            <if test="publishStatus != null and publishStatus != ''">
+                , publish_status = #{publishStatus}
+            </if>
+            <if test="stock != null and stock != ''">
+                , stock = #{stock}
+            </if>
+        </set>
         where
             book_id = #{bookId}
     </update>
@@ -179,16 +182,62 @@
         </where>
         order by
             created_at desc
+        LIMIT
+            #{offset}, #{limit}
     </select>
 
-    <delete id="deleteBooks">
-        delete from
+    <select id="selectBookById" resultMap="bookResultMap">
+        select
+              book_id
+            , book_name
+            , author_name
+            , publisher
+            , book_price
+            , book_image
+            , book_description
+            , category_id
+            , published_at
+            , created_at
+            , updated_at
+            , publish_status
+            , stock
+        from
             tbl_book
         where
-            book_id IN
-            <foreach collection="list" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-    </delete>
+            book_id = ${id}
+    </select>
+
+    <select id="selectBookCountByFilter" resultType="_int">
+        select
+             count(*)
+        from
+            tbl_book
+        <where>
+            <if test="bookId != null and bookId !=''">
+                AND book_id LIKE CONCAT('%', #{bookId}, '%')
+            </if>
+            <if test="bookName != null and bookName !=''">
+                AND book_name LIKE CONCAT('%', #{bookName}, '%')
+            </if>
+            <if test="publisher != null and publisher != ''">
+                AND publisher LIKE CONCAT('%', #{publisher}, '%')
+            </if>
+            <if test="status != null and status.size() > 0">
+                AND publish_status IN
+                <foreach collection="status" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND ${dateType} &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND ${dateType} &lt;= DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

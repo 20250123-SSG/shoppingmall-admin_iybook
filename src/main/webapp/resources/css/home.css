@@ -1,0 +1,205 @@
+.main2 {
+  padding: 30px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.top-summary-container,
+.content-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.top-summary-container {
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.summary-box,
+.product-box,
+.order-box,
+.unsettled-box,
+.notice-section,
+.settlement-section {
+  background-color: var(--color-surface);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  color: var(--color-text);
+}
+
+.summary-box,
+.product-box,
+.order-box,
+.unsettled-box {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+.notice-section {
+  flex: 5;
+}
+
+.settlement-section {
+  flex: 4;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 6px;
+  color: var(--color-primary);
+  text-align: left;
+}
+
+
+
+/* 상품 상태 통계용 stat-box */
+.stats-box {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #f5f7fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-height: 150px;
+}
+
+/* 개별 항목 */
+.stat-item {
+  font-size: 18px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* 링크 공통 스타일 */
+.stat-value {
+  font-weight: 700;
+  font-size: 24px;
+  user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  text-decoration: none;
+}
+
+.stat-value:hover {
+  text-decoration: underline;
+}
+
+/* 상태별 색상 */
+.stat-value.all {
+  color: #333;
+}
+
+.stat-value.sell {
+  color: #27ae60;
+}
+
+.stat-value.sold {
+  color: #e74c3c;
+}
+
+.stat-value.end {
+  color: #7f8c8d;
+}
+
+.stat-value.orderCompleted {
+  color: #2270e6; /* 예: 주황색 계열 */
+}
+
+.stat-value.cancelRequested {
+  color: #e67e22; /* 예: 주황색 계열 */
+}
+
+/* product-box 전용 */
+.product-box > br {
+  margin-bottom: 12px;
+}
+
+/* 공지사항 테이블 */
+.notice-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-surface);
+  font-size: 14px;
+}
+
+.notice-table thead {
+  background-color: var(--color-primary);
+  color: var(--color-table-th);
+  text-align: center;
+}
+
+.notice-table th,
+.notice-table td {
+  padding: 14px 12px;
+  border: 1px solid var(--color-table-bg);
+  text-align: center;
+}
+
+.notice-table td:nth-child(3) {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notice-table tbody tr:hover {
+  background-color: var(--color-table-bg);
+}
+
+.notice-table td[colspan] {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+/* 상태 색상 */
+.status-red {
+  color: #e67e22;
+  font-weight: bold;
+}
+
+.status-blue {
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.stat-value.readonly {
+  cursor: default;
+  text-decoration: none !important;
+  color: #555; /* 선택적으로 색도 무난하게 */
+  pointer-events: none;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .top-summary-container,
+  .content-sections {
+    flex-direction: column;
+  }
+
+  .summary-box,
+  .product-box,
+  .order-box,
+  .unsettled-box,
+  .notice-section,
+  .settlement-section {
+    width: 100%;
+  }
+}

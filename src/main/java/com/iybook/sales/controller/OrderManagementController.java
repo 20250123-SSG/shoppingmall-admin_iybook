@@ -1,8 +1,9 @@
 package com.iybook.sales.controller;
 
-import com.iybook.sales.dto.OrderListResponseDto;
-import com.iybook.sales.dto.OrderRequestFilterDto;
+import com.iybook.sales.dto.response.OrderListResponseDto;
+import com.iybook.sales.dto.request.OrderRequestFilterDto;
 import com.iybook.sales.service.SalesService;
+import com.iybook.sales.util.OrderRequestInitFilterFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,14 +26,14 @@ public class OrderManagementController {
     @GetMapping("/orderControl.page")
     public String orderControlPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                    @ModelAttribute OrderRequestFilterDto searchFilter,
-                                   Model model){
+                                   Model model) {
         OrderListResponseDto orderListResult;
 
         boolean isFirstPageLoad = searchFilter.getStartDate() == null || searchFilter.getEndDate() == null;
-        if(isFirstPageLoad){
-            searchFilter = OrderRequestFilterDto.initOrderControl();
+        if (isFirstPageLoad) {
+            searchFilter = OrderRequestInitFilterFactory.initOrderControl();
             orderListResult = OrderListResponseDto.empty();
-        }else {
+        } else {
             orderListResult = salesService.getOrderListAndPageInfoByFilter(page, searchFilter);
         }
         model.addAttribute("filter", searchFilter);
@@ -48,10 +49,10 @@ public class OrderManagementController {
 
         Map<String, List<String>> result = salesService.acceptOrders(orderIdList);
 
-        if(result.get("fail").isEmpty()) {
+        if (result.get("fail").isEmpty()) {
             redirectAttributes.addFlashAttribute("message",
                     String.format("총 %,d건 주문을 수락하였습니다.", result.get("success").size()));
-        }else {
+        } else {
             redirectAttributes.addFlashAttribute("message",
                     String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.get("fail"))));
         }
@@ -64,10 +65,10 @@ public class OrderManagementController {
 
         Map<String, List<String>> result = salesService.cancelOrders(orderIdList);
 
-        if(result.get("fail").isEmpty()) {
+        if (result.get("fail").isEmpty()) {
             redirectAttributes.addFlashAttribute("message",
                     String.format("총 %,d건 주문을 취소하였습니다.", result.get("success").size()));
-        }else {
+        } else {
             redirectAttributes.addFlashAttribute("message",
                     String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.get("fail"))));
         }

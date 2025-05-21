@@ -2,6 +2,7 @@ package com.iybook.settlement.service;
 
 import com.iybook.settlement.dao.SettlementMapper;
 import com.iybook.settlement.dto.SettlementDto;
+import com.iybook.settlement.dto.SettlementStatsDto;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -29,5 +30,15 @@ public class SettlementServiceImpl implements SettlementService {
     public List<SettlementDto> getAllSettlement() {
         List<SettlementDto> list = sqlSession.getMapper(SettlementMapper.class).findAllSettlement();
         return list;
+    }
+
+    @Override
+    public int updateSettlementStatus(SettlementDto settlementDto) {
+        int result = sqlSession.getMapper(SettlementMapper.class).updateSettlementStatus(settlementDto);
+        return result;
+    }
+    @Override
+    public SettlementStatsDto getSettlementStats() {
+        return sqlSession.getMapper(SettlementMapper.class).getSettlementStats();
     }
 }

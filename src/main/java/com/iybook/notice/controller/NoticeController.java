@@ -48,6 +48,12 @@ public class NoticeController {
         return "notice/noticeList";
     }
 
+    @GetMapping("/home")
+    @ResponseBody
+    public List<NoticeDto> getNotices() {
+        return noticeService.getNotices();
+    }
+
     @GetMapping("/registNotice.page")
     public String showRegistNotice() {
         return "notice/registNotice";

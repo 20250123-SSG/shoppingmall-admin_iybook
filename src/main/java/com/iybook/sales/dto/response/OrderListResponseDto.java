@@ -1,5 +1,6 @@
-package com.iybook.sales.dto;
+package com.iybook.sales.dto.response;
 
+import com.iybook.sales.dto.OrderDto;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ public class OrderListResponseDto {
     private int totalOrderCount;
     private List<OrderDto> orderList;
 
-    public static OrderListResponseDto empty(){
-        return new OrderListResponseDto(0, 0, 0, 0,0, new ArrayList<>());
+    public static OrderListResponseDto empty() {
+        return new OrderListResponseDto(0, 0, 0, 0, 0, new ArrayList<>());
     }
 
 }

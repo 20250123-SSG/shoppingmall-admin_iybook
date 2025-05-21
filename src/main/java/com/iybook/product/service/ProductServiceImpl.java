@@ -26,12 +26,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<BookDto> getBookList() {
-        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
-        return productMapper.selectBookList();
-    }
-
-    @Override
     public List<BookDto> getBookListByFilter(BookFilterDto bookFilter) {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
         List<BookDto> list = List.of();
@@ -41,12 +35,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int registBook(BookDto book) {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+
         return productMapper.insertBook(book);
     }
 
     @Override
     public int updateBookById(BookDto book) {
-        return 0;
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        return productMapper.updateBookById(book);
     }
 
     @Override
@@ -57,14 +53,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int deleteBooks(List<String> bookIds) {
+    public BookDto getBookById(String id) {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
-        return productMapper.deleteBooks(bookIds);
+        return productMapper.selectBookById(id);
     }
 
     @Override
     public List<CategoryDto> getCategoryList() {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
         return productMapper.selectCategoryList();
+    }
+
+    @Override
+    public int getBookCountByFilter(BookFilterDto bookFilter) {
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        return productMapper.selectBookCountByFilter(bookFilter);
     }
 }

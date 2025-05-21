@@ -10,9 +10,10 @@
       <label for="settlementMonth" class="form-label mb-0">정산월</label>
       <input type="month" class="form-control" id="settlementMonth" name="settlementMonth">
     </div>
+    <hr>
     <div class="col-auto">
-      <button type="button" class="btn btn-primary" onclick="searchMonthlySettlement()">검색</button>
-      <button type="button" class="btn btn-secondary" onclick="resetSearch()">초기화</button>
+      <button type="button" class="btn btn-primary btn-gray" onclick="searchMonthlySettlement()">검색</button>
+      <button type="button" class="btn btn-secondary btn-red" onclick="resetSearch()">초기화</button>
     </div>
   </div>
 </div>

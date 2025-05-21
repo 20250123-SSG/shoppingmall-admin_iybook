@@ -22,13 +22,13 @@
             <div class="stat-item">📊 전체 상품 :
               <a href="${contextPath}/product/list.page" class="stat-value all">로딩중...</a>
             </div>
-            <div class="stat-item">🛒 판매 중 :
+            <div class="stat-item">🛒 판매 :
               <a href="${contextPath}/product/list.page?status=판매" class="stat-value sell">로딩중...</a>
             </div>
             <div class="stat-item">🚫 품절 :
               <a href="${contextPath}/product/list.page?status=품절" class="stat-value sold">로딩중...</a>
             </div>
-            <div class="stat-item">⏳ 판매 종료 :
+            <div class="stat-item">⏳ 숨김 :
               <a href="${contextPath}/product/list.page?status=숨김" class="stat-value end">로딩중...</a>
             </div>
           </div>

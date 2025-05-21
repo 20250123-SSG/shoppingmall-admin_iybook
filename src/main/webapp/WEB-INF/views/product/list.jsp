@@ -27,7 +27,7 @@
               ${stats.all}
             </span>
           </div>
-          <div class="stat-item">판매중
+          <div class="stat-item">판매
             <span class="stat-value" onclick="location.href='${contextPath}/product/list.page?status=판매'">
               ${stats.sell}
             </span>
@@ -37,7 +37,7 @@
               ${stats.sold}
             </span>
           </div>
-          <div class="stat-item">판매종료
+          <div class="stat-item">숨김
             <span class="stat-value" onclick="location.href='${contextPath}/product/list.page?status=숨김'">
               ${stats.end}
             </span>
@@ -63,11 +63,11 @@
               <input type="checkbox" id="all"
                      <c:if test="${fn:length(checkedStatus) == 3}">checked</c:if>/> 전체
               <input type="checkbox" name="status" value="판매"
-                     <c:if test="${fn:contains(checkedStatus, '판매')}">checked</c:if>/> 판매중
+                     <c:if test="${fn:contains(checkedStatus, '판매')}">checked</c:if>/> 판매
               <input type="checkbox" name="status" value="품절"
                      <c:if test="${fn:contains(checkedStatus, '품절')}">checked</c:if>/> 품절
               <input type="checkbox" name="status" value="숨김"
-                     <c:if test="${fn:contains(checkedStatus, '숨김')}">checked</c:if> /> 판매종료
+                     <c:if test="${fn:contains(checkedStatus, '숨김')}">checked</c:if> /> 숨김
             </div>
 
             <div class="form-row">
@@ -109,11 +109,11 @@
         <div class="card product-list-box">
           <div class="table-actions" style="display: flex; justify-content: space-between; align-items: center;">
             <div class="left-actions">
-              <button class="btn btn-danger" id="deleteSelected">선택 삭제</button>
+              <button class="btn btn-danger" id="deleteSelected">선택 숨김</button>
               <select name="status" id="statusChangeSelect">
                 <option value="">판매상태 변경</option>
-                <option value="판매">판매중</option>
-                <option value="품절">판매중지</option>
+                <option value="판매">판매</option>
+                <option value="품절">품절</option>
               </select>
             </div>
             <button class="btn btn-primary" id="saveChanges">수정 저장</button>

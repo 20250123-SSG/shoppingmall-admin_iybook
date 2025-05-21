@@ -8,8 +8,7 @@ public enum OrderStatus {
     COMPLETED("주문완료"),
     CANCEL_REQUESTED("취소요청"),
     CANCELED("취소완료"),
-    DELIVERED("배송완료")
-    ;
+    DELIVERED("배송완료");
 
     private final String value;
 

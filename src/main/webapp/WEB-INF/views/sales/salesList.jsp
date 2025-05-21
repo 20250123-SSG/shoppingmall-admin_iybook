@@ -155,15 +155,18 @@
     </div>
   </div>
 
+
+
+
+
+
   <div id="orderDetailModal" class="modal">
     <div class="modal-content-wrapper">
       <button class="modal-close">&times;</button>
-
       <div class="modal-header">
         <h2>주문 상세 정보</h2>
         <p id="orderIdDisplay">주문번호: </p>
       </div>
-
       <div class="modal-body-scroll">
         <div class="modal-section modal-summary">
           <div>
@@ -183,7 +186,6 @@
             <p id="totalPrice"></p>
           </div>
         </div>
-
         <div class="modal-section modal-info">
           <div class="modal-date">
             <p><strong>주문일:</strong> <span id="orderDate"></span></p>
@@ -191,7 +193,6 @@
           </div>
           <p><strong>주문 메모:</strong> <span id="orderMemo"></span></p>
         </div>
-
         <hr>
         <div class="modal-section modal-customer">
           <p class="section-title">주문자 정보</p>
@@ -201,7 +202,6 @@
             <p><strong>주소: </strong> <span id="customerAddress"></span></p>
           </div>
         </div>
-
         <hr>
         <div class="modal-section modal-product">
           <p class="section-title">주문 상품 정보</p>
@@ -227,6 +227,8 @@
       </div>
     </div>
   </div>
+
+
 
 </div>
 

@@ -46,7 +46,7 @@
 
         <!-- 검색 필터 영역 -->
         <div class="card search-box">
-          <form method="get" action="${contextPath}/product/list.page">
+          <form id="searchForm" method="get" action="${contextPath}/product/list.page">
 
             <div class="form-row">
               <label>도서번호</label>
@@ -145,23 +145,17 @@
                 </tr>
               </c:when>
               <c:otherwise>
-                <c:forEach var="book" items="${bookList}">
-                  <tr data-book-id="${book.bookId}">
-                    <td><input type="checkbox" value="${book.bookId}" /></td>
-                    <td>${book.bookId}</td>
-                    <td>${book.bookName}</td>
-                    <td>${book.publisher}</td>
-                    <td>${book.bookPrice}</td>
-                    <td>${book.stock}</td>
-                    <td>${book.createdAt}</td>
-                    <td>${book.updatedAt}</td>
-                    <td>${book.publishStatus}</td>
-                  </tr>
-                </c:forEach>
+                <jsp:include page="bookTable.jsp"/>
               </c:otherwise>
             </c:choose>
             </tbody>
           </table>
+
+          <!-- 페이지네이션 -->
+          <div id="pagination" class="pagination-wrapper">
+            <jsp:include page="pagination.jsp"/>
+          </div>
+
         </div>
 
       </div>
@@ -173,7 +167,6 @@
 <script>
   const contextPath = "${contextPath}";
 </script>
-
 <script src="${contextPath}/resources/js/pages/product/product-list.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

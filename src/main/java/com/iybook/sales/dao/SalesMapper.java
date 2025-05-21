@@ -8,6 +8,7 @@ import com.iybook.sales.dto.response.OrderResponseDto;
 import com.iybook.sales.dto.response.OrderStatsResponseDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SalesMapper {
 
@@ -23,5 +24,7 @@ public interface SalesMapper {
     int updateOrderStatusByOrderId(OrderStatusUpdateDto orderStatusChange);
 
     OrderStatsResponseDto getOrderStats();
+  
+    int updateOrderCancelAuto(Map<String, String> info);
 
 }

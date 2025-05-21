@@ -6,8 +6,7 @@ import lombok.Getter;
 public enum OrderTableInfo {
 
     DISPLAY(25),
-    PAGE_PER_BLOCK(5)
-    ;
+    PAGE_PER_BLOCK(5);
 
     private final int value;
 

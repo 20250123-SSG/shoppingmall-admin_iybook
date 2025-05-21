@@ -164,3 +164,44 @@ input[type="text"], select, input[type="date"] {
 .product-table tbody tr td:first-child:hover {
   background-color: inherit;
 }
+
+/* 페이지네이션 컨테이너 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* 각 페이지 번호 */
+.pagination a {
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+  border: 1px solid var(--color-muted);
+  transition: background-color 0.2s ease;
+}
+
+.pagination a:hover {
+  background-color: var(--color-primary-hover);
+  color: var(--color-btn-ac);
+}
+
+/* 현재 페이지 표시 */
+.pagination .current {
+  background-color: var(--color-primary);
+  color: var(--color-btn-ac);
+  font-weight: bold;
+  pointer-events: none;
+}
+
+/* 비활성화된 <, > 버튼 */
+.pagination .disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}

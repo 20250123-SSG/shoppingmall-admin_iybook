@@ -26,14 +26,14 @@ public class CancelManagementController {
     @GetMapping("/cancelControl.page")
     public String orderControlPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                    @ModelAttribute OrderRequestFilterDto searchFilter,
-                                   Model model){
+                                   Model model) {
         OrderListResponseDto orderListResult;
 
         boolean isFirstPageLoad = searchFilter.getStartDate() == null || searchFilter.getEndDate() == null;
-        if(isFirstPageLoad){
+        if (isFirstPageLoad) {
             searchFilter = OrderRequestInitFilterFactory.initCancelControl();
             orderListResult = OrderListResponseDto.empty();
-        }else {
+        } else {
             orderListResult = salesService.getOrderListAndPageInfoByFilter(page, searchFilter);
         }
         model.addAttribute("filter", searchFilter);
@@ -47,13 +47,13 @@ public class CancelManagementController {
     public String approveCancelOrders(@RequestParam String selectedOrderIds, RedirectAttributes redirectAttributes) {
         List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
 
-        log.debug("waefawefwefwefewfa {}",selectedOrderIds);
+        log.debug("waefawefwefwefewfa {}", selectedOrderIds);
         Map<String, List<String>> result = salesService.approveCancelOrders(orderIdList);
 
-        if(result.get("fail").isEmpty()) {
+        if (result.get("fail").isEmpty()) {
             redirectAttributes.addFlashAttribute("message",
                     String.format("총 %,d건 취소요청을 수락하였습니다.", result.get("success").size()));
-        }else {
+        } else {
             redirectAttributes.addFlashAttribute("message",
                     String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.get("fail"))));
         }
@@ -66,10 +66,10 @@ public class CancelManagementController {
 
         Map<String, List<String>> result = salesService.rejectCancelOrders(orderIdList);
 
-        if(result.get("fail").isEmpty()) {
+        if (result.get("fail").isEmpty()) {
             redirectAttributes.addFlashAttribute("message",
                     String.format("총 %,d건 취소요청을 취소하였습니다.", result.get("success").size()));
-        }else {
+        } else {
             redirectAttributes.addFlashAttribute("message",
                     String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.get("fail"))));
         }

@@ -13,6 +13,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -27,23 +28,28 @@ public class OrderAcceptServiceImpl implements OrderAcceptService {
         SettlementMapper settlementMapper = sqlSession.getMapper(SettlementMapper.class);
 
         int updateOrderStatusResult = salesMapper.updateOrderStatusByOrderId(updateInto);
-        if(updateOrderStatusResult != 1) {
+        if (updateOrderStatusResult != 1) {
             return false;
         }
 
         OrderDto order = updateInto.order();
         LocalDate orderDate = LocalDate.from(order.getOrderDate());
+        Map<String, Integer> taxResult = taxCalculator.calculate(
+                order.getOrderTotalPrice(),
+                order.getPayment()
+        );
 
         SettlementDto settlementDto = SettlementDto.builder()
                 .orderId(Integer.parseInt(order.getOrderId()))
                 .stDate(orderDate)
                 .exDate(settlementDateCalculator.calculate(orderDate))
-                .tax((int) taxCalculator.calculate(order.getOrderTotalPrice(), order.getPayment()))
+                .stPrice(taxResult.get("settlement"))
+                .tax(taxResult.get("tax"))
                 .stStatus(SettlementStatus.PENDING.getValue())
                 .build();
 
         int insertSettlementResult = settlementMapper.insertSettlement(settlementDto);
-        if(insertSettlementResult != 1) {
+        if (insertSettlementResult != 1) {
             return false;
         }
 

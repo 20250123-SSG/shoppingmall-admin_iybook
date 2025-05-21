@@ -34,25 +34,6 @@
         <result column="end" property="end"/>
     </resultMap>
 
-    <select id="selectBookList" resultMap="bookResultMap">
-        select
-              book_id
-            , book_name
-            , author_name
-            , publisher
-            , book_price
-            , book_image
-            , book_description
-            , category_id
-            , published_at
-            , created_at
-            , updated_at
-            , publish_status
-            , stock
-        from
-            tbl_book
-    </select>
-
     <insert id="insertBook" useGeneratedKeys="true" keyProperty="bookId">
         insert into
             tbl_book
@@ -201,17 +182,9 @@
         </where>
         order by
             created_at desc
+        LIMIT
+            #{offset}, #{limit}
     </select>
-
-    <delete id="deleteBooks">
-        delete from
-            tbl_book
-        where
-            book_id IN
-            <foreach collection="list" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-    </delete>
 
     <select id="selectBookById" resultMap="bookResultMap">
         select
@@ -232,6 +205,39 @@
             tbl_book
         where
             book_id = ${id}
+    </select>
+
+    <select id="selectBookCountByFilter" resultType="_int">
+        select
+             count(*)
+        from
+            tbl_book
+        <where>
+            <if test="bookId != null and bookId !=''">
+                AND book_id LIKE CONCAT('%', #{bookId}, '%')
+            </if>
+            <if test="bookName != null and bookName !=''">
+                AND book_name LIKE CONCAT('%', #{bookName}, '%')
+            </if>
+            <if test="publisher != null and publisher != ''">
+                AND publisher LIKE CONCAT('%', #{publisher}, '%')
+            </if>
+            <if test="status != null and status.size() > 0">
+                AND publish_status IN
+                <foreach collection="status" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND ${dateType} &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND ${dateType} &lt;= DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND category_id = #{categoryId}
+            </if>
+        </where>
     </select>
 
 </mapper>

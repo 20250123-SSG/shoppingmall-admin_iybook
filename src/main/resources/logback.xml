@@ -8,7 +8,6 @@
 
   <logger name="org.springframework" level="INFO" />
   <logger name="com.iybook" level="DEBUG" />
-<!--  <logger name="com.iybook" level="INFO" />-->
 
 
   <root level="WARN">

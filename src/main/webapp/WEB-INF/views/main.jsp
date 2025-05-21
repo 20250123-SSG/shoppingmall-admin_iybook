@@ -1,19 +1,98 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
+<link rel="stylesheet" href="${contextPath}/resources/css/home.css">
 
 <div class="main">
-    <h2>인용문고</h2>
-    <div>
-        <canvas id="myChart"></canvas>
+    <div class="main2">
+        <div class="dashboard-container">
+
+            <div class="top-summary-container">
+                <div class="summary-box">섹션 1</div>
+                <div class="summary-box">섹션 2</div>
+                <div class="summary-box">섹션 3</div>
+            </div>
+
+            <div class="content-sections">
+                <div class="notice-section">
+                    <h2>최신 공지사항</h2>
+                    <table class="notice-table">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>제목</th>
+                            <th>내용</th>
+                            <th>숨김 여부</th>
+                        </tr>
+                        </thead>
+                        <tbody id="notice-body">
+                        <tr>
+                            <td colspan="4">로딩 중...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="settlement-section">
+                    <h2>월별 정산 금액 차트</h2>
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    fetch('${contextPath}/notice/home')
+      .then(response => response.json())
+      .then(data => {
+          const tbody = document.getElementById('notice-body');
+          tbody.innerHTML = ''; // 기존 로딩 메시지 제거
 
+          if (data.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">등록된 공지사항이 없습니다.</td></tr>';
+              return;
+          }
+
+          data.forEach(notice => {
+              const title = notice.title.length > 10
+                ? notice.title.substring(0, 10) + '...'
+                : notice.title
+
+              const description = notice.description.length > 30
+                ? notice.description.substring(0, 30) + '...'
+                : notice.description;
+
+              const publishStatus = notice.publishStatus === '숨김'
+                ? '<span class="status-red">숨김</span>'
+                : '<span class="status-blue">게시</span>';
+
+              const row = `
+                    <tr>
+                        <td>\${notice.noticeId}</td>
+                        <td><a href="${contextPath}/notice/noticeDetail.do?noticeId=\${notice.noticeId}">\${title}</a></td>
+                        <td>\${description}</td>
+                        <td>\${publishStatus}</td>
+                    </tr>
+                `;
+              tbody.insertAdjacentHTML('beforeend', row);
+          });
+
+          console.log(tbody)
+      })
+      .catch(error => {
+          console.error('공지사항 로딩 실패:', error);
+          document.getElementById('notice-body').innerHTML =
+            '<tr><td colspan="6" style="text-align:center;">공지사항을 불러오지 못했습니다.</td></tr>';
+      });
+</script>
+
+<%--차트--%>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('myChart');
     let myChart = null; // 차트 인스턴스를 저장할 변수

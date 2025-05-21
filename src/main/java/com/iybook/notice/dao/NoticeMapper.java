@@ -19,4 +19,5 @@ public interface NoticeMapper {
     void deleteNoticesByIds(@Param("noticeIds") List<Integer> noticeIds);
     void deleteById(@Param("noticeId") int noticeId);
 
+    List<NoticeDto> selectNotices();
 }

@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MainController {
 
 
-    @GetMapping("/main") //   /user/signup.page  => /WEB-INF/views/user/signup.jsp
-    public String loginPage(){
+    @GetMapping("/main")
+    public String mainPage(){
+
         return "main";
     }
 

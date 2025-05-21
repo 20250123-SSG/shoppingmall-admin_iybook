@@ -39,6 +39,19 @@
       #{offset}, #{display}
   </select>
 
+  <select id="selectNotices" resultMap="noticeResultMap">
+    SELECT
+      notice_id,
+      title,
+      description,
+      DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
+      DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i:%s') AS updated_at,
+      publish_status
+    FROM tbl_notice
+    ORDER BY notice_id DESC
+    LIMIT 5
+  </select>
+
   <insert id="insertNotice" useGeneratedKeys="true" keyProperty="noticeId">
     insert into tbl_notice
       (

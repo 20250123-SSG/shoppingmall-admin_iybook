@@ -23,14 +23,14 @@ public class SalesController {
     @GetMapping("/salesList.page")
     public String salesList(@RequestParam(value = "page", defaultValue = "1") int page,
                             @ModelAttribute OrderRequestFilterDto searchFilter,
-                            Model model){
+                            Model model) {
         OrderListResponseDto orderListResult;
 
         boolean isFirstPageLoad = searchFilter.getStartDate() == null || searchFilter.getEndDate() == null;
-        if(isFirstPageLoad){
+        if (isFirstPageLoad) {
             searchFilter = OrderRequestInitFilterFactory.initSalesList();
             orderListResult = OrderListResponseDto.empty();
-        }else {
+        } else {
             orderListResult = salesService.getOrderListAndPageInfoByFilter(page, searchFilter);
         }
         model.addAttribute("filter", searchFilter);

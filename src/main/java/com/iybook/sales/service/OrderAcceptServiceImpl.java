@@ -27,7 +27,7 @@ public class OrderAcceptServiceImpl implements OrderAcceptService {
         SettlementMapper settlementMapper = sqlSession.getMapper(SettlementMapper.class);
 
         int updateOrderStatusResult = salesMapper.updateOrderStatusByOrderId(updateInto);
-        if(updateOrderStatusResult != 1) {
+        if (updateOrderStatusResult != 1) {
             return false;
         }
 
@@ -43,7 +43,7 @@ public class OrderAcceptServiceImpl implements OrderAcceptService {
                 .build();
 
         int insertSettlementResult = settlementMapper.insertSettlement(settlementDto);
-        if(insertSettlementResult != 1) {
+        if (insertSettlementResult != 1) {
             return false;
         }
 

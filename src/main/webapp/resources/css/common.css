@@ -154,6 +154,7 @@ table>thead {
   padding: 100px 24px 24px 24px;
   background-color: var(--color-bg);
   min-height: 100vh;
+  min-width: 900px;
   box-sizing: border-box;
 }
 

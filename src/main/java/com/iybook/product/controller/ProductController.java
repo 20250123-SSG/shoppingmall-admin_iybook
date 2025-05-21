@@ -1,11 +1,13 @@
 package com.iybook.product.controller;
 
 import com.iybook.common.util.FileUtil;
+import com.iybook.common.util.PageUtil;
 import com.iybook.product.dto.BookDto;
 import com.iybook.product.dto.BookFilterDto;
 import com.iybook.product.dto.BookStatsDto;
 import com.iybook.product.dto.CategoryDto;
 import com.iybook.product.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +28,13 @@ public class ProductController {
 
     private final ProductService productService;
     private final FileUtil fileUtil;
+    private final PageUtil pageUtil;
 
     @GetMapping("/list.page")
-    public void list(BookFilterDto bookFilter, Model model){
+    public String bookList(BookFilterDto bookFilter,
+                           @RequestParam(defaultValue = "1") int page,
+                           Model model,
+                           HttpServletRequest request){
         log.debug("list 호출");
 
         // 검색필터
@@ -39,9 +45,28 @@ public class ProductController {
         // 카테고리 조회
         List<CategoryDto> categoryList = productService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
-        // productList 호출
+
+        // pagination
+        // 전체 도서 수 조회
+        int totalCount = productService.getBookCountByFilter(bookFilter);
+
+        // pagination 정보 계산
+        int display = 10;
+        int pagePerBlock = 5;
+        Map<String, Object> pageInfo = pageUtil.getPageInfo(totalCount, page, display, pagePerBlock);
+        model.addAttribute("pageInfo", pageInfo);
+
+        // productList 호출 (페이지 적용)
+        bookFilter.setOffset((int) pageInfo.get("offset"));
+        bookFilter.setLimit(display);
         List<BookDto> bookList = productService.getBookListByFilter(bookFilter);
         model.addAttribute("bookList", bookList);
+
+        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+            return "product/bookTable";
+        }
+
+        return "product/list"; // 전체페이지 호출
     }
 
     @PostMapping("/update.do")

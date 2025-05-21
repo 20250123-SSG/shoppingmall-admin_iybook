@@ -62,11 +62,11 @@
             , od.order_detail_total_price
         from
             tbl_order o
-                join tbl_order_detail od ON od.order_id = o.order_id
-                join tbl_customer c ON o.customer_id = c.customer_id
-                join tbl_book b ON b.book_id = od.book_id
+                left join tbl_order_detail od ON od.order_id = o.order_id
+                left join tbl_customer c ON o.customer_id = c.customer_id
+                left join tbl_book b ON b.book_id = od.book_id
         where
-            o.order_id = #{orderId}
+            o.order_id =  #{orderId}
     </select>
 
     

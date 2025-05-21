@@ -138,7 +138,6 @@ public class SalesServiceImpl implements SalesService {
                                                           OrderStatus currentStatus) {
 
         List<OrderDto> orderList = salesMapper.selectOrderListByIdForChangeStatus(orderIdList);
-        orderList.sort(sorter);
 
         List<String> success = new ArrayList<>();
         List<String> fail = new ArrayList<>();

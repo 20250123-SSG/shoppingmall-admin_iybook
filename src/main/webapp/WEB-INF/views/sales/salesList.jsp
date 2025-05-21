@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 
 <link rel="stylesheet" href="${contextPath}/resources/css/pages/sales/sales.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/pages/sales/orderDetail.css">
 
 <div class="main">
 
@@ -152,7 +153,79 @@
         </li>
       </ul>
     </div>
+  </div>
 
+  <div id="orderDetailModal" class="modal">
+    <div class="modal-content-wrapper">
+      <button class="modal-close">&times;</button>
+
+      <div class="modal-header">
+        <h2>주문 상세 정보</h2>
+        <p id="orderIdDisplay">주문번호: </p>
+      </div>
+
+      <div class="modal-body-scroll">
+        <div class="modal-section modal-summary">
+          <div>
+            <p class="label">주문 상태</p>
+            <p id="orderStatus"></p>
+          </div>
+          <div>
+            <p class="label">결제 방법</p>
+            <p id="paymentMethod"></p>
+          </div>
+          <div>
+            <p class="label">총 주문 수량</p>
+            <p id="totalCount"></p>
+          </div>
+          <div>
+            <p class="label">총 결제 금액</p>
+            <p id="totalPrice"></p>
+          </div>
+        </div>
+
+        <div class="modal-section modal-info">
+          <div class="modal-date">
+            <p><strong>주문일:</strong> <span id="orderDate"></span></p>
+            <p><strong>상태 변경일:</strong> <span id="updateDate"></span></p>
+          </div>
+          <p><strong>주문 메모:</strong> <span id="orderMemo"></span></p>
+        </div>
+
+        <hr>
+        <div class="modal-section modal-customer">
+          <p class="section-title">주문자 정보</p>
+          <div class="customer-info">
+            <p><strong>고객 ID: </strong> <span id="customerIdModal"></span></p>
+            <p><strong>고객명: </strong> <span id="customerName"></span></p>
+            <p><strong>주소: </strong> <span id="customerAddress"></span></p>
+          </div>
+        </div>
+
+        <hr>
+        <div class="modal-section modal-product">
+          <p class="section-title">주문 상품 정보</p>
+          <table>
+            <thead>
+            <tr>
+              <th>주문 상세 ID</th>
+              <th>도서 ID</th>
+              <th>상품 정보</th>
+              <th>수량</th>
+              <th>가격</th>
+            </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+            <tfoot>
+            <tr>
+              <td colspan="4">총계</td>
+              <td id="grandTotal"></td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -161,5 +234,6 @@
   const contextPath = "${contextPath}";
 </script>
 <script src="${contextPath}/resources/js/pages/sales/salesList.js"></script>
+<script src="${contextPath}/resources/js/pages/sales/orderDetail.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

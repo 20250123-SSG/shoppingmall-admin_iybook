@@ -1,9 +1,13 @@
 package com.iybook.sales.constants;
 
+import lombok.Getter;
+
+@Getter
 public enum SettlementStatus {
 
     PENDING("정산예정"),
-    COMPLETED("정산완료");
+    COMPLETED("정산완료")
+    ;
 
     private final String value;
 
@@ -11,8 +15,5 @@ public enum SettlementStatus {
         this.value = description;
     }
 
-    public String getValue() {
-        return value;
-    }
 
 }

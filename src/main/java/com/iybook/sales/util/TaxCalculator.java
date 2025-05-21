@@ -14,6 +14,7 @@ public class TaxCalculator {
             return amount;
         }
         double taxAmount = amount * taxPercent / 100.0;
+
         return amount - taxAmount;
     }
 

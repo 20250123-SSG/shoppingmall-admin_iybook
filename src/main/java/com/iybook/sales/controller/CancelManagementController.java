@@ -3,6 +3,7 @@ package com.iybook.sales.controller;
 import com.iybook.sales.dto.request.OrderRequestFilterDto;
 import com.iybook.sales.dto.response.OrderListResponseDto;
 import com.iybook.sales.service.SalesService;
+import com.iybook.sales.util.OrderRequestInitFilterFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class CancelManagementController {
 
         boolean isFirstPageLoad = searchFilter.getStartDate() == null || searchFilter.getEndDate() == null;
         if(isFirstPageLoad){
-            searchFilter = OrderRequestFilterDto.initOrderControl();
+            searchFilter = OrderRequestInitFilterFactory.initCancelControl();
             orderListResult = OrderListResponseDto.empty();
         }else {
             orderListResult = salesService.getOrderListAndPageInfoByFilter(page, searchFilter);

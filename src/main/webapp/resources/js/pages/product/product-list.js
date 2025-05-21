@@ -224,10 +224,8 @@ function loadBookList(page = 1) {
   const form = document.getElementById('searchForm');
   const formData = new FormData(form);
 
-  // page 값을 추가해줍니다
   formData.append("page", page);
 
-  // FormData를 URL 파라미터로 변환
   const params = new URLSearchParams(formData).toString();
 
   fetch(`${contextPath}/product/list.page?${params}`)

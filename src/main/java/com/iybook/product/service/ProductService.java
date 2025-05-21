@@ -12,8 +12,6 @@ public interface ProductService {
     // 상품 통계 조회
     BookStatsDto getBookStats();
 
-    // 상품전체조회
-    List<BookDto> getBookList();
     // 상품 필터 조회
     List<BookDto> getBookListByFilter(BookFilterDto bookFilterDto);
     // 상품등록
@@ -22,8 +20,6 @@ public interface ProductService {
     int updateBookById(BookDto book);
     // 상품일괄 판매변경
     int updatePublishStatus(Map<String, Object> map);
-    // 상품삭제
-    int deleteBooks(List<String> bookIds);
     // id로 상품조회
     BookDto getBookById(String id);
 
@@ -32,7 +28,4 @@ public interface ProductService {
     // 검색 상품 개수 조회
     int getBookCountByFilter(BookFilterDto bookFilter);
 
-    // 카테고리 등록
-    // 카테고리 수정
-    // 카테고리 삭제
 }

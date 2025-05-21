@@ -34,25 +34,6 @@
         <result column="end" property="end"/>
     </resultMap>
 
-    <select id="selectBookList" resultMap="bookResultMap">
-        select
-              book_id
-            , book_name
-            , author_name
-            , publisher
-            , book_price
-            , book_image
-            , book_description
-            , category_id
-            , published_at
-            , created_at
-            , updated_at
-            , publish_status
-            , stock
-        from
-            tbl_book
-    </select>
-
     <insert id="insertBook" useGeneratedKeys="true" keyProperty="bookId">
         insert into
             tbl_book
@@ -204,16 +185,6 @@
         LIMIT
             #{offset}, #{limit}
     </select>
-
-    <delete id="deleteBooks">
-        delete from
-            tbl_book
-        where
-            book_id IN
-            <foreach collection="list" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-    </delete>
 
     <select id="selectBookById" resultMap="bookResultMap">
         select

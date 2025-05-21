@@ -6,9 +6,11 @@ import com.iybook.statistics.dto.StatisticsSalesDto;
 import com.iybook.statistics.dto.StatisticsRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 
@@ -39,10 +41,12 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<StatisticsCategoryDto> getCategoryAllStatistics(StatisticsRequestDto req) {
         return sqlSession.getMapper(StatisticsMapper.class).selectCategoryAllStatistics(req);
     }
+
     @Override
     public List<StatisticsCategoryDto> getCategoryGenderStatistics(StatisticsRequestDto req) {
         return sqlSession.getMapper(StatisticsMapper.class).selectCategoryGenderStatistics(req);
     }
+
     @Override
     public List<StatisticsCategoryDto> getCategoryAgeStatistics(StatisticsRequestDto req) {
         return sqlSession.getMapper(StatisticsMapper.class).selectCategoryAgeStatistics(req);

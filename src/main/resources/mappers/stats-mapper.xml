@@ -9,7 +9,7 @@
       SELECT
         DATE_FORMAT(o.created_at, '%Y-%m-%d') AS statisticsDate,
         SUM(od.order_detail_total_price) AS totalSales,
-        COUNT(CASE WHEN o.order_status = '주문완료' THEN 1 END) AS orderCount,
+        COUNT(CASE WHEN o.order_status = '배송완료' THEN 1 END) AS orderCount,
         COUNT(CASE WHEN o.order_status = '취소완료' THEN 1 END) AS cancelCount
       FROM tbl_order o
         JOIN tbl_order_detail od ON o.order_id = od.order_id
@@ -23,7 +23,7 @@
       SELECT
         DATE_FORMAT(o.created_at, '%Y-%m') AS statisticsDate,
         SUM(od.order_detail_total_price) AS totalSales,
-        COUNT(CASE WHEN o.order_status = '주문완료' THEN 1 END) AS orderCount,
+        COUNT(CASE WHEN o.order_status = '배송완료' THEN 1 END) AS orderCount,
         COUNT(CASE WHEN o.order_status = '취소요청' THEN 1 END) AS cancelCount
       FROM tbl_order o
         JOIN tbl_order_detail od ON o.order_id = od.order_id
@@ -37,7 +37,7 @@
       SELECT
         DATE_FORMAT(o.created_at, '%Y') AS statisticsDate,
         SUM(od.order_detail_total_price) AS totalSales,
-        COUNT(CASE WHEN o.order_status = '주문완료' THEN 1 END) AS orderCount,
+        COUNT(CASE WHEN o.order_status = '배송완료' THEN 1 END) AS orderCount,
         COUNT(CASE WHEN o.order_status = '취소완료' THEN 1 END) AS cancelCount
       FROM tbl_order o
         JOIN tbl_order_detail od ON o.order_id = od.order_id
@@ -50,58 +50,64 @@
     <!-- 카테고리 통계 -->
 
     <!-- 전체 고객 -->
-    <select id="selectCategoryAllStatistics" resultType="StatisticsCategoryDto"
-      parameterType="StatisticsRequestDto">
-
-      SELECT
-        c.category_name AS categoryName,
-        COUNT(*) AS orderCount
-      FROM tbl_order o
-        JOIN tbl_order_detail od ON o.order_id = od.order_id
-        JOIN tbl_book b ON od.book_id = b.book_id
-        JOIN tbl_category c ON b.category_id = c.category_id
-      WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
-      GROUP BY c.category_name
-      ORDER BY orderCount DESC
-    </select>
+  <select id="selectCategoryAllStatistics" resultType="StatisticsCategoryDto"
+          parameterType="StatisticsRequestDto">
+    SELECT
+    c.category_name AS categoryName,
+    SUM(od.order_detail_total_count) AS orderCount
+    FROM tbl_order_detail od
+    JOIN tbl_order o ON od.order_id = o.order_id
+    JOIN tbl_book b ON od.book_id = b.book_id
+    JOIN tbl_category c ON b.category_id = c.category_id
+    WHERE o.order_status = '배송완료'
+    AND DATE_FORMAT(o.created_at, '%Y-%m') BETWEEN #{startDate} AND #{endDate}
+    GROUP BY c.category_name
+    ORDER BY orderCount DESC;
+  </select>
 
     <!-- 성별 기준 -->
-    <select id="selectCategoryGenderStatistics" resultType="StatisticsCategoryDto"
-    parameterType="StatisticsRequestDto">
-      SELECT
-        cu.customer_gender AS gender,
-        c.category_name AS categoryName,
-        COUNT(*) AS orderCount
-      FROM tbl_order o
-        JOIN tbl_order_detail od ON o.order_id = od.order_id
-        JOIN tbl_book b ON od.book_id = b.book_id
-        JOIN tbl_category c ON b.category_id = c.category_id
-        JOIN tbl_customer cu ON o.customer_id = cu.customer_id
-      WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
-      GROUP BY cu.customer_gender, c.category_name
-      ORDER BY cu.customer_gender, orderCount DESC
-    </select>
+  <select id="selectCategoryGenderStatistics" resultType="StatisticsCategoryDto"
+          parameterType="StatisticsRequestDto">
 
-    <!-- 나이 기준 -->
-    <select id="selectCategoryAgeStatistics" resultType="StatisticsCategoryDto"
-      parameterType="StatisticsRequestDto">
-      SELECT
-        CASE
-        WHEN cu.customer_age BETWEEN 10 AND 19 THEN '10대'
-        WHEN cu.customer_age BETWEEN 20 AND 29 THEN '20대'
-        WHEN cu.customer_age BETWEEN 30 AND 39 THEN '30대'
-        WHEN cu.customer_age BETWEEN 40 AND 49 THEN '40대'
-        ELSE '50대 이상'
-      END AS ageGroup,
-        c.category_name AS categoryName,
-        COUNT(*) AS orderCount
-      FROM tbl_order o
-        JOIN tbl_order_detail od ON o.order_id = od.order_id
-        JOIN tbl_book b ON od.book_id = b.book_id
-        JOIN tbl_category c ON b.category_id = c.category_id
-        JOIN tbl_customer cu ON o.customer_id = cu.customer_id
-      WHERE o.created_at BETWEEN #{startDate} AND #{endDate}
-      GROUP BY ageGroup, c.category_name
-      ORDER BY ageGroup, orderCount DESC
-    </select>
+    SELECT
+    SUM(od.order_detail_total_count) AS orderCount,
+      c.category_name AS categoryName,
+      cu.customer_gender AS gender
+    FROM tbl_order_detail od
+      JOIN tbl_order o ON od.order_id = o.order_id
+      JOIN tbl_book b ON od.book_id = b.book_id
+      JOIN tbl_category c ON b.category_id = c.category_id
+      JOIN tbl_customer cu ON o.customer_id = cu.customer_id
+    WHERE DATE_FORMAT(o.created_at, '%Y-%m') BETWEEN #{startDate} AND #{endDate}
+      AND o.order_status = '배송완료'
+    GROUP BY c.category_name, cu.customer_gender
+    ORDER BY cu.customer_gender, orderCount DESC
+  </select>
+
+  <!-- 나이대 기준 -->
+  <select id="selectCategoryAgeStatistics" resultType="StatisticsCategoryDto"
+          parameterType="StatisticsRequestDto">
+
+    SELECT
+      SUM(od.order_detail_total_count) AS orderCount,
+      c.category_name AS categoryName,
+    CASE
+      WHEN cu.customer_age BETWEEN 10 AND 19 THEN '10대'
+      WHEN cu.customer_age BETWEEN 20 AND 29 THEN '20대'
+      WHEN cu.customer_age BETWEEN 30 AND 39 THEN '30대'
+      WHEN cu.customer_age BETWEEN 40 AND 49 THEN '40대'
+      WHEN cu.customer_age >= 50 THEN '50대 이상'
+      ELSE '기타'
+      END AS ageGroup
+    FROM tbl_order_detail od
+      JOIN tbl_order o ON od.order_id = o.order_id
+      JOIN tbl_book b ON od.book_id = b.book_id
+      JOIN tbl_category c ON b.category_id = c.category_id
+      JOIN tbl_customer cu ON o.customer_id = cu.customer_id
+    WHERE DATE_FORMAT(o.created_at, '%Y-%m') BETWEEN #{startDate} AND #{endDate}
+      AND o.order_status = '배송완료'
+    GROUP BY c.category_name, ageGroup
+    ORDER BY ageGroup, orderCount DESC
+  </select>
+
   </mapper>

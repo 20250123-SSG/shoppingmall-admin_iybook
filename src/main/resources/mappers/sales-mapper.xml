@@ -69,7 +69,6 @@
             o.order_id =  #{orderId}
     </select>
 
-    
     <select id="selectOrderListCountByFilter" parameterType="OrderRequestFilterDto">
         select
             count(*)
@@ -136,17 +135,6 @@
             #{offset}, #{display}
     </select>
 
-    <update id="updateOrderStatusByOrderId" parameterType="OrderStatusUpdateDto">
-        update
-            tbl_order
-        set
-            order_status = #{newStatus}
-          , updated_at = now()
-        where
-            order_id = #{order.orderId}
-        and order_status = #{currentStatus}
-    </update>
-
     <select id="selectOrderListByIdForChangeStatus" parameterType="list" resultMap="orderResultMap">
         select
             order_id
@@ -161,5 +149,27 @@
             #{orderId}
         </foreach>
     </select>
+
+
+    <update id="updateOrderStatusByOrderId" parameterType="OrderStatusUpdateDto">
+        update
+        tbl_order
+        set
+        order_status = #{newStatus}
+        , updated_at = now()
+        where
+        order_id = #{order.orderId}
+        and order_status = #{currentStatus}
+    </update>
+
+    <update id="updateOrderCancelAuto" parameterType="map">
+        update
+            tbl_order
+        set
+            order_status = #{newStatus}
+        where
+            order_status = #{currentStatus}
+        and created_at &lt; DATE_SUB(NOW(), INTERVAL #{expirationDays} DAY)
+    </update>
 
 </mapper>

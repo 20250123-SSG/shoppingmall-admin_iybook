@@ -39,19 +39,21 @@
       #{offset}, #{display}
   </select>
 
-  <insert id="insertNotice" useGeneratedKeys="true" keyProperty="noticeNo">
+  <insert id="insertNotice" useGeneratedKeys="true" keyProperty="noticeId">
     insert into tbl_notice
-    (
-    notice_title
-    , notice_writer
-    , notice_content
-    )
+      (
+      user_id,
+      title,
+      description,
+      publish_status
+      )
     values
-    (
-    #{noticeTitle}
-    , #{noticeWriter}
-    , #{noticeContent}
-    )
+      (
+      #{userId},
+      #{title},
+      #{description},
+      '게시'
+      )
   </insert>
 
   <select id="selectNoticeById" resultMap="noticeResultMap">
@@ -82,6 +84,10 @@
     <foreach item="id" index="index" collection="noticeIds" open="(" separator="," close=")">
       #{id}
     </foreach>
+  </delete>
+
+  <delete id="deleteById" parameterType="int">
+    DELETE FROM tbl_notice WHERE notice_id = #{noticeId}
   </delete>
 
 </mapper>

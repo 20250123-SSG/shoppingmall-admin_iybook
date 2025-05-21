@@ -1,8 +1,7 @@
 package com.iybook.sales.controller;
 
-import com.iybook.sales.dto.OrderListResponseDto;
-import com.iybook.sales.dto.OrderRequestFilterDto;
-import com.iybook.sales.dto.OrderStatusChangeResult;
+import com.iybook.sales.dto.response.OrderListResponseDto;
+import com.iybook.sales.dto.request.OrderRequestFilterDto;
 import com.iybook.sales.service.SalesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,21 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-/**
- * 주문 통합 조회와 다른 점
- *
- * 주 행동
- * - 주문완료 -> 배송완료 or 취소완료
- *
- * 기본 orderStatus
- * - 주문 완료 + 오늘
- *
- * 필요한 orderStatus는
- * - 주문 완료
- *
- *
- */
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/sales")
@@ -60,24 +46,31 @@ public class OrderManagementController {
     public String acceptOrders(@RequestParam String selectedOrderIds, RedirectAttributes redirectAttributes) {
         List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
 
-        OrderStatusChangeResult result = salesService.acceptOrder(orderIdList);
+        Map<String, List<String>> result = salesService.acceptOrders(orderIdList);
 
-        if(result.failedIds().isEmpty()) {
+        if(result.get("fail").isEmpty()) {
             redirectAttributes.addFlashAttribute("message",
-                    String.format("총 %,d건 주문을 수락하였습니다.", result.successIds().size()));
+                    String.format("총 %,d건 주문을 수락하였습니다.", result.get("success").size()));
         }else {
             redirectAttributes.addFlashAttribute("message",
-                    String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.failedIds())));
+                    String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.get("fail"))));
         }
         return "redirect:/sales/orderControl.page";
     }
 
     @PostMapping("/cancelOrders.do")
-    public String cancelOrders(@RequestParam String selectedOrderIds) {
+    public String cancelOrders(@RequestParam String selectedOrderIds, RedirectAttributes redirectAttributes) {
         List<String> orderIdList = Arrays.asList(selectedOrderIds.split(","));
-        log.debug("orderIdList = {}",orderIdList);
 
-        /// orderIdList로 취소완료로 상태 변경
+        Map<String, List<String>> result = salesService.cancelOrders(orderIdList);
+
+        if(result.get("fail").isEmpty()) {
+            redirectAttributes.addFlashAttribute("message",
+                    String.format("총 %,d건 주문을 취소하였습니다.", result.get("success").size()));
+        }else {
+            redirectAttributes.addFlashAttribute("message",
+                    String.format("%s의 주문의 상태를 변경할 수 없습니다.", String.join(",", result.get("fail"))));
+        }
         return "redirect:/sales/orderControl.page";
     }
 

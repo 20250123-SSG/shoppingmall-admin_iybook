@@ -4,6 +4,7 @@ import com.iybook.sales.dto.CustomerDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Builder
 public class OrderResponseDto {
 
     private String orderId;
@@ -23,7 +23,20 @@ public class OrderResponseDto {
     private LocalDateTime orderDate;
     private LocalDateTime updateDate;
     private String orderMemo;
-
     private List<OrderDetailResponseDto> orderDetailList;
+
+    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public String getOrderDate() {
+        return orderDate != null
+                ? orderDate.format(formatter)
+                : "";
+    }
+
+    public String getUpdateDate() {
+        return updateDate != null
+                ? updateDate.format(formatter)
+                : "";
+    }
 
 }

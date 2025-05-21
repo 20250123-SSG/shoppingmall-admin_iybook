@@ -17,4 +17,5 @@ public interface ProductMapper {
     BookStatsDto selectBookStats();
     List<CategoryDto> selectCategoryList();
     int deleteBooks(List<String> bookIds);
+    BookDto selectBookById(String id);
 }

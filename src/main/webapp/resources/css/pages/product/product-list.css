@@ -146,3 +146,21 @@ input[type="text"], select, input[type="date"] {
   margin-left: 8px;
   padding: 6px;
 }
+
+/* 마우스 오버 시 배경색과 커서 스타일 변경 */
+.product-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-table tbody tr:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.product-table tbody tr td:first-child {
+  cursor: default;
+}
+
+.product-table tbody tr td:first-child:hover {
+  background-color: inherit;
+}

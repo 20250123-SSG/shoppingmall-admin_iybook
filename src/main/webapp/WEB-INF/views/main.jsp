@@ -5,6 +5,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <link rel="stylesheet" href="${contextPath}/resources/css/home.css">
+<%
+  java.time.LocalDate endDate = java.time.LocalDate.now();
+  java.time.LocalDate startDate = endDate.minusYears(2);
+%>
+
 
 <div class="main">
   <div class="main2">
@@ -30,13 +35,13 @@
         </div>
 
         <div class="order-box">
-          <h2>주문 현황</h2>
+          <h2>최근 2년 주문 현황</h2>
           <div class="stats-box">
             <div class="stat-item">📦 주문 완료 :
-              <a href="${contextPath}/sales/salesList.page?startDate=2023-05-22&endDate=2025-05-21&orderStatus=주문완료" class="stat-value orderCompleted">로딩중...</a>
+              <a href="${contextPath}/sales/salesList.page?startDate=<%=startDate%>&endDate=<%=endDate%>&orderStatus=주문완료" class="stat-value orderCompleted">로딩중...</a>
             </div>
             <div class="stat-item">❌ 취소 요청 :
-              <a href="${contextPath}/sales/salesList.page?startDate=2023-05-22&endDate=2025-05-21&orderStatus=취소요청" class="stat-value cancelRequested">로딩중...</a>
+              <a href="${contextPath}/sales/salesList.page?startDate=<%=startDate%>&endDate=<%=endDate%>&orderStatus=취소요청" class="stat-value cancelRequested">로딩중...</a>
             </div>
           </div>
         </div>
@@ -103,7 +108,7 @@
   });
 </script>
 
-<%--물품현황--%>
+<%--주문현황--%>
 <script>
   $(function () {
     $.getJSON('${contextPath}/sales/main/order-stats', function (stats) {

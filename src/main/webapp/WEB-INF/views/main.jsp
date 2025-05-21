@@ -198,7 +198,7 @@
         if (data && data.length > 0) {
           // 1. 월별로 데이터 합산 및 그룹화
           const monthlyData = {}; // { 'YYYY-MM': totalStPrice } 형태
-          data.slice(0, 5).forEach(row => {
+          data.forEach(row => {
             if (row.stDate) {
               const date = new Date(row.stDate);
               // 한국 시간 기준으로 월을 가져오기 위해 toLocaleString 사용
@@ -222,7 +222,7 @@
               return parseInt(parts[1] + (parts[2].length === 1 ? '0' : '') + parts[2]);
             };
             return parseMonth(a) - parseMonth(b);
-          });
+          }).slice(-5); // 최신 5개 정렬
 
           const labels = sortedMonths;
           const chartData = sortedMonths.map(month => monthlyData[month]);

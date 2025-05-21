@@ -57,13 +57,13 @@
       , #{tax}
       )
   </insert>
-  <update id="updateSettlementStatus">
+  <update id="updateSettlementStatus" parameterType="Settlement">
     update
       tbl_settlement
     set
       st_status = '정산완료'
-    , comp_date = #{today}
+    , comp_date = #{exDate}
     where
-      ex_date = #{today}
+      ex_date = #{exDate}
   </update>
 </mapper>

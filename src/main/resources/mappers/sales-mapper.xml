@@ -162,4 +162,13 @@
         </foreach>
     </select>
 
+
+    <select id="getOrderStats" resultType="com.iybook.sales.dto.response.OrderStatsResponseDto">
+        SELECT
+            SUM(CASE WHEN order_status = '주문완료' THEN 1 ELSE 0 END) AS orderCompleted,
+            SUM(CASE WHEN order_status = '취소요청' THEN 1 ELSE 0 END) AS cancelRequested
+        FROM
+            tbl_order
+    </select>
+
 </mapper>

@@ -13,15 +13,30 @@
       <div class="top-summary-container">
         <div class="product-box">
           <h2>상품 현황</h2>
-          📊 전체 <span class="stat-value all">로딩중...</span><br/>
-          🛒 판매중 <span class="stat-value sell">로딩중...</span><br/>
-          🚫 품절 <span class="stat-value sold">로딩중...</span><br/>
-          ⏳ 판매종료 <span class="stat-value end">로딩중...</span>
+          <div class="stat-item">📊 전체 상품
+            <span class="stat-value all">로딩중...</span>
+          </div>
+          <div class="stat-item">🛒 판매 중
+            <span class="stat-value sell">로딩중...</span>
+          </div>
+          <div class="stat-item">🚫 품절
+            <span class="stat-value sold">로딩중...</span>
+          </div>
+          <div class="stat-item">⏳ 판매 종료
+            <span class="stat-value end">로딩중...</span>
+          </div>
         </div>
 
         <div class="order-box">
-          <h2>주문 현황 </h2>
+          <h2>주문 현황</h2>
+          <div class="stat-item">📦 주문 완료
+            <span class="stat-value orderCompleted">로딩중...</span>
+          </div>
+          <div class="stat-item">❌ 취소 요청
+            <span class="stat-value cancelRequested">로딩중...</span>
+          </div>
         </div>
+
         <div class="unsettled-box">
           <h2>미정산 내역</h2>
         </div>
@@ -57,11 +72,11 @@
   </div>
 </div>
 
-<%--상품 현황 --%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<%--상품 현황 --%>
 <script>
   $(function() {
-    $.getJSON('${contextPath}/product/book-stats', function(stats) {
+    $.getJSON('${contextPath}/product/main/book-stats', function(stats) {
       $('.stat-value.all').text(stats.all);
       $('.stat-value.sell').text(stats.sell);
       $('.stat-value.sold').text(stats.sold);
@@ -71,6 +86,19 @@
     });
   });
 </script>
+
+<%--물품현황--%>
+<script>
+  $(function() {
+    $.getJSON('${contextPath}/sales/main/order-stats', function(stats) {
+      $('.stat-value.orderCompleted').text(stats.orderCompleted);
+      $('.stat-value.cancelRequested').text(stats.cancelRequested);
+    }).fail(function() {
+      $('.stat-value.orderCompleted, .stat-value.cancelRequested').text('불러오기 실패');
+    });
+  });
+</script>
+
 
 <%--공지사항--%>
 <script>

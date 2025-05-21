@@ -1,9 +1,11 @@
 package com.iybook.sales.controller;
 
+import com.iybook.product.dto.BookStatsDto;
 import com.iybook.sales.dto.response.OrderDetailResponseDto;
 import com.iybook.sales.dto.response.OrderListResponseDto;
 import com.iybook.sales.dto.request.OrderRequestFilterDto;
 import com.iybook.sales.dto.response.OrderResponseDto;
+import com.iybook.sales.dto.response.OrderStatsResponseDto;
 import com.iybook.sales.service.SalesService;
 import com.iybook.sales.util.OrderRequestInitFilterFactory;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,12 @@ public class SalesController {
         model.addAttribute("orderCount", orderListResult.getTotalOrderCount());
 
         return "sales/salesList";
+    }
+
+    @GetMapping("/main/order-stats")
+    @ResponseBody
+    public OrderStatsResponseDto salesStats() {
+        return salesService.getOrderStats();
     }
 
     @ResponseBody

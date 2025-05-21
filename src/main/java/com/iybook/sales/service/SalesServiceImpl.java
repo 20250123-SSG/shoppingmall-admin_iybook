@@ -10,6 +10,7 @@ import com.iybook.sales.dto.response.OrderListResponseDto;
 import com.iybook.sales.dto.request.OrderRequestFilterDto;
 import com.iybook.common.util.PageUtil;
 import com.iybook.sales.dto.response.OrderResponseDto;
+import com.iybook.sales.dto.response.OrderStatsResponseDto;
 import com.iybook.sales.util.OldestOrderFirstSorter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -165,6 +166,13 @@ public class SalesServiceImpl implements SalesService {
                 "success", success,
                 "fail", fail
         );
+    }
+
+    @Override
+    public OrderStatsResponseDto getOrderStats() {
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        return salesMapper.getOrderStats();
     }
 
 }

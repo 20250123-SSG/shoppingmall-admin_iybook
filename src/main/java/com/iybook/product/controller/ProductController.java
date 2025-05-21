@@ -44,7 +44,7 @@ public class ProductController {
         model.addAttribute("bookList", bookList);
     }
 
-    @GetMapping("/book-stats")
+    @GetMapping("/main/book-stats")
     @ResponseBody
     public BookStatsDto bookStats() {
         return productService.getBookStats();

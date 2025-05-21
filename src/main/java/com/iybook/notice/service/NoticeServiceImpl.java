@@ -68,4 +68,10 @@ public class NoticeServiceImpl implements NoticeService {
 
         noticeMapper.deleteById(noticeId);
     }
+
+    public List<NoticeDto> getNotices() {
+        NoticeMapper noticeMapper = sqlSession.getMapper(NoticeMapper.class);
+
+        return noticeMapper.selectNotices();
+    }
 }

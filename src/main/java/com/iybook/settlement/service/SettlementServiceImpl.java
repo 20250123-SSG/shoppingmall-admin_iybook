@@ -30,4 +30,10 @@ public class SettlementServiceImpl implements SettlementService {
         List<SettlementDto> list = sqlSession.getMapper(SettlementMapper.class).findAllSettlement();
         return list;
     }
+
+    @Override
+    public int updateSettlementStatus(SettlementDto settlementDto) {
+        int result = sqlSession.getMapper(SettlementMapper.class).updateSettlementStatus(settlementDto);
+        return result;
+    }
 }

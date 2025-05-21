@@ -14,10 +14,11 @@ public interface SalesMapper {
 
     List<OrderDto> selectOrderListByFilterWithPaging(SingleOrderPagingRequestDto pagingInfo);
 
-    int updateOrderStatusByOrderId(OrderStatusUpdateDto orderStatusChange);
-
     List<OrderDto> selectOrderListByIdForChangeStatus(List<String> orderIdList);
 
     OrderResponseDto selectOrderDetailByOrderId(int orderId);
+
+
+    int updateOrderStatusByOrderId(OrderStatusUpdateDto orderStatusChange);
 
 }

@@ -18,4 +18,5 @@ public interface NoticeService {
     int registerNotice(NoticeDto notice, int userId);
 
     NoticeDto getNoticeDetail(int no);
+    List<NoticeDto> getNotices();
 }

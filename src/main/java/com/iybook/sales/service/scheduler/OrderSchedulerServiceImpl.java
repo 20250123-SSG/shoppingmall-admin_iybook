@@ -24,7 +24,7 @@ public class OrderSchedulerServiceImpl implements OrderSchedulerService {
 
         int result = salesMapper.updateOrderCancelAuto(info);
         if (result > 0) {
-            log.error("[자동취소] 주문 상태 '{}' → '{}' 변경 완료: {}건 (기준: {}일 초과)",
+            log.info("[자동취소] 주문 상태 '{}' → '{}' 변경 완료: {}건 (기준: {}일 초과)",
                     info.get("currentStatus"),
                     info.get("newStatus"),
                     result,

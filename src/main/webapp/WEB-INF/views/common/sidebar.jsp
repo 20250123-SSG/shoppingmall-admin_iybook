@@ -19,6 +19,7 @@
     activeMenu = "sales";
     if (uri.contains("/salesList")) activeSubmenu = "salesList";
     else if (uri.contains("/orderControl")) activeSubmenu = "orderControl";
+    else if (uri.contains("/cancelControl")) activeSubmenu = "cancelControl";
   }
 
   request.setAttribute("activeMenu", activeMenu);
@@ -54,6 +55,7 @@
   <div class="sidebar-submenu ${activeMenu eq 'sales' ? 'open' : ''}">
     <div class="sidebar-subitem ${activeSubmenu eq 'salesList' ? 'active' : ''}" onclick="location.href='${contextPath}/sales/salesList.page'">주문 통합조회</div>
     <div class="sidebar-subitem ${activeSubmenu eq 'orderControl' ? 'active' : ''}" onclick="location.href='${contextPath}/sales/orderControl.page'">발주 및 발송관리</div>
+    <div class="sidebar-subitem ${activeSubmenu eq 'cancelControl' ? 'active' : ''}" onclick="location.href='${contextPath}/sales/cancelControl.page'">취소 관리</div>
   </div>
 
 

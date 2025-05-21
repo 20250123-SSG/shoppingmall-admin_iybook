@@ -9,7 +9,7 @@
 
 <div class="main">
     <h2 class="form-title">공지사항 등록</h2>
-    <form action="${contextPath}/notice/create.do" method="post" class="notice-form">
+    <form action="${contextPath}/notice/regist.do" method="post" class="notice-form">
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" id="title" name="title" required />

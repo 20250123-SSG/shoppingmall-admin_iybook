@@ -9,11 +9,13 @@ public interface NoticeService {
 
     Map<String, Object> getNoticesAndPaging(int page);
 
-    void toggleNoticeHiddenStatus(int noticeId);
+    int toggleNoticeHiddenStatus(int noticeId);
 
     void deleteNoticesByIds(List<Integer> noticeIds);
+    void deleteNoticeById(int noticeId);
 
-    int registerNotice(NoticeDto board);
+
+    int registerNotice(NoticeDto notice, int userId);
 
     NoticeDto getNoticeDetail(int no);
 }

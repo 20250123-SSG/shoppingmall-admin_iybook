@@ -42,6 +42,11 @@ public class LoginController {
             model.addAttribute("userLoginId", user.getUserLoginId());
             return "login/login";
         }
+    }
 
+    @PostMapping("/logout.do")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login.page"; // 로그인 페이지로 리다이렉트
     }
 }

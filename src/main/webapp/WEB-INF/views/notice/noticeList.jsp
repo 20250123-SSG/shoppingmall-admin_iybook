@@ -42,11 +42,22 @@
                 <tr>
                     <td><input type="checkbox" class="delete-check" value="${notice.noticeId}"/></td>
                     <td>${notice.noticeId}</td>
-                    <td><a href="noticeDetail.do?noticeId=${notice.noticeId}">${notice.title}</a></td>
+                    <td>
+                        <a href="noticeDetail.do?noticeId=${notice.noticeId}">
+                            <c:choose>
+                                <c:when test="${fn:length(notice.title) > 13}">
+                                    ${fn:substring(notice.title, 0, 13)}...
+                                </c:when>
+                                <c:otherwise>
+                                    ${notice.title}
+                                </c:otherwise>
+                            </c:choose>
+                        </a>
+                    </td>
                     <td>
                         <c:choose>
-                            <c:when test="${fn:length(notice.description) > 30}">
-                                ${fn:substring(notice.description, 0, 30)}...
+                            <c:when test="${fn:length(notice.description) > 40}">
+                                ${fn:substring(notice.description, 0, 40)}...
                             </c:when>
                             <c:otherwise>
                                 ${notice.description}

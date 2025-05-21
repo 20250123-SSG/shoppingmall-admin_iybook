@@ -1,5 +1,6 @@
 package com.iybook.statistics.controller;
 
+import com.iybook.statistics.dto.StatisticsCategoryDto;
 import com.iybook.statistics.dto.StatisticsSalesDto;
 import com.iybook.statistics.dto.StatisticsRequestDto;
 import com.iybook.statistics.service.StatisticsService;
@@ -33,7 +34,24 @@ public class StatisticsController {
     // 카테고리 통계 페이지
     @GetMapping("/statsCategory.page")
     public void statsCategoryPage() {
+    }
 
+    @GetMapping("/category/all")
+    @ResponseBody
+    public List<StatisticsCategoryDto> getCategoryAll(@ModelAttribute StatisticsRequestDto req) {
+        return statisticsService.getCategoryAllStatistics(req);
+    }
+
+    @GetMapping("/category/gender")
+    @ResponseBody
+    public List<StatisticsCategoryDto> getCategoryGender(@ModelAttribute StatisticsRequestDto req) {
+        return statisticsService.getCategoryGenderStatistics(req);
+    }
+
+    @GetMapping("/category/age")
+    @ResponseBody
+    public List<StatisticsCategoryDto> getCategoryAge(@ModelAttribute StatisticsRequestDto req) {
+        return statisticsService.getCategoryAgeStatistics(req);
     }
 
 

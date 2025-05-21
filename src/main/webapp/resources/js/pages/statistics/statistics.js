@@ -217,6 +217,4 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx2d.fillText('차트 데이터를 불러오는데 실패했습니다.', ctx.width / 2, ctx.height / 2);
       });
   }
-    document.addEventListener('DOMContentLoaded', loadMonthlySettlementChart);
-
 });

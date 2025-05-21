@@ -6,9 +6,11 @@ import com.iybook.statistics.dto.StatisticsSalesDto;
 import com.iybook.statistics.dto.StatisticsRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 
@@ -20,53 +22,33 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public List<StatisticsSalesDto> getStatisticsList(StatisticsRequestDto req) {
-
         StatisticsMapper mapper = sqlSession.getMapper(StatisticsMapper.class);
-
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("startDate", req.getStartDate());
-        paramMap.put("endDate", req.getEndDate());
 
         switch (req.getGranularity()) {
             case "DAY":
-                return mapper.selectDailyStatistics(paramMap);
+                return mapper.selectDailyStatistics(req);
             case "MONTH":
-                return mapper.selectMonthlyStatistics(paramMap);
+                return mapper.selectMonthlyStatistics(req);
             case "YEAR":
-                return mapper.selectYearlyStatistics(paramMap);
+                return mapper.selectYearlyStatistics(req);
             default:
                 throw new IllegalArgumentException("지원하지 않는 단위입니다: " + req.getGranularity());
         }
     }
 
-    @Override
-    public List<StatisticsCategoryDto> getCategoryAllStatistics(StatisticsRequestDto req) {
-        return List.of();
-    }
 
-    @Override
-    public List<StatisticsCategoryDto> getCategoryGenderStatistics(StatisticsRequestDto req) {
-        return List.of();
-    }
-
-    @Override
-    public List<StatisticsCategoryDto> getCategoryAgeStatistics(StatisticsRequestDto req) {
-        return List.of();
-    }
-
-    /*
     @Override
     public List<StatisticsCategoryDto> getCategoryAllStatistics(StatisticsRequestDto req) {
         return sqlSession.getMapper(StatisticsMapper.class).selectCategoryAllStatistics(req);
     }
+
     @Override
     public List<StatisticsCategoryDto> getCategoryGenderStatistics(StatisticsRequestDto req) {
         return sqlSession.getMapper(StatisticsMapper.class).selectCategoryGenderStatistics(req);
     }
+
     @Override
     public List<StatisticsCategoryDto> getCategoryAgeStatistics(StatisticsRequestDto req) {
         return sqlSession.getMapper(StatisticsMapper.class).selectCategoryAgeStatistics(req);
     }
-
-     */
 }

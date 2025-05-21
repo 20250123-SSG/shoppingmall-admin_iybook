@@ -6,8 +6,7 @@ import lombok.Getter;
 public enum Payment {
 
     CARD("카드", 10),
-    CASH("현금", 8)
-    ;
+    CASH("현금", 8);
 
     private final String value;
     private final int taxPercent;

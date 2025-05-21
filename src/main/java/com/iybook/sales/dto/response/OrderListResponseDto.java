@@ -17,8 +17,8 @@ public class OrderListResponseDto {
     private int totalOrderCount;
     private List<OrderDto> orderList;
 
-    public static OrderListResponseDto empty(){
-        return new OrderListResponseDto(0, 0, 0, 0,0, new ArrayList<>());
+    public static OrderListResponseDto empty() {
+        return new OrderListResponseDto(0, 0, 0, 0, 0, new ArrayList<>());
     }
 
 }

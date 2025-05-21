@@ -23,14 +23,14 @@ public class OrderSchedulerServiceImpl implements OrderSchedulerService {
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
 
         int result = salesMapper.updateOrderCancelAuto(info);
-        if(result > 0) {
+        if (result > 0) {
             log.error("[자동취소] 주문 상태 '{}' → '{}' 변경 완료: {}건 (기준: {}일 초과)",
                     info.get("currentStatus"),
                     info.get("newStatus"),
                     result,
                     info.get("expirationDays")
             );
-        }else {
+        } else {
             log.warn("[자동취소] 변경 사항 없음");
         }
     }

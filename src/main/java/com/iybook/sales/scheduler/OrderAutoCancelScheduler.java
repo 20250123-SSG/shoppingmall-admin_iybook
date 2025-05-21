@@ -24,7 +24,7 @@ public class OrderAutoCancelScheduler {
         Map<String, String> info = Map.of(
                 "currentStatus", OrderStatus.COMPLETED.getValue(),
                 "newStatus", OrderStatus.CANCELED.getValue(),
-                "expirationDays",ORDER_EXPIRATION_DAYS
+                "expirationDays", ORDER_EXPIRATION_DAYS
         );
 
         orderSchedulerService.updateOrderCancelAuto(info);

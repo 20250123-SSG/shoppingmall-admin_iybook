@@ -153,12 +153,12 @@
 
     <update id="updateOrderStatusByOrderId" parameterType="OrderStatusUpdateDto">
         update
-        tbl_order
+            tbl_order
         set
-        order_status = #{newStatus}
-        , updated_at = now()
+            order_status = #{newStatus}
+          , updated_at = now()
         where
-        order_id = #{order.orderId}
+            order_id = #{order.orderId}
         and order_status = #{currentStatus}
     </update>
 

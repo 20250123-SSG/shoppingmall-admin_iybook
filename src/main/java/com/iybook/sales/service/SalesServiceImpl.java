@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -79,7 +78,7 @@ public class SalesServiceImpl implements SalesService {
     public Map<String, List<String>> cancelOrders(List<String> orderIdList) {
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
 
-        return processCancelOrders(salesMapper,orderIdList,OrderStatus.COMPLETED);
+        return processCancelOrders(salesMapper, orderIdList, OrderStatus.COMPLETED);
     }
 
 
@@ -94,7 +93,7 @@ public class SalesServiceImpl implements SalesService {
     public Map<String, List<String>> rejectCancelOrders(List<String> orderIdList) {
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
 
-        return processApproveOrders(salesMapper,orderIdList,OrderStatus.CANCEL_REQUESTED);
+        return processApproveOrders(salesMapper, orderIdList, OrderStatus.CANCEL_REQUESTED);
     }
 
 
@@ -122,7 +121,7 @@ public class SalesServiceImpl implements SalesService {
                 } else {
                     fail.add(order.getOrderId());
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 fail.add(order.getOrderId());
             }
         }
@@ -143,7 +142,7 @@ public class SalesServiceImpl implements SalesService {
         List<String> fail = new ArrayList<>();
 
         for (OrderDto order : orderList) {
-            try{
+            try {
                 int result = salesMapper.updateOrderStatusByOrderId(
                         new OrderStatusUpdateDto(
                                 order,
@@ -156,7 +155,7 @@ public class SalesServiceImpl implements SalesService {
                 } else {
                     fail.add(order.getOrderId());
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 fail.add(order.getOrderId());
             }
         }

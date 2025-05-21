@@ -1,6 +1,7 @@
 package com.iybook.settlement.controller;
 
 import com.iybook.settlement.dto.SettlementDto;
+import com.iybook.settlement.dto.SettlementStatsDto;
 import com.iybook.settlement.service.SettlementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,5 +37,11 @@ public class SettlementController {
     public List<SettlementDto> settleList() {
         List<SettlementDto> list = settlementService.getAllSettlement();
         return list;
+    }
+
+    @GetMapping("/main/settlement-stats")
+    @ResponseBody
+    public SettlementStatsDto bookStats() {
+        return settlementService.getSettlementStats();
     }
 }

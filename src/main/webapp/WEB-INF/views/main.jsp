@@ -13,32 +13,47 @@
       <div class="top-summary-container">
         <div class="product-box">
           <h2>상품 현황</h2>
-          <div class="stat-item">📊 전체 상품
-            <span class="stat-value all">로딩중...</span>
-          </div>
-          <div class="stat-item">🛒 판매 중
-            <span class="stat-value sell">로딩중...</span>
-          </div>
-          <div class="stat-item">🚫 품절
-            <span class="stat-value sold">로딩중...</span>
-          </div>
-          <div class="stat-item">⏳ 판매 종료
-            <span class="stat-value end">로딩중...</span>
+          <div class="stats-box">
+            <div class="stat-item">📊 전체 상품 :
+              <span class="stat-value all">로딩중...</span>
+            </div>
+            <div class="stat-item">🛒 판매 중 :
+              <span class="stat-value sell">로딩중...</span>
+            </div>
+            <div class="stat-item">🚫 품절 :
+              <span class="stat-value sold">로딩중...</span>
+            </div>
+            <div class="stat-item">⏳ 판매 종료 :
+              <span class="stat-value end">로딩중...</span>
+            </div>
           </div>
         </div>
 
         <div class="order-box">
           <h2>주문 현황</h2>
-          <div class="stat-item">📦 주문 완료
-            <span class="stat-value orderCompleted">로딩중...</span>
-          </div>
-          <div class="stat-item">❌ 취소 요청
-            <span class="stat-value cancelRequested">로딩중...</span>
+          <div class="stats-box">
+            <div class="stat-item">📦 주문 완료 :
+              <span class="stat-value orderCompleted">로딩중...</span>
+            </div>
+            <div class="stat-item">❌ 취소 요청 :
+              <span class="stat-value cancelRequested">로딩중...</span>
+            </div>
           </div>
         </div>
 
         <div class="unsettled-box">
-          <h2>미정산 내역</h2>
+          <h2>정산 예정 정보</h2>
+          <div class="stats-box">
+            <div class="stat-item">
+              🧾 확정 구매 건수 : <span class="stat-value confirmedPurchaseCount">-</span>
+            </div>
+            <div class="stat-item">
+              💰 정산 예상 금액 : <span class="stat-value expectedSettlementAmount">-</span>
+            </div>
+            <div class="stat-item">
+              💸 정산 예상 부가세 : <span class="stat-value sumTax">-</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -75,13 +90,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <%--상품 현황 --%>
 <script>
-  $(function() {
-    $.getJSON('${contextPath}/product/main/book-stats', function(stats) {
-      $('.stat-value.all').text(stats.all);
-      $('.stat-value.sell').text(stats.sell);
-      $('.stat-value.sold').text(stats.sold);
-      $('.stat-value.end').text(stats.end);
-    }).fail(function() {
+  $(function () {
+    $.getJSON('${contextPath}/product/main/book-stats', function (stats) {
+      $('.stat-value.all').text(stats.all + ' 건');
+      $('.stat-value.sell').text(stats.sell + ' 건');
+      $('.stat-value.sold').text(stats.sold + ' 건');
+      $('.stat-value.end').text(stats.end + ' 건');
+    }).fail(function () {
       $('.stat-value').text('불러오기 실패');
     });
   });
@@ -89,16 +104,33 @@
 
 <%--물품현황--%>
 <script>
-  $(function() {
-    $.getJSON('${contextPath}/sales/main/order-stats', function(stats) {
-      $('.stat-value.orderCompleted').text(stats.orderCompleted);
-      $('.stat-value.cancelRequested').text(stats.cancelRequested);
-    }).fail(function() {
+  $(function () {
+    $.getJSON('${contextPath}/sales/main/order-stats', function (stats) {
+      $('.stat-value.orderCompleted').text(stats.orderCompleted + ' 건');
+      $('.stat-value.cancelRequested').text(stats.cancelRequested + ' 건');
+    }).fail(function () {
       $('.stat-value.orderCompleted, .stat-value.cancelRequested').text('불러오기 실패');
     });
   });
 </script>
 
+<%--정산현황--%>
+
+<script>
+  fetch('${contextPath}/settlement/main/settlement-stats')
+    .then(res => res.json())
+    .then(data => {
+      document.querySelector('.stat-value.confirmedPurchaseCount').innerText = data.confirmedPurchaseCount + ' 건';
+      document.querySelector('.stat-value.expectedSettlementAmount').innerText = data.expectedSettlementAmount.toLocaleString() + ' 원';
+      document.querySelector('.stat-value.sumTax').innerText = data.sumTax.toLocaleString() + ' 원';
+    })
+    .catch(err => {
+      console.error('정산 통계 조회 실패:', err);
+      document.querySelector('.stat-value.confirmedPurchaseCount').innerText = '불러오기 실패';
+      document.querySelector('.stat-value.expectedSettlementAmount').innerText = '불러오기 실패';
+      document.querySelector('.stat-value.sumTax').innerText = '불러오기 실패';
+    });
+</script>
 
 <%--공지사항--%>
 <script>

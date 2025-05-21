@@ -30,28 +30,61 @@
   color: var(--color-text);
 }
 
+.product-box,
+.order-box,
+.unsettled-box {
+  composes: summary-box;
+}
+
+/* 또는 중복 제거가 안 되는 경우에는 확장 없이 아래처럼 별도로 작성 */
+.product-box {
+  flex: 1;
+  background-color: var(--color-surface);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.order-box,
+.unsettled-box {
+  flex: 2;
+  background-color: var(--color-surface);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
 .content-sections {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
 
-.notice-section {
-  flex: 2;
+.notice-section,
+.settlement-section {
   background-color: var(--color-surface);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.notice-section {
+  flex: 5;
 }
 
 .settlement-section {
-  flex: 1;
-  background-color: var(--color-surface);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  flex: 4;
 }
 
+.product-box h2,
+.order-box h2,
+.unsettled-box h2,
 .notice-section h2,
 .settlement-section h2 {
   font-size: 20px;
@@ -60,6 +93,7 @@
   border-bottom: 2px solid var(--color-primary);
   padding-bottom: 6px;
   color: var(--color-primary);
+  text-align: left;
 }
 
 /* 공지사항 테이블 */
@@ -111,6 +145,22 @@
   font-weight: bold;
 }
 
+.product-box .stat-value {
+  font-weight: 700;
+  font-size: 22px;
+  color: #2980b9;
+  margin-left: 8px;
+}
+
+.product-box > br {
+  margin-bottom: 12px;
+}
+
+.product-box span.stat-value {
+  cursor: default;
+  user-select: none;
+}
+
 /* 반응형 */
 @media (max-width: 768px) {
   .top-summary-container,
@@ -118,7 +168,9 @@
     flex-direction: column;
   }
 
-  .summary-box,
+  .product-box,
+  .order-box,
+  .unsettled-box,
   .notice-section,
   .settlement-section {
     width: 100%;

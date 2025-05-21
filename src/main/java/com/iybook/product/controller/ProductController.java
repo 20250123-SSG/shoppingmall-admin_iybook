@@ -28,7 +28,7 @@ public class ProductController {
     private final FileUtil fileUtil;
 
     @GetMapping("/list.page")
-    public void list(BookFilterDto bookFilter, Model model){
+    public void list(BookFilterDto bookFilter, Model model) {
         log.debug("list 호출");
 
         // 검색필터
@@ -44,10 +44,16 @@ public class ProductController {
         model.addAttribute("bookList", bookList);
     }
 
+    @GetMapping("/book-stats")
+    @ResponseBody
+    public BookStatsDto bookStats() {
+        return productService.getBookStats();
+    }
+
     @PostMapping("/update.do")
     @ResponseBody
-    public Map<String, Object> updateBooks(@RequestBody Map<String, Object> payload){
-        List<String> bookIds = (List<String>)payload.get("bookIds");
+    public Map<String, Object> updateBooks(@RequestBody Map<String, Object> payload) {
+        List<String> bookIds = (List<String>) payload.get("bookIds");
         int result = productService.updatePublishStatus(payload);
         if (bookIds.size() == result) {
             return Map.of("success", true, "resultCount", result);
@@ -56,7 +62,7 @@ public class ProductController {
     }
 
     @GetMapping("/regist.page")
-    public void registPage(Model model){
+    public void registPage(Model model) {
         List<CategoryDto> categoryList = productService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
     }
@@ -64,7 +70,7 @@ public class ProductController {
     @PostMapping("/regist.do")
     public String registDo(BookDto book,
                            @RequestParam("image") MultipartFile bookImage,
-                           RedirectAttributes redirectAttributes){
+                           RedirectAttributes redirectAttributes) {
         if (!bookImage.isEmpty()) {
             Map<String, String> fileInfo = fileUtil.fileupload("product", bookImage);
             book.setBookImage(fileInfo.get("filePath") + "/" + fileInfo.get("filesystemName"));
@@ -75,7 +81,7 @@ public class ProductController {
     }
 
     @GetMapping("/update.page")
-    public void updatePage(String bookId, Model model){
+    public void updatePage(String bookId, Model model) {
         // 카테고리 조회
         List<CategoryDto> categoryList = productService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
@@ -86,8 +92,8 @@ public class ProductController {
 
     @PostMapping("/updatebook.do")
     public String updateDo(BookDto book,
-                       @RequestParam("image") MultipartFile bookImage,
-                       RedirectAttributes redirectAttributes){
+                           @RequestParam("image") MultipartFile bookImage,
+                           RedirectAttributes redirectAttributes) {
         log.debug("bookDTO: " + book);
         if (!bookImage.isEmpty()) {
             Map<String, String> fileInfo = fileUtil.fileupload("product", bookImage);
@@ -95,7 +101,7 @@ public class ProductController {
         }
         log.debug("file 추가: " + book);
         int result = productService.updateBookById(book);
-        log.debug("완료 "+ result);
+        log.debug("완료 " + result);
         redirectAttributes.addFlashAttribute("message", result > 0 ? "상품수정에 성공하였습니다." : "상품수정 실패");
         return "redirect:/product/list.page";
     }

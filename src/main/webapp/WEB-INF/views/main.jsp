@@ -5,6 +5,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 <link rel="stylesheet" href="${contextPath}/resources/css/home.css">
+<%
+  java.time.LocalDate endDate = java.time.LocalDate.now();
+  java.time.LocalDate startDate = endDate.minusYears(2);
+%>
+
 
 <div class="main">
   <div class="main2">
@@ -15,28 +20,28 @@
           <h2>상품 현황</h2>
           <div class="stats-box">
             <div class="stat-item">📊 전체 상품 :
-              <span class="stat-value all">로딩중...</span>
+              <a href="${contextPath}/product/list.page" class="stat-value all">로딩중...</a>
             </div>
             <div class="stat-item">🛒 판매 중 :
-              <span class="stat-value sell">로딩중...</span>
+              <a href="${contextPath}/product/list.page?status=판매" class="stat-value sell">로딩중...</a>
             </div>
             <div class="stat-item">🚫 품절 :
-              <span class="stat-value sold">로딩중...</span>
+              <a href="${contextPath}/product/list.page?status=품절" class="stat-value sold">로딩중...</a>
             </div>
             <div class="stat-item">⏳ 판매 종료 :
-              <span class="stat-value end">로딩중...</span>
+              <a href="${contextPath}/product/list.page?status=숨김" class="stat-value end">로딩중...</a>
             </div>
           </div>
         </div>
 
         <div class="order-box">
-          <h2>주문 현황</h2>
+          <h2>최근 2년 주문 현황</h2>
           <div class="stats-box">
             <div class="stat-item">📦 주문 완료 :
-              <span class="stat-value orderCompleted">로딩중...</span>
+              <a href="${contextPath}/sales/salesList.page?startDate=<%=startDate%>&endDate=<%=endDate%>&orderStatus=주문완료" class="stat-value orderCompleted">로딩중...</a>
             </div>
             <div class="stat-item">❌ 취소 요청 :
-              <span class="stat-value cancelRequested">로딩중...</span>
+              <a href="${contextPath}/sales/salesList.page?startDate=<%=startDate%>&endDate=<%=endDate%>&orderStatus=취소요청" class="stat-value cancelRequested">로딩중...</a>
             </div>
           </div>
         </div>
@@ -45,14 +50,15 @@
           <h2>정산 예정 정보</h2>
           <div class="stats-box">
             <div class="stat-item">
-              🧾 확정 구매 건수 : <span class="stat-value confirmedPurchaseCount">-</span>
+              🧾 확정 구매 건수 : <span class="stat-value readonly confirmedPurchaseCount">로딩중...</span>
             </div>
             <div class="stat-item">
-              💰 정산 예상 금액 : <span class="stat-value expectedSettlementAmount">-</span>
+              💰 정산 예상 금액 : <span class="stat-value readonly expectedSettlementAmount">로딩중...</span>
             </div>
             <div class="stat-item">
-              💸 정산 예상 부가세 : <span class="stat-value sumTax">-</span>
+              💸 정산 예상 부가세 : <span class="stat-value readonly sumTax">로딩중...</span>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -102,7 +108,7 @@
   });
 </script>
 
-<%--물품현황--%>
+<%--주문현황--%>
 <script>
   $(function () {
     $.getJSON('${contextPath}/sales/main/order-stats', function (stats) {
@@ -192,7 +198,7 @@
         if (data && data.length > 0) {
           // 1. 월별로 데이터 합산 및 그룹화
           const monthlyData = {}; // { 'YYYY-MM': totalStPrice } 형태
-          data.forEach(row => {
+          data.slice(0, 5).forEach(row => {
             if (row.stDate) {
               const date = new Date(row.stDate);
               // 한국 시간 기준으로 월을 가져오기 위해 toLocaleString 사용

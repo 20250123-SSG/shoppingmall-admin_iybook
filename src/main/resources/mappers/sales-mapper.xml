@@ -152,10 +152,11 @@
 
     <select id="getOrderStats" resultType="com.iybook.sales.dto.response.OrderStatsResponseDto">
         SELECT
-            SUM(CASE WHEN order_status = '주문완료' THEN 1 ELSE 0 END) AS orderCompleted,
-            SUM(CASE WHEN order_status = '취소요청' THEN 1 ELSE 0 END) AS cancelRequested
-        FROM
-            tbl_order
+        SUM(CASE WHEN order_status = '주문완료' THEN 1 ELSE 0 END) AS orderCompleted,
+        SUM(CASE WHEN order_status = '취소요청' THEN 1 ELSE 0 END) AS cancelRequested
+        FROM tbl_order
+        WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+        AND <![CDATA[ created_at < DATE_ADD(CURDATE(), INTERVAL 1 DAY) ]]>
     </select>
 
     <update id="updateOrderStatusByOrderId" parameterType="OrderStatusUpdateDto">

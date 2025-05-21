@@ -13,6 +13,8 @@
     <form id="registerForm" method="post" enctype="multipart/form-data"
           action="${contextPath}/product/updatebook.do">
 
+      <input type="hidden" name="bookId" value="${book.bookId}">
+
       <!-- 카테고리 -->
       <div class="section-box">
         <h3 class="section-title">카테고리</h3>

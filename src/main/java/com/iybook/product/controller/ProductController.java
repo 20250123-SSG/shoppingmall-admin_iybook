@@ -88,12 +88,14 @@ public class ProductController {
     public String updateDo(BookDto book,
                        @RequestParam("image") MultipartFile bookImage,
                        RedirectAttributes redirectAttributes){
+        log.debug("bookDTO: " + book);
         if (!bookImage.isEmpty()) {
             Map<String, String> fileInfo = fileUtil.fileupload("product", bookImage);
             book.setBookImage(fileInfo.get("filePath") + "/" + fileInfo.get("filesystemName"));
         }
+        log.debug("file 추가: " + book);
         int result = productService.updateBookById(book);
-        log.debug("완료?"+ result);
+        log.debug("완료 "+ result);
         redirectAttributes.addFlashAttribute("message", result > 0 ? "상품수정에 성공하였습니다." : "상품수정 실패");
         return "redirect:/product/list.page";
     }

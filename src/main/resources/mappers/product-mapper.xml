@@ -86,17 +86,38 @@
     <update id="updateBookById" parameterType="BookDto">
         update
             tbl_book
-        set
-              book_name = #{bookName}
-            , author_name = #{authorName}
-            , publisher = #{publisher}
-            , book_price = #{bookPrice}
-            , book_image = #{bookImage}
-            , book_description = #{bookDescription}
-            , category_id = #{categoryId}
-            , published_at = #{publishedAt}
-            , publish_status = #{publishStatus}
-            , stock = #{stock}
+        <set>
+            <if test="bookName != null and bookName !=''">
+                , book_name = #{bookName}
+            </if>
+            <if test="authorName != null and authorName !=''">
+                , author_name = #{authorName}
+            </if>
+            <if test="publisher != null and publisher != ''">
+                , publisher = #{publisher}
+            </if>
+            <if test="bookPrice != null and bookPrice != ''">
+                , book_price = #{bookPrice}
+            </if>
+            <if test="bookImage != null and bookImage != ''">
+                , book_image = #{bookImage}
+            </if>
+            <if test="bookDescription != null and bookDescription != ''">
+                , book_description = #{bookDescription}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                , category_id = #{categoryId}
+            </if>
+            <if test="publishedAt != null and publishedAt != ''">
+                , published_at = #{publishedAt}
+            </if>
+            <if test="publishStatus != null and publishStatus != ''">
+                , publish_status = #{publishStatus}
+            </if>
+            <if test="stock != null and stock != ''">
+                , stock = #{stock}
+            </if>
+        </set>
         where
             book_id = #{bookId}
     </update>

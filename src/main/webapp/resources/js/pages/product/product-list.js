@@ -220,3 +220,52 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+function loadBookList(page = 1) {
+  const form = document.getElementById('searchForm');
+  const formData = new FormData(form);
+
+  // page 값을 추가해줍니다
+  formData.append("page", page);
+
+  // FormData를 URL 파라미터로 변환
+  const params = new URLSearchParams(formData).toString();
+
+  fetch(`${contextPath}/product/list.page?${params}`)
+    .then(response => response.text())
+    .then(html => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const newTable = doc.querySelector('#productTableBody');
+      const newPagination = doc.querySelector('#pagination');
+
+      if (newTable && newPagination) {
+        document.getElementById('productTableBody').innerHTML = newTable.innerHTML;
+        document.getElementById('pagination').innerHTML = newPagination.innerHTML;
+
+        const tableOffset = document.querySelector('.product-table')?.offsetTop || 0;
+        window.scrollTo({ top: tableOffset, behavior: 'smooth' });
+      } else {
+        console.warn("AJAX 응답에 필요한 요소가 없습니다.");
+      }
+    });
+}
+
+// 초기 로딩 및 이벤트 바인딩
+document.addEventListener('DOMContentLoaded', () => {
+  // 페이지 로드시 첫 데이터 로딩
+  loadBookList(1);
+
+  // 이벤트 위임 방식으로 페이지네이션 링크 감지
+  document.addEventListener('click', function (e) {
+    const target = e.target;
+    if (target.matches('.pagination a[data-page]')) {
+      e.preventDefault();
+      const page = target.getAttribute('data-page');
+      loadBookList(page);
+    }
+  });
+});
+
+
+

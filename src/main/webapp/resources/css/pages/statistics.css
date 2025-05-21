@@ -1,5 +1,5 @@
 /* 메인 컨테이너 */
-.main {
+.stats-main {
   max-width: 1000px;
   margin: 0 auto;
   padding: 30px 20px;
@@ -9,7 +9,7 @@
 }
 
 /* 제목 */
-.main h2 {
+.stats-main h2 {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;

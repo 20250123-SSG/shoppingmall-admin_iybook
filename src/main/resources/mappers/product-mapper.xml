@@ -201,6 +201,8 @@
         </where>
         order by
             created_at desc
+        LIMIT
+            #{offset}, #{limit}
     </select>
 
     <delete id="deleteBooks">
@@ -232,6 +234,39 @@
             tbl_book
         where
             book_id = ${id}
+    </select>
+
+    <select id="selectBookCountByFilter" resultType="_int">
+        select
+             count(*)
+        from
+            tbl_book
+        <where>
+            <if test="bookId != null and bookId !=''">
+                AND book_id LIKE CONCAT('%', #{bookId}, '%')
+            </if>
+            <if test="bookName != null and bookName !=''">
+                AND book_name LIKE CONCAT('%', #{bookName}, '%')
+            </if>
+            <if test="publisher != null and publisher != ''">
+                AND publisher LIKE CONCAT('%', #{publisher}, '%')
+            </if>
+            <if test="status != null and status.size() > 0">
+                AND publish_status IN
+                <foreach collection="status" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND ${dateType} &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND ${dateType} &lt;= DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND category_id = #{categoryId}
+            </if>
+        </where>
     </select>
 
 </mapper>

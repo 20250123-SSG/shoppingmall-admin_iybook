@@ -29,6 +29,8 @@ public interface ProductService {
 
     // 카테고리 조회
     List<CategoryDto> getCategoryList();
+    // 검색 상품 개수 조회
+    int getBookCountByFilter(BookFilterDto bookFilter);
 
     // 카테고리 등록
     // 카테고리 수정

@@ -75,4 +75,10 @@ public class ProductServiceImpl implements ProductService {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
         return productMapper.selectCategoryList();
     }
+
+    @Override
+    public int getBookCountByFilter(BookFilterDto bookFilter) {
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        return productMapper.selectBookCountByFilter(bookFilter);
+    }
 }

@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   // 판매상태 체크박스 동기화
   const statusAll = document.querySelector('input[id="all"]');
@@ -73,52 +72,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // 시작/종료일이 있어야 판단 가능
+  if (startInput.value && endInput.value) {
+    const today = new Date();
+    const endDate = new Date(endInput.value);
+    const startDate = new Date(startInput.value);
 
-    // 시작/종료일이 있어야 판단 가능
-    if (startInput.value && endInput.value) {
-      const today = new Date();
-      const endDate = new Date(endInput.value);
-      const startDate = new Date(startInput.value);
+    const diffTime = endDate.getTime() - startDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-      // 날짜 차이 계산
-      const diffTime = endDate.getTime() - startDate.getTime();
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    const isEndToday = endDate.toISOString().split("T")[0] === today.toISOString().split("T")[0];
 
-      // 오늘 기준인지 확인
-      const isEndToday = endDate.toISOString().split("T")[0] === today.toISOString().split("T")[0];
-
-      // 버튼 중 해당하는 범위 찾기
-      shortcutButtons.forEach(button => {
-        const range = parseInt(button.dataset.range);
-        if (isEndToday && range === diffDays) {
-          button.classList.add("active");
-        } else {
-          button.classList.remove("active");
-        }
-      });
-    }
+    shortcutButtons.forEach(button => {
+      const range = parseInt(button.dataset.range);
+      if (isEndToday && range === diffDays) {
+        button.classList.add("active");
+      } else {
+        button.classList.remove("active");
+      }
+    });
+  }
 
   updateDateConstraints();
-
-
 });
 
-// table 체크박스 선택 구문
+// table 체크박스 선택 구문 (이벤트 위임)
 document.addEventListener("DOMContentLoaded", function () {
-  const masterCheckbox = document.querySelector('.product-table thead input[type="checkbox"]');
-  const rowCheckboxes = document.querySelectorAll('.product-table tbody input[type="checkbox"]');
+  const table = document.querySelector('.product-table');
+  const masterCheckbox = table.querySelector('thead input[type="checkbox"]');
+  const tableBody = table.querySelector('tbody');
 
   // 마스터 체크박스 클릭 시
   masterCheckbox.addEventListener('change', function () {
-    rowCheckboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+    const checkboxes = tableBody.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
   });
 
-  // 개별 체크박스 변경 시 마스터 체크박스 상태 업데이트
-  rowCheckboxes.forEach(cb => {
-    cb.addEventListener('change', function () {
-      const allChecked = Array.from(rowCheckboxes).every(cb => cb.checked);
-      masterCheckbox.checked = allChecked;
-    });
+  // tbody에 이벤트 위임해서 개별 체크박스 변경 감지
+  tableBody.addEventListener("change", function (evt) {
+    if (evt.target.matches('input[type="checkbox"]')) {
+      const all = tableBody.querySelectorAll('input[type="checkbox"]');
+      const checked = tableBody.querySelectorAll('input[type="checkbox"]:checked');
+      masterCheckbox.checked = all.length > 0 && all.length === checked.length;
+    }
   });
 });
 
@@ -129,13 +125,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const saveBtn = document.getElementById("saveChanges");
   const statusSelect = document.getElementById("statusChangeSelect");
 
-  // 선택된 체크박스들의 도서 ID 목록을 배열로 반환
   function getSelectedBookIds() {
     return Array.from(document.querySelectorAll('.product-table tbody input[type="checkbox"]:checked'))
-        .map(cb => cb.value);
+      .map(cb => cb.value);
   }
 
-  // 선택 삭제 버튼 클릭
   deleteBtn.addEventListener("click", function () {
     const selectedIds = getSelectedBookIds();
     if (selectedIds.length === 0) {
@@ -145,27 +139,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!confirm("정말 변경하시겠습니까?")) return;
 
-    // AJAX 요청
     fetch(contextPath + '/product/update.do', {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({bookIds: selectedIds, status: '숨김'})
     })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert(data.resultCount + "건 판매종료 처리되었습니다.");
-          } else {
-            alert("설정 변경 실패")
-          }
-          location.reload();
-        })
-        .catch(err => {
-          alert("판매종료 처리 중 오류 발생");
-        });
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.resultCount + "건 판매종료 처리되었습니다.");
+        } else {
+          alert("설정 변경 실패")
+        }
+        location.reload();
+      })
+      .catch(err => {
+        alert("판매종료 처리 중 오류 발생");
+      });
   });
 
-  // 판매상태 저장 버튼 클릭
   saveBtn.addEventListener("click", function () {
     const selectedIds = getSelectedBookIds();
     const newStatus = statusSelect.value;
@@ -179,44 +171,43 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // AJAX 요청
     fetch(contextPath + "/product/update.do", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({bookIds: selectedIds, status: newStatus})
     })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            alert(data.resultCount + "건 판매상태가 변경되었습니다.");
-          } else {
-            alert("변경 실패")
-          }
-          location.reload();
-        })
-        .catch(err => {
-          alert("상태 변경 중 오류 발생");
-          console.error(err);
-        });
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.resultCount + "건 판매상태가 변경되었습니다.");
+        } else {
+          alert("변경 실패")
+        }
+        location.reload();
+      })
+      .catch(err => {
+        alert("상태 변경 중 오류 발생");
+        console.error(err);
+      });
   });
 });
 
-/* 상세보기(수정) 페이지 돌입 */
+/* ✅ 상세보기(수정) 페이지 돌입 - 이벤트 위임 방식으로 변경됨 */
 document.addEventListener("DOMContentLoaded", function () {
-  const rows = document.querySelectorAll(".product-table tbody tr");
+  const tableBody = document.querySelector(".product-table tbody");
 
-  rows.forEach(row => {
-    const checkbox = row.querySelector("td:first-child input[type='checkbox']");
+  if (!tableBody) return;
 
-    row.addEventListener("click", function (e) {
-      // 체크박스를 클릭했으면 row 이동 막기
-      if (e.target === checkbox) return;
+  tableBody.addEventListener("click", function (evt) {
+    const row = evt.target.closest("tr");
+    if (!row || !row.dataset.bookId) return;
 
-      const bookId = row.dataset.bookId;
-      if (bookId) {
-        window.location.href = contextPath + "/product/update.page?bookId=" + bookId;
-      }
-    });
+    if (evt.target.closest('input[type="checkbox"]')) return;
+
+    const bookId = row.dataset.bookId;
+    if (bookId) {
+      window.location.href = `${contextPath}/product/update.page?bookId=${bookId}`;
+    }
   });
 });
 
@@ -249,12 +240,9 @@ function loadBookList(page = 1) {
     });
 }
 
-// 초기 로딩 및 이벤트 바인딩
 document.addEventListener('DOMContentLoaded', () => {
-  // 페이지 로드시 첫 데이터 로딩
   loadBookList(1);
 
-  // 이벤트 위임 방식으로 페이지네이션 링크 감지
   document.addEventListener('click', function (e) {
     const target = e.target;
     if (target.matches('.pagination a[data-page]')) {
@@ -264,6 +252,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
-

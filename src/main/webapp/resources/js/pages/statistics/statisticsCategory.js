@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const values = data.map(item => item.orderCount);
     const backgroundColors = labels.map((_, idx) => colorPalette[idx % colorPalette.length]);
 
+    if (chartAll) chartAll.destroy();
 
     chartAll = new Chart(ctx, {
       type: 'doughnut',

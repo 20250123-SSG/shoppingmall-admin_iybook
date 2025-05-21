@@ -41,12 +41,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int registBook(BookDto book) {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+
         return productMapper.insertBook(book);
     }
 
     @Override
     public int updateBookById(BookDto book) {
-        return 0;
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        return productMapper.updateBookById(book);
     }
 
     @Override
@@ -60,6 +62,12 @@ public class ProductServiceImpl implements ProductService {
     public int deleteBooks(List<String> bookIds) {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
         return productMapper.deleteBooks(bookIds);
+    }
+
+    @Override
+    public BookDto getBookById(String id) {
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        return productMapper.selectBookById(id);
     }
 
     @Override

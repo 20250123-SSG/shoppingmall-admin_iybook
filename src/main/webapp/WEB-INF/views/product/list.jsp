@@ -7,9 +7,13 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/sidebar.jsp"/>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/pages/product.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/pages/product/product-list.css">
 
-
+<c:if test="${not empty message}">
+  <script>
+    alert('<c:out value="${message}" />');
+  </script>
+</c:if>
 
   <div class="main">
 
@@ -129,7 +133,7 @@
               <th>판매상태</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="productTableBody">
             <c:choose>
               <c:when test="${empty bookList}">
                 <tr>
@@ -142,7 +146,7 @@
               </c:when>
               <c:otherwise>
                 <c:forEach var="book" items="${bookList}">
-                  <tr>
+                  <tr data-book-id="${book.bookId}">
                     <td><input type="checkbox" value="${book.bookId}" /></td>
                     <td>${book.bookId}</td>
                     <td>${book.bookName}</td>
@@ -170,7 +174,7 @@
   const contextPath = "${contextPath}";
 </script>
 
-<script src="${contextPath}/resources/js/pages/product.js"></script>
+<script src="${contextPath}/resources/js/pages/product/product-list.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

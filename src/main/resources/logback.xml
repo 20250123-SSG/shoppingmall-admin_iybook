@@ -7,8 +7,7 @@
   </appender>
 
   <logger name="org.springframework" level="INFO" />
-  <logger name="com.iybook.example" level="DEBUG" />
-  <logger name="com.iybook.example" level="INFO" />
+  <logger name="com.iybook" level="DEBUG" />
 
 
   <root level="WARN">

@@ -1,0 +1,22 @@
+.product-table {
+  min-width: 1000px;
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+  background-color: var(--color-table-bg);
+}
+
+.product-table th {
+  background-color: var(--color-table-th);
+  color: var(--color-text);
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.product-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  color: var(--color-text);
+}

@@ -1,11 +1,16 @@
 package com.iybook.statistics.controller;
 
+import com.iybook.statistics.dto.StatisticsCategoryDto;
+import com.iybook.statistics.dto.StatisticsSalesDto;
+import com.iybook.statistics.dto.StatisticsRequestDto;
 import com.iybook.statistics.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/statistics")
 @Controller
@@ -13,7 +18,42 @@ public class StatisticsController {
 
     private final StatisticsService statisticsService;
 
+    // 페이지 이동
     @GetMapping("/stats.page")
-    public void stats(){}
+    public void statsPage() {
+    }
+
+    // 통계 데이터 조회
+    @GetMapping("/summary.do")
+    @ResponseBody
+    public List<StatisticsSalesDto> getSummary(@ModelAttribute StatisticsRequestDto req) {
+        log.info("[요약 조회] {}, {}", req.getStartDate(), req.getEndDate());
+        return statisticsService.getStatisticsList(req);
+    }
+
+    // 카테고리 통계 페이지
+    @GetMapping("/statsCategory.page")
+    public void statsCategoryPage() {
+    }
+
+    @GetMapping("/category/all")
+    @ResponseBody
+    public List<StatisticsCategoryDto> getCategoryAll(@ModelAttribute StatisticsRequestDto req) {
+        return statisticsService.getCategoryAllStatistics(req);
+    }
+
+    @GetMapping("/category/gender")
+    @ResponseBody
+    public List<StatisticsCategoryDto> getCategoryGender(@ModelAttribute StatisticsRequestDto req) {
+        return statisticsService.getCategoryGenderStatistics(req);
+    }
+
+    @GetMapping("/category/age")
+    @ResponseBody
+    public List<StatisticsCategoryDto> getCategoryAge(@ModelAttribute StatisticsRequestDto req) {
+        return statisticsService.getCategoryAgeStatistics(req);
+    }
+
+
 
 }

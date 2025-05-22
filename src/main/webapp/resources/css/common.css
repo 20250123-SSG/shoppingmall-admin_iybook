@@ -10,6 +10,8 @@
   --color-danger-hover: #c7224c;
   --color-table-bg: #edf1f1;
   --color-table-th: #fffafa;
+  --color-btn-deac: #2d3748;
+  --color-btn-ac: #fffafa;
 }
 
 /* 다크모드 지원 */
@@ -25,6 +27,8 @@
     --color-danger-hover: #f87171;
     --color-table-bg: #3d3944;
     --color-table-th: #5d4151;
+    --color-btn-deac: #2d3748;
+    --color-btn-ac: #fffafa;
   }
 }
 
@@ -60,7 +64,7 @@ table>thead {
 .header-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--color-primary);
+  color: var(--color-text);
   cursor: pointer;
 }
 
@@ -113,12 +117,44 @@ table>thead {
   text-align: center;
 }
 
+.sidebar-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: var(--color-primary-hover);
+}
+
+.sidebar-submenu.open {
+  max-height: 500px; /* 충분한 높이 설정 */
+}
+
+.sidebar-subitem {
+  padding: 0.75rem 2.5rem;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.sidebar-item .arrow-icon {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-item.active .arrow-icon {
+  transform: rotate(180deg);
+}
+
+.sidebar-subitem:hover {
+  background-color: var(--color-danger);
+}
+
 /* 메인 콘텐츠 */
 .main {
   margin-left: 250px;
   padding: 100px 24px 24px 24px;
   background-color: var(--color-bg);
   min-height: 100vh;
+  min-width: 900px;
   box-sizing: border-box;
 }
 
@@ -155,4 +191,20 @@ table>thead {
 
 .btn-red:hover {
   background-color: var(--color-danger-hover);
+}
+
+.logout-btn {
+  margin-left: 10px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #b71c1c;
 }

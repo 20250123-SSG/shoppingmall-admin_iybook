@@ -4,4 +4,180 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iybook.sales.dao.SalesMapper">
 
+    <resultMap id="orderResultMap" type="OrderDto">
+        <id column="order_id" property="orderId"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="order_total_count" property="orderTotalCount"/>
+        <result column="order_total_price" property="orderTotalPrice"/>
+        <result column="payment" property="payment"/>
+        <result column="order_memo" property="orderMemo"/>
+        <result column="created_at" property="orderDate"/>
+        <result column="updated_at" property="updateDate"/>
+    </resultMap>
+
+    <resultMap id="orderDetailResultMap" type="OrderResponseDto">
+        <id column="order_id" property="orderId"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="order_total_count" property="orderTotalCount"/>
+        <result column="order_total_price" property="orderTotalPrice"/>
+        <result column="payment" property="payment"/>
+        <result column="order_memo" property="orderMemo"/>
+        <result column="created_at" property="orderDate"/>
+        <result column="updated_at" property="updateDate"/>
+        <association property="customer" javaType="CustomerDto">
+            <id column="customer_id" property="customerId"/>
+            <result column="customer_name" property="customerName"/>
+            <result column="customer_addr" property="customerAddress"/>
+        </association>
+        <collection property="orderDetailList" ofType="OrderDetailResponseDto">
+            <id column="order_detail_id" property="orderDetailId"/>
+            <result column="book_id" property="bookId"/>
+            <result column="author_name" property="authorName"/>
+            <result column="book_name" property="bookName"/>
+            <result column="order_detail_total_count" property="orderDetailTotalCount"/>
+            <result column="order_detail_total_price" property="orderDetailTotalPrice"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="selectOrderDetailByOrderId" resultMap="orderDetailResultMap">
+        select
+              o.order_id
+            , o.order_status
+            , o.order_total_count
+            , o.order_total_price
+            , o.payment
+            , o.order_memo
+            , o.created_at
+            , o.updated_at
+            , o.customer_id
+            , c.customer_name
+            , c.customer_addr
+            , od.order_detail_id
+            , od.book_id
+            , b.author_name
+            , b.book_name
+            , od.order_detail_total_count
+            , od.order_detail_total_price
+        from
+            tbl_order o
+                left join tbl_order_detail od ON od.order_id = o.order_id
+                left join tbl_customer c ON o.customer_id = c.customer_id
+                left join tbl_book b ON b.book_id = od.book_id
+        where
+            o.order_id =  #{orderId}
+    </select>
+
+    <select id="selectOrderListCountByFilter" parameterType="OrderRequestFilterDto">
+        select
+            count(*)
+        from
+            tbl_order
+        <where>
+            <if test="orderId != null and orderId != ''">
+                AND order_id = #{orderId}
+            </if>
+            <if test="customerId != null and customerId != ''">
+                AND customer_id = #{customerId}
+            </if>
+            <if test="orderStatus != null and orderStatus.size() > 0">
+                AND order_status IN
+                <foreach collection="orderStatus" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND created_at &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND created_at &lt;= date_add(#{endDate}, interval 1 day)
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderListByFilterWithPaging" parameterType="SingleOrderPagingRequestDto" resultMap="orderResultMap">
+        select
+            order_id
+          , customer_id
+          , order_status
+          , order_total_count
+          , order_total_price
+          , payment
+          , order_memo
+          , created_at
+          , updated_at
+        from
+            tbl_order
+        <where>
+            <if test="filter.orderId != null and filter.orderId != ''">
+                AND order_id = #{filter.orderId}
+            </if>
+            <if test="filter.customerId != null and filter.customerId != ''">
+                AND customer_id = #{filter.customerId}
+            </if>
+            <if test="filter.orderStatus != null and filter.orderStatus.size() > 0">
+                AND order_status IN
+                <foreach collection="filter.orderStatus" item="status" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="filter.startDate != null and filter.startDate != ''">
+                AND created_at &gt;= #{filter.startDate}
+            </if>
+            <if test="filter.endDate != null and filter.endDate != ''">
+                AND created_at &lt;= date_add(#{filter.endDate}, interval 1 day)
+            </if>
+        </where>
+        order by
+            order_id desc
+        limit
+            #{offset}, #{display}
+    </select>
+
+    <select id="selectOrderListByIdForChangeStatus" parameterType="list" resultMap="orderResultMap">
+        select
+            order_id
+          , order_total_price
+          , payment
+          , created_at
+        from
+            tbl_order
+        where
+            order_id in
+        <foreach collection="orderIdList" item="orderId" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </select>
+
+    <select id="getOrderStats" resultType="com.iybook.sales.dto.response.OrderStatsResponseDto">
+        SELECT
+        SUM(CASE WHEN order_status = '주문완료' THEN 1 ELSE 0 END) AS orderCompleted,
+        SUM(CASE WHEN order_status = '취소요청' THEN 1 ELSE 0 END) AS cancelRequested
+        FROM tbl_order
+        WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+        AND <![CDATA[ created_at < DATE_ADD(CURDATE(), INTERVAL 1 DAY) ]]>
+    </select>
+
+    <update id="updateOrderStatusByOrderId" parameterType="OrderStatusUpdateDto">
+        update
+            tbl_order
+        set
+            order_status = #{newStatus}
+          , updated_at = now()
+        where
+            order_id = #{order.orderId}
+        and order_status = #{currentStatus}
+    </update>
+
+    <update id="updateOrderCancelAuto" parameterType="map">
+        update
+            tbl_order
+        set
+            order_status = #{newStatus}
+        where
+            order_status = #{currentStatus}
+        and created_at &lt; DATE_SUB(NOW(), INTERVAL #{expirationDays} DAY)
+    </update>
+
 </mapper>

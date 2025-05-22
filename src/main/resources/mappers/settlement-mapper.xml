@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iybook.settlement.dao.SettlementMapper">
+  <resultMap id="SettlementResultMap" type="com.iybook.settlement.dto.SettlementDto">
+    <id column="st_id" property="stId"/>
+    <result column="order_id" property="orderId"/>
+    <result column="st_date" property="stDate"/>
+    <result column="ex_date" property="exDate"/>
+    <result column="comp_date" property="compDate"/>
+    <result column="st_price" property="stPrice"/>
+    <result column="st_status" property="stStatus"/>
+    <result column="tax" property="tax"/>
+  </resultMap>
+  <select id="findSettlementByStDate" resultMap="SettlementResultMap">
+    select
+        st_date
+      , ex_date
+      , comp_date
+      , st_price
+      , tax
+    from
+      tbl_settlement
+    where
+      DATE_FORMAT(st_date, '%Y-%m') = #{month}
+  </select>
+  <select id="findAllSettlement" resultMap="SettlementResultMap">
+    select
+        st_date
+      , ex_date
+      , comp_date
+      , st_price
+      , tax
+    from
+      tbl_settlement
+  </select>
+
+  <insert id="insertSettlement" keyProperty="stId" useGeneratedKeys="true" parameterType="Settlement">
+    insert into
+      tbl_settlement
+      (
+        order_id
+      , st_date
+      , ex_date
+      , st_price
+      , st_Status
+      , tax
+      )
+    values
+      (
+        #{orderId}
+      , #{stDate}
+      , #{exDate}
+      , #{stPrice}
+      , #{stStatus}
+      , #{tax}
+      )
+  </insert>
+  <update id="updateSettlementStatus" parameterType="Settlement">
+    update
+      tbl_settlement
+    set
+      st_status = '정산완료'
+    , comp_date = #{exDate}
+    where
+      ex_date = #{exDate}
+  </update>
+
+  <select id="getOrderStats" resultType="com.iybook.settlement.dto.SettlementStatsDto">
+    SELECT
+
+    FROM
+      tbl_settlement
+  </select>
+
+  <select id="getSettlementStats" resultType="com.iybook.settlement.dto.SettlementStatsDto">
+    SELECT
+      COUNT(*) AS confirmedPurchaseCount,
+      SUM(st_price) AS expectedSettlementAmount,
+      SUM(tax) AS sumTax
+    FROM tbl_settlement
+      WHERE st_status = '정산예정'
+  </select>
+
+</mapper>

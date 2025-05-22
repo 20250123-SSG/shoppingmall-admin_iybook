@@ -13,7 +13,7 @@
 
   <bean class="com.zaxxer.hikari.HikariDataSource" id="dataSource">
     <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-    <property name="jdbcUrl" value=""/>
+    <property name="jdbcUrl" value="jdbc:mysql://ssg-7.iptime.org:3306/iybookdb"/>
     <property name="username" value="iybook"/>
     <property name="password" value="iybook"/>
   </bean>

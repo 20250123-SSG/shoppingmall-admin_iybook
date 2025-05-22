@@ -3,9 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
+<link rel="stylesheet" href="${contextPath}/resources/css/pages/settlement.css">
+
 <!-- 정산내역 상세 목록 -->
 <div class="table-responsive">
-    <table class="table table-bordered table-hover text-center align-middle">
+    <table class="table table-bordered table-hover text-center align-middle product-table">
         <thead>
         <tr>
             <th>정산기준일</th>

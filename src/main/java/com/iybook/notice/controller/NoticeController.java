@@ -35,7 +35,11 @@ public class NoticeController {
     }
 
     @GetMapping("/noticeList.page")
-    public String boardListPage(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+    public String boardListPage(@RequestParam(value = "page", defaultValue = "1") int page, HttpSession session, Model model) {
+        if (session.getAttribute("loginUser") == null) {
+            return "redirect:/login.page"; // 로그인 안 되어 있으면 로그인 페이지로
+        }
+
         log.debug("사용자가 요청한 페이지: {}", page);
 
         Map<String, Object> map = noticeService.getNoticesAndPaging(page);
@@ -55,7 +59,11 @@ public class NoticeController {
     }
 
     @GetMapping("/registNotice.page")
-    public String showRegistNotice() {
+    public String showRegistNotice(HttpSession session) {
+        if (session.getAttribute("loginUser") == null) {
+            return "redirect:/login.page"; // 로그인 안 되어 있으면 로그인 페이지로
+        }
+
         return "notice/registNotice";
     }
 

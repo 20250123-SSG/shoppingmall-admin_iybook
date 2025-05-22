@@ -15,7 +15,11 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public String mainPage(){
+    public String mainPage(HttpSession session){
+
+        if (session.getAttribute("loginUser") == null) {
+            return "redirect:/login.page"; // 로그인 안 되어 있으면 로그인 페이지로
+        }
 
         return "main";
     }

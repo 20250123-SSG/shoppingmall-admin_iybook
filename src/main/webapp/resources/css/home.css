@@ -1,6 +1,6 @@
 .main2 {
   padding: 30px;
-  background-color: #f9f9f9;
+  background-color: var(--color-bg);
   min-height: 100vh;
   box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
@@ -60,7 +60,7 @@ h2 {
   margin-bottom: 16px;
   border-bottom: 2px solid var(--color-primary);
   padding-bottom: 6px;
-  color: var(--color-primary);
+  color: var(--color-text);
   text-align: left;
 }
 
@@ -70,7 +70,7 @@ h2 {
 .stats-box {
   margin-top: 16px;
   padding: 16px;
-  background-color: #f5f7fa;
+  background-color: var(--color-surface);
   border: 1px solid #ddd;
   border-radius: 8px;
   min-height: 150px;
@@ -103,7 +103,7 @@ h2 {
 
 /* 상태별 색상 */
 .stat-value.all {
-  color: #333;
+  color: var(--color-text);
 }
 
 .stat-value.sell {
@@ -141,7 +141,7 @@ h2 {
 
 .notice-table thead {
   background-color: var(--color-primary);
-  color: var(--color-table-th);
+  color: white;
   text-align: center;
 }
 
